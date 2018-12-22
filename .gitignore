@@ -1,0 +1,8 @@
+## Ignore 
+
+
+# Visual Studio Code
+.vs/
+
+# Espace de travail
+workspace/
