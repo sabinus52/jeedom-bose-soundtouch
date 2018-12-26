@@ -18,6 +18,8 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
+require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
+
 
 class BoseSoundTouch extends eqLogic {
     /*     * *************************Attributs****************************** */
@@ -65,7 +67,29 @@ class BoseSoundTouch extends eqLogic {
     }
 
     public function postSave() {
-        
+
+        $state = $this->getCmd(null, 'PLAYING');
+        if (!is_object($state)) {
+            $state = new BoseSoundTouchCmd();
+            $state->setName(__('etat', __FILE__));
+        }
+        $state->setLogicalId('PLAYING');
+        $state->setEqLogic_id($this->getId());
+        $state->setType('info');
+        $state->setSubType('binary');
+        $state->save();
+
+        $power = $this->getCmd(null, 'refresh');
+        if ( !is_object($power) ) {
+            $power = new BoseSoundTouchCmd();
+            $power->setName(__('refresh', __FILE__));
+        }
+        $power->setEqLogic_id($this->getId());
+        $power->setLogicalId('refresh');
+        $power->setType('action');
+        $power->setSubType('other');
+        $power->save();
+
     }
 
     public function preUpdate() {
@@ -123,6 +147,30 @@ class BoseSoundTouchCmd extends cmd {
      */
 
     public function execute($_options = array()) {
+
+        $soundTouch = $this->getEqLogic();
+
+        // Paramètre de l'adresse de l'enceinte
+        $hostname = $soundTouch->getConfiguration('hostname');
+        $idCommand = $this->getLogicalId();
+
+        log::add('BoseSoundTouch', 'debug', "Exécution de la commande");
+        log::add('BoseSoundTouch', 'debug', "HOST = $hostname");
+        log::add('BoseSoundTouch', 'debug', "Commande = $idCommand");
+
+        $bose = new SoundTouchCommand($hostname);
+
+        if ($idCommand == 'refresh') {
+            $info = false; //$eqlogic->randomVdm();
+            $response =  $bose->getResponse('now_playing');
+            log::add('BoseSoundTouch', 'debug', "Reponse PLAYING = {$response->playStatus}");
+            $value = ($response->playStatus == 'PLAY_STATE') ? true : false;
+
+			$soundTouch->checkAndUpdateCmd('PLAYING', $value);
+        }
+
+        return;
+
         
     }
 
