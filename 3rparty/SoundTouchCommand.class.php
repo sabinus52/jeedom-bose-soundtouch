@@ -50,4 +50,43 @@ class SoundTouchCommand
     }
 
 
+    /**
+     * Retourne si l'enceinte est allumée ou éteinte
+     */
+    public function getStatePower()
+    {
+        $response = $this->getResponse('now_playing');
+        return ($response->playStatus == 'PLAY_STATE') ? true : false;
+    }
+
+
+    /**
+     * Retourne le type de la source sélectionnée
+     */
+    public function getTypeSource()
+    {
+        $response = $this->getResponse('now_playing');
+        return ($response->ContentItem['sourceAccount']) ? strval($response->ContentItem['sourceAccount']) : null;
+    }
+
+
+    /**
+     * Retourne le pourcentage de volume
+     */
+    public function getVolume()
+    {
+        $response = $this->getResponse('volume');
+        return ($response->actualvolume) ? intval($response->actualvolume) : null;
+    }
+
+
+    /**
+     * Retourne le niveau des basses
+     */
+    public function getLevelBass()
+    {
+        $response = $this->getResponse('bass');
+        return ($response->actualbass) ? intval($response->actualbass) : null;
+    }
+
 }

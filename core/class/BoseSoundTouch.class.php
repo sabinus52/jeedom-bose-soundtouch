@@ -79,6 +79,39 @@ class BoseSoundTouch extends eqLogic {
         $state->setSubType('binary');
         $state->save();
 
+        $state = $this->getCmd(null, 'SOURCE');
+        if (!is_object($state)) {
+            $state = new BoseSoundTouchCmd();
+            $state->setName(__('source', __FILE__));
+        }
+        $state->setLogicalId('SOURCE');
+        $state->setEqLogic_id($this->getId());
+        $state->setType('info');
+        $state->setSubType('string');
+        $state->save();
+
+        $state = $this->getCmd(null, 'VOLUME');
+        if (!is_object($state)) {
+            $state = new BoseSoundTouchCmd();
+            $state->setName(__('volume', __FILE__));
+        }
+        $state->setLogicalId('VOLUME');
+        $state->setEqLogic_id($this->getId());
+        $state->setType('info');
+        $state->setSubType('numeric');
+        $state->save();
+
+        $state = $this->getCmd(null, 'BASS');
+        if (!is_object($state)) {
+            $state = new BoseSoundTouchCmd();
+            $state->setName(__('bass', __FILE__));
+        }
+        $state->setLogicalId('BASS');
+        $state->setEqLogic_id($this->getId());
+        $state->setType('info');
+        $state->setSubType('numeric');
+        $state->save();
+
         $power = $this->getCmd(null, 'refresh');
         if ( !is_object($power) ) {
             $power = new BoseSoundTouchCmd();
@@ -128,6 +161,31 @@ class BoseSoundTouch extends eqLogic {
      */
 
     /*     * **********************Getteur Setteur*************************** */
+
+    /**
+     * Rafraichissement des infos de l'enceinte
+     */
+    public function updateInfos()
+    {
+        // Paramètre de l'adresse de l'enceinte
+        $hostname = $this->getConfiguration('hostname');
+        $command = new SoundTouchCommand($hostname);
+
+        // Récupération des différentes valeur
+        $result = $command->getStatePower();
+        log::add('BoseSoundTouch', 'debug', "Response PLAYING = $result");
+        $this->checkAndUpdateCmd('PLAYING', $result);
+        $result = $command->getTypeSource();
+        log::add('BoseSoundTouch', 'debug', "Response SOURCE = $result");
+        $this->checkAndUpdateCmd('SOURCE', $result);
+        $result = $command->getVolume();
+        log::add('BoseSoundTouch', 'debug', "Response VOLUME = $result");
+        $this->checkAndUpdateCmd('VOLUME', $result);
+        $result = $command->getLevelBass();
+        log::add('BoseSoundTouch', 'debug', "Response BASS = $result");
+        $this->checkAndUpdateCmd('BASS', $result);
+    }
+
 }
 
 class BoseSoundTouchCmd extends cmd {
@@ -158,15 +216,8 @@ class BoseSoundTouchCmd extends cmd {
         log::add('BoseSoundTouch', 'debug', "HOST = $hostname");
         log::add('BoseSoundTouch', 'debug', "Commande = $idCommand");
 
-        $bose = new SoundTouchCommand($hostname);
-
         if ($idCommand == 'refresh') {
-            $info = false; //$eqlogic->randomVdm();
-            $response =  $bose->getResponse('now_playing');
-            log::add('BoseSoundTouch', 'debug', "Reponse PLAYING = {$response->playStatus}");
-            $value = ($response->playStatus == 'PLAY_STATE') ? true : false;
-
-			$soundTouch->checkAndUpdateCmd('PLAYING', $value);
+            $soundTouch->updateInfos();
         }
 
         return;
