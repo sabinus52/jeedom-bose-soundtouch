@@ -1,6 +1,8 @@
 <?php
 /**
- * 
+ * Classe de configuration du plugin
+ *  - Infos de l'enceinte
+ *  - Action sur l'enceinte
  */
 
 require_once __DIR__  . '/../../3rparty/SoundTouchKey.class.php';

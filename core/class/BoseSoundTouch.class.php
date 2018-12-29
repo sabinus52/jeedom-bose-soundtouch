@@ -68,10 +68,12 @@ class BoseSoundTouch extends eqLogic {
 
     public function postSave() {
 
+        // Ajoute les infos
         foreach (SoundTouchConfig::getConfigInfos() as $config) {
             $this->addCommandSoundTouch($config);
         }
 
+        // Ajoute les actions
         foreach (SoundTouchConfig::getConfigCmds() as $config) {
             $this->addCommandSoundTouch($config);
         }
@@ -145,7 +147,9 @@ class BoseSoundTouch extends eqLogic {
 
 
     /**
+     * Ajout des commandes à Jeedom
      * 
+     * @param Array $config : Configuration de la commande
      */
     public function addCommandSoundTouch(Array $config)
     {
@@ -190,7 +194,7 @@ class BoseSoundTouchCmd extends cmd {
         $hostname = $soundTouch->getConfiguration('hostname');
         $idCommand = $this->getLogicalId();
 
-        if ($idCommand == 'REFRESH1') {
+        if ($idCommand == 'REFRESH') {
             $soundTouch->updateInfos();
         } else {
             $codeKey = $this->getConfiguration('codekey');

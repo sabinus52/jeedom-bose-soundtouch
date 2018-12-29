@@ -1,7 +1,7 @@
 {
 	"id" : "BoseSoundTouch",
 	"name" : "Bose SoundTouch",
-	"description" : "Plugin pour piloter les enceintes Bose SoundTouch",
+	"description" : "Plugin pour piloter les enceintes Bose SoundTouch.",
 	"licence" : "AGPL",
 	"author" : "Sabinus52",
 	"require" : "3.0",
