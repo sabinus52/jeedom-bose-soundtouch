@@ -18,7 +18,7 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
-require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
+require_once __DIR__  . '/../config/SoundTouch.config.php';
 
 
 class BoseSoundTouch extends eqLogic {
@@ -68,60 +68,13 @@ class BoseSoundTouch extends eqLogic {
 
     public function postSave() {
 
-        $state = $this->getCmd(null, 'PLAYING');
-        if (!is_object($state)) {
-            $state = new BoseSoundTouchCmd();
-            $state->setName(__('etat', __FILE__));
+        foreach (SoundTouchConfig::getConfigInfos() as $config) {
+            $this->addCommandSoundTouch($config);
         }
-        $state->setLogicalId('PLAYING');
-        $state->setEqLogic_id($this->getId());
-        $state->setType('info');
-        $state->setSubType('binary');
-        $state->save();
 
-        $state = $this->getCmd(null, 'SOURCE');
-        if (!is_object($state)) {
-            $state = new BoseSoundTouchCmd();
-            $state->setName(__('source', __FILE__));
+        foreach (SoundTouchConfig::getConfigCmds() as $config) {
+            $this->addCommandSoundTouch($config);
         }
-        $state->setLogicalId('SOURCE');
-        $state->setEqLogic_id($this->getId());
-        $state->setType('info');
-        $state->setSubType('string');
-        $state->save();
-
-        $state = $this->getCmd(null, 'VOLUME');
-        if (!is_object($state)) {
-            $state = new BoseSoundTouchCmd();
-            $state->setName(__('volume', __FILE__));
-        }
-        $state->setLogicalId('VOLUME');
-        $state->setEqLogic_id($this->getId());
-        $state->setType('info');
-        $state->setSubType('numeric');
-        $state->save();
-
-        $state = $this->getCmd(null, 'BASS');
-        if (!is_object($state)) {
-            $state = new BoseSoundTouchCmd();
-            $state->setName(__('bass', __FILE__));
-        }
-        $state->setLogicalId('BASS');
-        $state->setEqLogic_id($this->getId());
-        $state->setType('info');
-        $state->setSubType('numeric');
-        $state->save();
-
-        $power = $this->getCmd(null, 'refresh');
-        if ( !is_object($power) ) {
-            $power = new BoseSoundTouchCmd();
-            $power->setName(__('refresh', __FILE__));
-        }
-        $power->setEqLogic_id($this->getId());
-        $power->setLogicalId('refresh');
-        $power->setType('action');
-        $power->setSubType('other');
-        $power->save();
 
     }
 
@@ -170,20 +123,45 @@ class BoseSoundTouch extends eqLogic {
         // Paramètre de l'adresse de l'enceinte
         $hostname = $this->getConfiguration('hostname');
         $command = new SoundTouchCommand($hostname);
+        log::add('BoseSoundTouch', 'debug', '=== REFRESH ==================================================');
+        log::add('BoseSoundTouch', 'debug', "Rafraichissement des données depuis '$hostname'");
 
         // Récupération des différentes valeur
         $result = $command->getStatePower();
-        log::add('BoseSoundTouch', 'debug', "Response PLAYING = $result");
-        $this->checkAndUpdateCmd('PLAYING', $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PLAYING.' = '.$result);
+        $this->checkAndUpdateCmd(SoundTouchConfig::PLAYING, $result);
         $result = $command->getTypeSource();
-        log::add('BoseSoundTouch', 'debug', "Response SOURCE = $result");
-        $this->checkAndUpdateCmd('SOURCE', $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SOURCE.' = '.$result);
+        $this->checkAndUpdateCmd(SoundTouchConfig::SOURCE, $result);
         $result = $command->getVolume();
-        log::add('BoseSoundTouch', 'debug', "Response VOLUME = $result");
-        $this->checkAndUpdateCmd('VOLUME', $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result);
+        $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
         $result = $command->getLevelBass();
-        log::add('BoseSoundTouch', 'debug', "Response BASS = $result");
-        $this->checkAndUpdateCmd('BASS', $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::BASS.' = '.$result);
+        $this->checkAndUpdateCmd(SoundTouchConfig::BASS, $result);
+
+        log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
+    }
+
+
+    /**
+     * 
+     */
+    public function addCommandSoundTouch(Array $config)
+    {
+        $cmdSoundTouch = $this->getCmd(null, $config['logicalId']);
+        if ( !is_object($cmdSoundTouch) ) {
+            $cmdSoundTouch = new BoseSoundTouchCmd();
+            $cmdSoundTouch->setName(__($config['name'], __FILE__));
+        }
+        $cmdSoundTouch->setLogicalId( $config['logicalId'] );
+        $cmdSoundTouch->setEqLogic_id( $this->getId() );
+        $cmdSoundTouch->setType( $config['type'] );
+        $cmdSoundTouch->setSubType( $config['subType'] );
+        $cmdSoundTouch->setOrder( $config['order'] );
+        if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
+        $cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
+        $cmdSoundTouch->save();
     }
 
 }
@@ -212,11 +190,19 @@ class BoseSoundTouchCmd extends cmd {
         $hostname = $soundTouch->getConfiguration('hostname');
         $idCommand = $this->getLogicalId();
 
-        log::add('BoseSoundTouch', 'debug', "Exécution de la commande");
-        log::add('BoseSoundTouch', 'debug', "HOST = $hostname");
-        log::add('BoseSoundTouch', 'debug', "Commande = $idCommand");
-
-        if ($idCommand == 'refresh') {
+        if ($idCommand == 'REFRESH1') {
+            $soundTouch->updateInfos();
+        } else {
+            $codeKey = $this->getConfiguration('codekey');
+            if ( $codeKey != '' ) {
+                log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche $codeKey");
+                $command = new SoundTouchCommand($hostname);
+                $response = $command->sendCommand($idCommand);
+                log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
+            } else {
+                log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
+            }
+            
             $soundTouch->updateInfos();
         }
 

@@ -37,7 +37,9 @@ class SoundTouchCommand
 
     public function sendCommand($command) {
         $this->post('key', '<key state="press" sender="Gabbo">'.$command.'</key>');
-        return $this->post('key', '<key state="release" sender="Gabbo">'.$command.'</key>');
+        $response = $this->post('key', '<key state="release" sender="Gabbo">'.$command.'</key>');
+        $result = simplexml_load_string($response);
+        return ($result == '/key') ? true : false;
     }
 
     public function setVolume($value) {
