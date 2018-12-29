@@ -71,17 +71,7 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'SPEAKER_STATE',
         ),
-
-        array(
-            'name' => 'Bass',
-            'logicalId' => self::BASS,
-            'type' => 'info',
-            'subType' => 'numeric',
-            'order' => 4,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_BASS',
-        ),
-        
+       
     );
 
 

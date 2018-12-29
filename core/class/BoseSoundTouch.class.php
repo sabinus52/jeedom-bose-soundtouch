@@ -142,9 +142,6 @@ class BoseSoundTouch extends eqLogic {
         $result = $command->getVolume();
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result);
         $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
-        $result = $command->getLevelBass();
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::BASS.' = '.$result);
-        $this->checkAndUpdateCmd(SoundTouchConfig::BASS, $result);
 
         log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
     }
