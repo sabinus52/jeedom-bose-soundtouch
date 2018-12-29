@@ -77,11 +77,15 @@ class BoseSoundTouch extends eqLogic {
         foreach (SoundTouchConfig::getConfigCmds() as $config) {
             $this->addCommandSoundTouch($config);
         }
-
+        
     }
 
     public function preUpdate() {
-        
+
+        if ($this->getConfiguration('hostname') == '') {
+            throw new Exception(__('Merci de renseigner l\'hôte ou l\'IP de l\'enceinte.',__FILE__));	
+        }
+
     }
 
     public function postUpdate() {
@@ -156,15 +160,15 @@ class BoseSoundTouch extends eqLogic {
         $cmdSoundTouch = $this->getCmd(null, $config['logicalId']);
         if ( !is_object($cmdSoundTouch) ) {
             $cmdSoundTouch = new BoseSoundTouchCmd();
-            $cmdSoundTouch->setName(__($config['name'], __FILE__));
         }
+        $cmdSoundTouch->setName(__($config['name'], __FILE__));
         $cmdSoundTouch->setLogicalId( $config['logicalId'] );
         $cmdSoundTouch->setEqLogic_id( $this->getId() );
         $cmdSoundTouch->setType( $config['type'] );
         $cmdSoundTouch->setSubType( $config['subType'] );
         $cmdSoundTouch->setOrder( $config['order'] );
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
-        $cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
+        //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
         $cmdSoundTouch->save();
     }
 
