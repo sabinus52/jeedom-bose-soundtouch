@@ -165,6 +165,8 @@ class BoseSoundTouch extends eqLogic {
         $cmdSoundTouch->setSubType( $config['subType'] );
         $cmdSoundTouch->setOrder( $config['order'] );
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
+        if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
+        if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
         //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
         $cmdSoundTouch->save();
     }
