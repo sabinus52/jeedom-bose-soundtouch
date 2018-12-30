@@ -28,12 +28,21 @@ class BoseSoundTouch extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
-    /*
+    /**
      * Fonction exécutée automatiquement toutes les minutes par Jeedom
-      public static function cron() {
-
-      }
      */
+    public static function cron5() {
+
+        foreach (self::byType('BoseSoundTouch') as $equipment) {
+            if ($equipment->getIsEnable() == 1) {
+                $cmd = $equipment->getCmd(null, 'Refresh');
+                if ( !is_object($cmd) ) continue;
+                $cmd->execCmd();
+            }
+        }
+
+    }
+    
 
 
     /*
