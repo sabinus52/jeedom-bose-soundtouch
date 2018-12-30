@@ -16,8 +16,17 @@ class SoundTouchCommand
 
     /**
      * Base de l'URI
+     * 
+     * @var String
      */
     private $baseUri;
+
+    /**
+     * Contenu de la réponse du /now_playing
+     * 
+     * @var SimpleXMLElement
+     */
+    private $nowPlaying;
 
 
     /**
@@ -28,6 +37,7 @@ class SoundTouchCommand
     public function __construct($hostname)
     {
         $this->baseUri = sprintf(self::BASE_URI, $hostname);
+        $this->nowPlaying = null;
     }
 
 
@@ -113,8 +123,8 @@ class SoundTouchCommand
      */
     public function getStatePower()
     {
-        $response = $this->getResponse('now_playing');
-        return ($response->playStatus == 'PLAY_STATE') ? true : false;
+        if ( !$this->nowPlaying ) $this->nowPlaying = $this->getResponse('now_playing');
+        return ($this->nowPlaying->ContentItem['source'] == 'STANDBY') ? false : true;
     }
 
 
@@ -123,8 +133,15 @@ class SoundTouchCommand
      */
     public function getTypeSource()
     {
-        $response = $this->getResponse('now_playing');
-        return ($response->ContentItem['sourceAccount']) ? strval($response->ContentItem['sourceAccount']) : null;
+        if ( !$this->nowPlaying ) $this->nowPlaying = $this->getResponse('now_playing');
+        if ( !$this->nowPlaying->ContentItem['source'] )
+            return null;
+        elseif ( $this->nowPlaying->ContentItem['source'] != 'PRODUCT' )
+            return strval($this->nowPlaying->ContentItem['source']);
+        elseif ( $this->nowPlaying->ContentItem['sourceAccount'] )
+            return strval($this->nowPlaying->ContentItem['sourceAccount']);
+        else
+            return strval($this->nowPlaying->ContentItem['source']);
     }
 
 
