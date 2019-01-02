@@ -16,5 +16,5 @@
 		"video" : "Lien vers une video"
 	},
 	"language" : ["fr_FR","en_US"],
-	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"]
+	"compatibility" : ["miniplus","smart","rpi","diy","mobile"]
 }

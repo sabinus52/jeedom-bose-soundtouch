@@ -28,12 +28,21 @@ class BoseSoundTouch extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
-    /*
+    /**
      * Fonction exécutée automatiquement toutes les minutes par Jeedom
-      public static function cron() {
-
-      }
      */
+    public static function cron5() {
+
+        foreach (self::byType('BoseSoundTouch') as $equipment) {
+            if ($equipment->getIsEnable() == 1) {
+                $cmd = $equipment->getCmd(null, 'Refresh');
+                if ( !is_object($cmd) ) continue;
+                $cmd->execCmd();
+            }
+        }
+
+    }
+    
 
 
     /*
@@ -142,9 +151,6 @@ class BoseSoundTouch extends eqLogic {
         $result = $command->getVolume();
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result);
         $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
-        $result = $command->getLevelBass();
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::BASS.' = '.$result);
-        $this->checkAndUpdateCmd(SoundTouchConfig::BASS, $result);
 
         log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
     }
@@ -168,6 +174,8 @@ class BoseSoundTouch extends eqLogic {
         $cmdSoundTouch->setSubType( $config['subType'] );
         $cmdSoundTouch->setOrder( $config['order'] );
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
+        if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
+        if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
         //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
         $cmdSoundTouch->save();
     }

@@ -10,34 +10,7 @@ require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
 
 class SoundTouchConfig
 {
-    /*const PLAY = "PLAY";
-    const PAUSE = "PAUSE";
-    const STOP = "STOP";
-    const PREV_TRACK = "PREV_TRACK";
-    const NEXT_TRACK = "NEXT_TRACK";
-    const THUMBS_UP = "THUMBS_UP";
-    const THUMBS_DOWN = "THUMBS_DOWN";
-    const BOOKMARK = "BOOKMARK";
-    const POWER = "POWER";
-    const MUTE = "MUTE";
-    const VOLUME_UP = "VOLUME_UP";
-    const VOLUME_DOWN = "VOLUME_DOWN";
-    const PRESET_1 = "PRESET_1";
-    const PRESET_2 = "PRESET_2";
-    const PRESET_3 = "PRESET_3";
-    const PRESET_4 = "PRESET_4";
-    const PRESET_5 = "PRESET_5";
-    const PRESET_6 = "PRESET_6";
-    const AUX_INPUT = "AUX_INPUT";
-    const SHUFFLE_OFF = "SHUFFLE_OFF";
-    const SHUFFLE_ON = "SHUFFLE_ON";
-    const REPEAT_OFF = "REPEAT_OFF";
-    const REPEAT_ONE = "REPEAT_ONE";
-    const REPEAT_ALL = "REPEAT_ALL";
-    const PLAY_PAUSE = "PLAY_PAUSE";
-    const ADD_FAVORITE = "ADD_FAVORITE";
-    const REMOVE_FAVORITE = "REMOVE_FAVORITE";
-    const INVALID_KEY = "INVALID_KEY";*/
+
     const PLAYING = 'PLAYING';
     const SOURCE = 'SOURCE';
     const VOLUME = 'VOLUME';
@@ -48,6 +21,23 @@ class SoundTouchConfig
     const VOLUME_UP = 'VOLUME_UP';
     const VOLUME_DOWN = 'VOLUME_DOWN';
     const MUTE = 'MUTE';
+    const PRESET_1 = "PRESET_1";
+    const PRESET_2 = "PRESET_2";
+    const PRESET_3 = "PRESET_3";
+    const PRESET_4 = "PRESET_4";
+    const PRESET_5 = "PRESET_5";
+    const PRESET_6 = "PRESET_6";
+    const PLAY = "PLAY";
+    const PAUSE = "PAUSE";
+    const STOP = "STOP";
+    const PREV_TRACK = "PREV_TRACK";
+    const NEXT_TRACK = "NEXT_TRACK";
+    const PLAY_PAUSE = "PLAY_PAUSE";
+    const SHUFFLE_OFF = "SHUFFLE_OFF";
+    const SHUFFLE_ON = "SHUFFLE_ON";
+    const REPEAT_OFF = "REPEAT_OFF";
+    const REPEAT_ONE = "REPEAT_ONE";
+    const REPEAT_ALL = "REPEAT_ALL";
 
 
     static private $configInfos = array(
@@ -81,17 +71,7 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'SPEAKER_STATE',
         ),
-
-        array(
-            'name' => 'Bass',
-            'logicalId' => self::BASS,
-            'type' => 'info',
-            'subType' => 'numeric',
-            'order' => 4,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_BASS',
-        ),
-        
+       
     );
 
 
@@ -116,8 +96,9 @@ class SoundTouchConfig
             'order' => 11,
             'codekey' => SoundTouchKey::POWER,
             'isVisible' => true,
+            'icon' => 'power',
             'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
+            'forceReturnLineAfter' => '0',
         ),
 
         array(
@@ -128,8 +109,9 @@ class SoundTouchConfig
             'order' => 12,
             'codekey' => SoundTouchKey::VOLUME_UP,
             'isVisible' => true,
+            'icon' => 'volume-up',
             'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
+            'forceReturnLineAfter' => '0',
         ),
 
         array(
@@ -140,8 +122,9 @@ class SoundTouchConfig
             'order' => 13,
             'codekey' => SoundTouchKey::VOLUME_DOWN,
             'isVisible' => true,
+            'icon' => 'volume-down',
             'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
+            'forceReturnLineAfter' => '0',
         ),
 
         array(
@@ -152,8 +135,230 @@ class SoundTouchConfig
             'order' => 14,
             'codekey' => SoundTouchKey::MUTE,
             'isVisible' => true,
+            'icon' => 'mute',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
+        ),
+
+        array(
+            'name' => 'Présélection 1',
+            'logicalId' => self::PRESET_1,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 15,
+            'codekey' => SoundTouchKey::PRESET_1,
+            'isVisible' => true,
+            'icon' => 'p1',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Présélection 2',
+            'logicalId' => self::PRESET_2,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 16,
+            'codekey' => SoundTouchKey::PRESET_2,
+            'isVisible' => true,
+            'icon' => 'p2',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Présélection 3',
+            'logicalId' => self::PRESET_3,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 17,
+            'codekey' => SoundTouchKey::PRESET_3,
+            'isVisible' => true,
+            'icon' => 'p3',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Présélection 4',
+            'logicalId' => self::PRESET_4,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 18,
+            'codekey' => SoundTouchKey::PRESET_4,
+            'isVisible' => true,
+            'icon' => 'p4',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Présélection 5',
+            'logicalId' => self::PRESET_5,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 19,
+            'codekey' => SoundTouchKey::PRESET_5,
+            'isVisible' => true,
+            'icon' => 'p5',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Présélection 6',
+            'logicalId' => self::PRESET_6,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 20,
+            'codekey' => SoundTouchKey::PRESET_6,
+            'isVisible' => true,
+            'icon' => 'p6',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '1',
+        ),
+
+        array(
+            'name' => 'Play',
+            'logicalId' => self::PLAY,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 21,
+            'codekey' => SoundTouchKey::PLAY,
+            'isVisible' => true,
+            'icon' => 'play',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Pause',
+            'logicalId' => self::PAUSE,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 22,
+            'codekey' => SoundTouchKey::PAUSE,
+            'isVisible' => true,
+            'icon' => 'pause',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+        
+        array(
+            'name' => 'Stop',
+            'logicalId' => self::STOP,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 23,
+            'codekey' => SoundTouchKey::STOP,
+            'isVisible' => true,
+            'icon' => 'stop',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Piste précédente',
+            'logicalId' => self::PREV_TRACK,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 24,
+            'codekey' => SoundTouchKey::PREV_TRACK,
+            'isVisible' => true,
+            'icon' => 'step-backward',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Piste suivante',
+            'logicalId' => self::NEXT_TRACK,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 25,
+            'codekey' => SoundTouchKey::NEXT_TRACK,
+            'isVisible' => true,
+            'icon' => 'step-forward',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Play/Pause',
+            'logicalId' => self::PLAY_PAUSE,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 26,
+            'codekey' => SoundTouchKey::PLAY_PAUSE,
+            'isVisible' => true,
+            'icon' => 'play-pause',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '1',
+        ),
+
+        array(
+            'name' => 'Hasard ON',
+            'logicalId' => self::SHUFFLE_ON,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 27,
+            'codekey' => SoundTouchKey::SHUFFLE_ON,
+            'isVisible' => true,
+            'icon' => 'shuffle-on',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Hasard OFF',
+            'logicalId' => self::SHUFFLE_OFF,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 28,
+            'codekey' => SoundTouchKey::SHUFFLE_OFF,
+            'isVisible' => true,
+            'icon' => 'shuffle-off',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Répétition OFF',
+            'logicalId' => self::REPEAT_OFF,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 29,
+            'codekey' => SoundTouchKey::REPEAT_OFF,
+            'isVisible' => true,
+            'icon' => 'repeat-off',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Répétition Une',
+            'logicalId' => self::REPEAT_ONE,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 30,
+            'codekey' => SoundTouchKey::REPEAT_ONE,
+            'isVisible' => true,
+            'icon' => 'repeat-one',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Répétition Tous',
+            'logicalId' => self::REPEAT_ALL,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 31,
+            'codekey' => SoundTouchKey::REPEAT_ALL,
+            'isVisible' => true,
+            'icon' => 'repeat-all',
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
         ),
 
     );
