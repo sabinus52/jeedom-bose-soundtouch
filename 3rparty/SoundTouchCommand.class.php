@@ -164,4 +164,57 @@ class SoundTouchCommand
         return ($response->actualbass) ? intval($response->actualbass) : null;
     }
 
+
+    /**
+     * Retourne les données de la lecture en cours
+     * 
+     * @return Array
+     */
+    public function getNowPlaying()
+    {
+        if ( !$this->nowPlaying ) $this->nowPlaying = $this->getResponse('now_playing');
+        return array(
+            'source.name' => $this->_getSourceName(),
+            'source.type' => $this->_getSourceType(),
+            'source.image' => $this->_getSourceImage(),
+        );
+    }
+
+
+    /**
+     * Retourne un nom à la source en cours de lecture
+     */
+    private function _getSourceName()
+    {
+        if ( $this->nowPlaying->ContentItem->itemName )
+            return strval($this->nowPlaying->ContentItem->itemName);
+        else
+            return $this->_getSourceType();
+    }
+
+    /**
+     * Retourne le type de la source en cours de lecture
+     */
+    private function _getSourceType()
+    {
+        if ( !$this->nowPlaying->ContentItem['source'] )
+            return null;
+        elseif ( $this->nowPlaying->ContentItem['source'] != 'PRODUCT' )
+            return strtolower($this->nowPlaying->ContentItem['source']);
+        elseif ( $this->nowPlaying->ContentItem['sourceAccount'] == 'HDMI_1' || $this->nowPlaying->ContentItem['sourceAccount'] == 'HDMI_2' )
+            return 'hdmi';
+        elseif ( $this->nowPlaying->ContentItem['sourceAccount'] )
+            return strtolower($this->nowPlaying->ContentItem['sourceAccount']);
+        else
+            return strtolower($this->nowPlaying->ContentItem['source']);
+    }
+
+    /**
+     * Retourne la vignette de la source en cours
+     */
+    private function _getSourceImage()
+    {
+        return strval($this->nowPlaying->ContentItem->containerArt);
+    }
+
 }
