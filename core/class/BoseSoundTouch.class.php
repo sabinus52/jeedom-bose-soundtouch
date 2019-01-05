@@ -72,7 +72,7 @@ class BoseSoundTouch extends eqLogic {
     }
 
     public function preSave() {
-        
+        $this->updatePresets(false);
     }
 
     public function postSave() {
@@ -119,6 +119,8 @@ class BoseSoundTouch extends eqLogic {
             return $replace;
         }
         $_version = jeedom::versionAlias($_version);
+
+        $presets = $this->getConfiguration('presets');
 
         $replace['#INFO_STATE#'] = 'null';
         $state = false;
@@ -167,13 +169,34 @@ class BoseSoundTouch extends eqLogic {
                 '#div.padding#' => (($display['div.height'] - $display['icon.height']) / 2),
             );
 
-            if ($command->getLogicalId() == SoundTouchConfig::POWER) {
-                $replaceCommand['#value#'] = (($state) ? 'on' : 'off');
-                $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.power','BoseSoundTouch'));
-            } else {
-                $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.default','BoseSoundTouch'));
+            switch ($command->getLogicalId()) {
+                case SoundTouchConfig::POWER :
+                    $replaceCommand['#value#'] = (($state) ? 'on' : 'off');
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.power','BoseSoundTouch'));
+                    break;
+
+                case SoundTouchConfig::PRESET_1 :
+                case SoundTouchConfig::PRESET_2 :
+                case SoundTouchConfig::PRESET_3 :
+                case SoundTouchConfig::PRESET_4 :
+                case SoundTouchConfig::PRESET_5 :
+                case SoundTouchConfig::PRESET_6 :
+                    $id = intval(substr($command->getLogicalId(), -1, 1));
+                    $replaceCommand['#icon#'] = 'plugins/BoseSoundTouch/images/widget/'.$display['icon'].'.png';
+                    if (isset($presets[$id])) {
+                        $replaceCommand['#name#'].= ' : '.$presets[$id]['name'];
+                        $replaceCommand['#icon#'] = $presets[$id]['image'];
+                    }
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.preset','BoseSoundTouch'));
+                    break;
+                
+                default:
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.default','BoseSoundTouch'));
+                    break;
             }
         }
+
+        //var_dump($this->getConfiguration('presets'));
 
         return template_replace($replace, getTemplate('core', $_version, 'eqLogic','BoseSoundTouch'));
 
@@ -223,6 +246,30 @@ class BoseSoundTouch extends eqLogic {
 
         log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
         BoseSoundTouch::refreshWidget();
+    }
+
+
+    /**
+     * Rafraichissement des présélections
+     * 
+     * @param Boolean $save : Si on force la sauvegarde
+     */
+    public function updatePresets($save = true)
+    {
+        // Paramètre de l'adresse de l'enceinte
+        $hostname = $this->getConfiguration('hostname');
+        $command = new SoundTouchCommand($hostname);
+        log::add('BoseSoundTouch', 'debug', '=== PRESETS ==================================================');
+        log::add('BoseSoundTouch', 'debug', "Rafraichissement des présélection depuis '$hostname'");
+
+        $presets = $command->getPresets();
+        foreach ($presets as $id => $preset) {
+            log::add('BoseSoundTouch', 'debug', 'Preset '.$id.' = ('.$preset['source'].') '.$preset['name'].' - '.$preset['image']);
+        }
+        $this->setConfiguration('presets', $presets);
+        if ($save) $this->save();
+
+        log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
     }
 
 

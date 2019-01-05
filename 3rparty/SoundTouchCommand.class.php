@@ -166,6 +166,26 @@ class SoundTouchCommand
 
 
     /**
+     * Retourne la liste des préselections de 1 à 6
+     * 
+     * @return Array
+     */
+    public function getPresets()
+    {
+        $response = $this->getResponse('presets');
+        $result = array();
+        foreach ($response->preset as $preset) {
+            $result[intval($preset['id'])] = array(
+                'source'    => strval($preset->ContentItem['source']),
+                'name'      => strval($preset->ContentItem->itemName),
+                'image'     => strval($preset->ContentItem->containerArt),
+            );
+        }
+        return $result;
+    }
+
+
+    /**
      * Retourne les données de la lecture en cours
      * 
      * @return Array
