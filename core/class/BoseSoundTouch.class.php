@@ -111,10 +111,58 @@ class BoseSoundTouch extends eqLogic {
 
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
-      public function toHtml($_version = 'dashboard') {
-
-      }
      */
+    public function toHtml($_version = 'dashboard') {
+
+        $replace = $this->preToHtml($_version);
+        if (!is_array($replace)) {
+            return $replace;
+        }
+        $_version = jeedom::versionAlias($_version);
+
+        $replace['#INFO_STATE#'] = 'null';
+        $state = false;
+        foreach ($this->getCmd('info') as $info) {
+            $cache = $info->getCache();
+            switch ($info->getLogicalId()) {
+                case SoundTouchConfig::SOURCE:
+                    $replace['#INFO_STATE#'] = strtolower($cache['value']);
+                    break;
+                
+                case SoundTouchConfig::PLAYING:
+                    $state = strtolower($cache['value']);
+                    break;
+                
+                default:
+                    break;
+            }
+        }
+
+        foreach ($this->getCmd('action') as $command) {
+            $display = $command->getConfiguration('display');
+            $replaceCommand = array(
+                '#id#'          => $command->getId(),
+                '#version#'     => $_version,
+                '#name#'        => $command->getName(),
+                '#icon#'        => $display['icon'],
+                '#icon.width#'  => $display['icon.width'],
+                '#icon.height#' => $display['icon.height'],
+                '#div.width#'   => $display['div.width'],
+                '#div.height#'  => $display['div.height'],
+                '#div.padding#' => (($display['div.height'] - $display['icon.height']) / 2),
+            );
+
+            if ($command->getLogicalId() == SoundTouchConfig::POWER) {
+                $replaceCommand['#icon#'] = $display['icon'].'-'.(($state) ? 'on' : 'off');
+            }
+
+            $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'cmd.action.other.default','BoseSoundTouch'));
+        }
+
+        return template_replace($replace, getTemplate('core', $_version, 'eqLogic','BoseSoundTouch'));
+
+    }
+     
 
     /*
      * Non obligatoire mais ca permet de déclencher une action après modification de variable de configuration
@@ -174,6 +222,7 @@ class BoseSoundTouch extends eqLogic {
         $cmdSoundTouch->setSubType( $config['subType'] );
         $cmdSoundTouch->setOrder( $config['order'] );
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
+        if (isset($config['display'])) $cmdSoundTouch->setConfiguration( 'display', $config['display'] );
         if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
         if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
         //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
