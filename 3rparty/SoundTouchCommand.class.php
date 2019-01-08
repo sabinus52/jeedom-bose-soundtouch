@@ -28,6 +28,13 @@ class SoundTouchCommand
      */
     private $nowPlaying;
 
+    /**
+     * Erreur éventuelle
+     * 
+     * @var String
+     */
+    private $error;
+
 
     /**
      * Constructeur
@@ -38,6 +45,7 @@ class SoundTouchCommand
     {
         $this->baseUri = sprintf(self::BASE_URI, $hostname);
         $this->nowPlaying = null;
+        $this->error = '';
     }
 
 
@@ -53,6 +61,9 @@ class SoundTouchCommand
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
+        if ($errno = curl_errno($curl)) {
+            $this->error = curl_strerror($errno);
+        }
         curl_close($curl);
         return $response;
     }
@@ -86,8 +97,22 @@ class SoundTouchCommand
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
         $response = curl_exec($curl);
+        if ($errno = curl_errno($curl)) {
+            $this->error = curl_strerror($errno);
+        }
         curl_close($curl);
         return $response;
+    }
+
+
+    /**
+     * Retourne l'erreur éventuelle
+     * 
+     * @return String
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
 

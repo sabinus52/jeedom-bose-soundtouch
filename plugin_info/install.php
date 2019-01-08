@@ -24,6 +24,12 @@ function BoseSoundTouch_install() {
 
 function BoseSoundTouch_update() {
     
+    foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
+        if ($equipment->getIsEnable() == 1) {
+            $equipment->updateCommandSoundTouch();
+        }
+    }
+
 }
 
 
