@@ -9,8 +9,8 @@
 	"hasDependency" : false,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://jeedom.github.io/plugin-template/#language#/changelog",
-	"documentation" : "https://jeedom.github.io/plugin-template/#language#/",
+	"changelog" : "https://github.com/sabinus52/jeedom-bose-soundtouch/blob/master/docs/changelog.md",
+	"documentation" : "https://github.com/sabinus52/jeedom-bose-soundtouch/blob/master/docs/fr_FR/index.md",
 	"link" : {
 		"forum":"Lien vers le forum",
 		"video" : "Lien vers une video"

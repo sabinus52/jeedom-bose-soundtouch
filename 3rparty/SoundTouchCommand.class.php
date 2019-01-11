@@ -28,6 +28,13 @@ class SoundTouchCommand
      */
     private $nowPlaying;
 
+    /**
+     * Erreur éventuelle
+     * 
+     * @var String
+     */
+    private $error;
+
 
     /**
      * Constructeur
@@ -38,6 +45,7 @@ class SoundTouchCommand
     {
         $this->baseUri = sprintf(self::BASE_URI, $hostname);
         $this->nowPlaying = null;
+        $this->error = '';
     }
 
 
@@ -53,6 +61,9 @@ class SoundTouchCommand
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
+        if ($errno = curl_errno($curl)) {
+            $this->error = curl_strerror($errno);
+        }
         curl_close($curl);
         return $response;
     }
@@ -86,8 +97,22 @@ class SoundTouchCommand
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: text/xml'));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
         $response = curl_exec($curl);
+        if ($errno = curl_errno($curl)) {
+            $this->error = curl_strerror($errno);
+        }
         curl_close($curl);
         return $response;
+    }
+
+
+    /**
+     * Retourne l'erreur éventuelle
+     * 
+     * @return String
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
 
@@ -162,6 +187,79 @@ class SoundTouchCommand
     {
         $response = $this->getResponse('bass');
         return ($response->actualbass) ? intval($response->actualbass) : null;
+    }
+
+
+    /**
+     * Retourne la liste des préselections de 1 à 6
+     * 
+     * @return Array
+     */
+    public function getPresets()
+    {
+        $response = $this->getResponse('presets');
+        $result = array();
+        foreach ($response->preset as $preset) {
+            $result[intval($preset['id'])] = array(
+                'source'    => strval($preset->ContentItem['source']),
+                'name'      => strval($preset->ContentItem->itemName),
+                'image'     => strval($preset->ContentItem->containerArt),
+            );
+        }
+        return $result;
+    }
+
+
+    /**
+     * Retourne les données de la lecture en cours
+     * 
+     * @return Array
+     */
+    public function getNowPlaying()
+    {
+        if ( !$this->nowPlaying ) $this->nowPlaying = $this->getResponse('now_playing');
+        return array(
+            'source.name' => $this->_getSourceName(),
+            'source.type' => $this->_getSourceType(),
+            'source.image' => $this->_getSourceImage(),
+        );
+    }
+
+
+    /**
+     * Retourne un nom à la source en cours de lecture
+     */
+    private function _getSourceName()
+    {
+        if ( $this->nowPlaying->ContentItem->itemName )
+            return strval($this->nowPlaying->ContentItem->itemName);
+        else
+            return $this->_getSourceType();
+    }
+
+    /**
+     * Retourne le type de la source en cours de lecture
+     */
+    private function _getSourceType()
+    {
+        if ( !$this->nowPlaying->ContentItem['source'] )
+            return null;
+        elseif ( $this->nowPlaying->ContentItem['source'] != 'PRODUCT' )
+            return strtolower($this->nowPlaying->ContentItem['source']);
+        elseif ( $this->nowPlaying->ContentItem['sourceAccount'] == 'HDMI_1' || $this->nowPlaying->ContentItem['sourceAccount'] == 'HDMI_2' )
+            return 'hdmi';
+        elseif ( $this->nowPlaying->ContentItem['sourceAccount'] )
+            return strtolower($this->nowPlaying->ContentItem['sourceAccount']);
+        else
+            return strtolower($this->nowPlaying->ContentItem['source']);
+    }
+
+    /**
+     * Retourne la vignette de la source en cours
+     */
+    private function _getSourceImage()
+    {
+        return strval($this->nowPlaying->ContentItem->containerArt);
     }
 
 }

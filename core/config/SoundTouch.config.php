@@ -86,6 +86,14 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'refresh',
+                'template' => 'default',
+                'div.width' => 50,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
         
         array(
@@ -96,9 +104,16 @@ class SoundTouchConfig
             'order' => 11,
             'codekey' => SoundTouchKey::POWER,
             'isVisible' => true,
-            'icon' => 'power',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'power',
+                'template' => 'power',
+                'div.width' => 50,
+                'div.height' => 101,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -109,9 +124,16 @@ class SoundTouchConfig
             'order' => 12,
             'codekey' => SoundTouchKey::VOLUME_UP,
             'isVisible' => true,
-            'icon' => 'volume-up',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'volume-up',
+                'template' => 'default',
+                'div.width' => 50,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -122,9 +144,16 @@ class SoundTouchConfig
             'order' => 13,
             'codekey' => SoundTouchKey::VOLUME_DOWN,
             'isVisible' => true,
-            'icon' => 'volume-down',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'volume-down',
+                'template' => 'default',
+                'div.width' => 50,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -135,9 +164,16 @@ class SoundTouchConfig
             'order' => 14,
             'codekey' => SoundTouchKey::MUTE,
             'isVisible' => true,
-            'icon' => 'mute',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
+            'display' => array(
+                'icon' => 'mute',
+                'template' => 'default',
+                'div.width' => 50,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -148,9 +184,16 @@ class SoundTouchConfig
             'order' => 15,
             'codekey' => SoundTouchKey::PRESET_1,
             'isVisible' => true,
-            'icon' => 'p1',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'p1',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -161,9 +204,16 @@ class SoundTouchConfig
             'order' => 16,
             'codekey' => SoundTouchKey::PRESET_2,
             'isVisible' => true,
-            'icon' => 'p2',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'p2',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -174,9 +224,16 @@ class SoundTouchConfig
             'order' => 17,
             'codekey' => SoundTouchKey::PRESET_3,
             'isVisible' => true,
-            'icon' => 'p3',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'p3',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -187,9 +244,16 @@ class SoundTouchConfig
             'order' => 18,
             'codekey' => SoundTouchKey::PRESET_4,
             'isVisible' => true,
-            'icon' => 'p4',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'p4',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -200,9 +264,16 @@ class SoundTouchConfig
             'order' => 19,
             'codekey' => SoundTouchKey::PRESET_5,
             'isVisible' => true,
-            'icon' => 'p5',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'p5',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -213,9 +284,16 @@ class SoundTouchConfig
             'order' => 20,
             'codekey' => SoundTouchKey::PRESET_6,
             'isVisible' => true,
-            'icon' => 'p6',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
+            'display' => array(
+                'icon' => 'p6',
+                'template' => 'preset',
+                'div.width' => 70,
+                'div.height' => 70,
+                'icon.width' => 48,
+                'icon.height' => 48,
+            ),
         ),
 
         array(
@@ -226,9 +304,16 @@ class SoundTouchConfig
             'order' => 21,
             'codekey' => SoundTouchKey::PLAY,
             'isVisible' => true,
-            'icon' => 'play',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'play',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -239,9 +324,16 @@ class SoundTouchConfig
             'order' => 22,
             'codekey' => SoundTouchKey::PAUSE,
             'isVisible' => true,
-            'icon' => 'pause',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'pause',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
         
         array(
@@ -252,9 +344,16 @@ class SoundTouchConfig
             'order' => 23,
             'codekey' => SoundTouchKey::STOP,
             'isVisible' => true,
-            'icon' => 'stop',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'stop',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -265,9 +364,16 @@ class SoundTouchConfig
             'order' => 24,
             'codekey' => SoundTouchKey::PREV_TRACK,
             'isVisible' => true,
-            'icon' => 'step-backward',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'step-backward',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -278,9 +384,16 @@ class SoundTouchConfig
             'order' => 25,
             'codekey' => SoundTouchKey::NEXT_TRACK,
             'isVisible' => true,
-            'icon' => 'step-forward',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'step-forward',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -291,9 +404,16 @@ class SoundTouchConfig
             'order' => 26,
             'codekey' => SoundTouchKey::PLAY_PAUSE,
             'isVisible' => true,
-            'icon' => 'play-pause',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
+            'display' => array(
+                'icon' => 'play-pause',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -304,9 +424,16 @@ class SoundTouchConfig
             'order' => 27,
             'codekey' => SoundTouchKey::SHUFFLE_ON,
             'isVisible' => true,
-            'icon' => 'shuffle-on',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'shuffle-on',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -317,9 +444,16 @@ class SoundTouchConfig
             'order' => 28,
             'codekey' => SoundTouchKey::SHUFFLE_OFF,
             'isVisible' => true,
-            'icon' => 'shuffle-off',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'shuffle-off',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -330,9 +464,16 @@ class SoundTouchConfig
             'order' => 29,
             'codekey' => SoundTouchKey::REPEAT_OFF,
             'isVisible' => true,
-            'icon' => 'repeat-off',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'repeat-off',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -343,9 +484,16 @@ class SoundTouchConfig
             'order' => 30,
             'codekey' => SoundTouchKey::REPEAT_ONE,
             'isVisible' => true,
-            'icon' => 'repeat-one',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'repeat-one',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
         array(
@@ -356,9 +504,16 @@ class SoundTouchConfig
             'order' => 31,
             'codekey' => SoundTouchKey::REPEAT_ALL,
             'isVisible' => true,
-            'icon' => 'repeat-all',
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
+            'display' => array(
+                'icon' => 'repeat-all',
+                'template' => 'default',
+                'div.width' => 60,
+                'div.height' => 50,
+                'icon.width' => 24,
+                'icon.height' => 24,
+            ),
         ),
 
     );
