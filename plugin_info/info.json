@@ -7,7 +7,7 @@
 	"require" : "3.0",
 	"category" : "multimedia",
 	"hasDependency" : false,
-	"hasOwnDeamon" : false,
+	"hasOwnDeamon" : true,
 	"maxDependancyInstallTime" : 0,
 	"changelog" : "https://github.com/sabinus52/jeedom-bose-soundtouch/blob/master/docs/changelog.md",
 	"documentation" : "https://github.com/sabinus52/jeedom-bose-soundtouch/blob/master/docs/fr_FR/index.md",

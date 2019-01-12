@@ -19,12 +19,40 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function BoseSoundTouch_install() {
-    
+
+    $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
+	if (!is_object($cron)) {
+		$cron = new cron();
+		$cron->setClass('BoseSoundTouch');
+		$cron->setFunction('pull');
+		$cron->setEnable(1);
+		$cron->setDeamon(1);
+		$cron->setDeamonSleepTime(20);
+		$cron->setSchedule('* * * * *');
+		$cron->setTimeout(1440);
+		$cron->save();
+	}
+
 }
 
 function BoseSoundTouch_update() {
     
+    $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
+    if (!is_object($cron)) {
+		$cron = new cron();
+	}
+	$cron->setClass('BoseSoundTouch');
+	$cron->setFunction('pull');
+	$cron->setEnable(1);
+	$cron->setDeamon(1);
+	$cron->setDeamonSleepTime(20);
+	$cron->setTimeout(1440);
+	$cron->setSchedule('* * * * *');
+	$cron->save();
+    $cron->stop();
+
     foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
+        $equipment->save();
         if ($equipment->getIsEnable() == 1) {
             $equipment->updateCommandSoundTouch();
         }
@@ -35,6 +63,11 @@ function BoseSoundTouch_update() {
 
 function BoseSoundTouch_remove() {
     
+    $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
+	if (is_object($cron)) {
+		$cron->remove();
+    }
+
 }
 
 ?>
