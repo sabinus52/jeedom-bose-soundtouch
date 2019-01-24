@@ -19,6 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 require_once __DIR__  . '/../config/SoundTouch.config.php';
+use Sabinus\SoundTouch\JeedomSoundTouchApi;
 
 
 class BoseSoundTouch extends eqLogic {
@@ -276,31 +277,31 @@ class BoseSoundTouch extends eqLogic {
         $hostname = $this->getConfiguration('hostname');
         $update = false;
 
-        $command = new SoundTouchCommand($hostname);
+        $speaker = new JeedomSoundTouchApi($hostname);
         log::add('BoseSoundTouch', 'debug', '=== REFRESH ==================================================');
         log::add('BoseSoundTouch', 'debug', "Rafraichissement des données depuis '$hostname'");
 
         // Récupération des différentes valeur
-        $result = $command->getStatePower();
-        if ($err = $command->getError()) {
+        if ($err = $speaker->getMessageError()) {
             log::add('BoseSoundTouch', 'error', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
         }
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PLAYING.' = '.$result);
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::PLAYING, $result);
-        $result = $command->getTypeSource();
+        $result = $speaker->isPowered();
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PLAYING.' = '. $result);
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::PLAYING,  $result);
+        $result = $speaker->getCurrentSource();
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SOURCE.' = '.$result);
         $update |= $this->checkAndUpdateCmd(SoundTouchConfig::SOURCE, $result);
-        $result = $command->getVolume();
+        $result = $speaker->getLevelVolume();
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result);
         $update |= $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
 
         // Données supplémentaires
         $info = $this->getCmd(null, SoundTouchConfig::PLAYING);
         if (is_object($info)) {
-            $datas = $command->getNowPlaying();
+            $datas = $speaker->getNowPlaying();
             $info->setConfiguration('playing', $datas);
             $info->save();
-            log::add('BoseSoundTouch', 'debug', 'Données en cours de lecture = '.implode(', ', $datas));
+            log::add('BoseSoundTouch', 'debug', 'Données en cours de lecture = '.serialize($datas));
         }
 
         if ($update) {
@@ -318,13 +319,13 @@ class BoseSoundTouch extends eqLogic {
     {
         $hostname = $this->getConfiguration('hostname');
         log::add('BoseSoundTouch', 'debug', '=== PRESETS ==================================================');
-        log::add('BoseSoundTouch', 'debug', "Rafraichissement des présélection depuis '$hostname'");
+        log::add('BoseSoundTouch', 'debug', "Rafraichissement des présélections depuis '$hostname'");
 
         // Paramètre de l'adresse de l'enceinte
         $hostname = $this->getConfiguration('hostname');
         // Récupération des préselctions
-        $command = new SoundTouchCommand($hostname);
-        $presets = $command->getPresets();
+        $speaker = new JeedomSoundTouchApi($hostname);
+        $presets = $speaker->getPresets();
 
         foreach ($this->getCmd('action') as $command) {
             switch ($command->getLogicalId()) {
@@ -338,7 +339,7 @@ class BoseSoundTouch extends eqLogic {
                     if ( isset($presets[$id]) ) {
                         // Sauvegarde les données de la présélection dans la commande
                         $command->setConfiguration('datas', $presets[$id]);
-                        log::add('BoseSoundTouch', 'debug', $command->getLogicalId().' = ('.$presets[$id]['source'].') '.$presets[$id]['name'].' - '.$presets[$id]['image']);
+                        log::add('BoseSoundTouch', 'debug', $command->getLogicalId().' = ('.$presets[$id]->getContentItem()->getSource().') '.$presets[$id]->getContentItem()->getName().' - '.$presets[$id]->getContentItem()->getImage());
                     } else {
                         $command->setConfiguration('datas', array());
                     }
@@ -429,7 +430,7 @@ class BoseSoundTouchCmd extends cmd {
             $codeKey = $this->getConfiguration('codekey');
             if ( $codeKey != '' ) {
                 log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche $codeKey");
-                $command = new SoundTouchCommand($hostname);
+                $command = new JeedomSoundTouchApi($hostname, false);
                 $response = $command->sendCommand($idCommand);
                 log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
             } else {

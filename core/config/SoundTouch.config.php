@@ -5,8 +5,11 @@
  *  - Action sur l'enceinte
  */
 
-require_once __DIR__  . '/../../3rparty/SoundTouchKey.class.php';
-require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
+//require_once __DIR__  . '/../../3rparty/SoundTouchKey.class.php';
+//require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+use Sabinus\SoundTouch\Constants\Key as SoundTouchKey;
+
 
 class SoundTouchConfig
 {
