@@ -1,0 +1,14 @@
+{
+    "name": "jeedom/bose-soundtouch",
+    "description": "Plugin Jeedom pour la gestion des barres son Bose SoundTouch",
+    "homepage" : "https://github.com/sabinus52/OlixAdminBundle",
+    "license" : "AGPL-3.0-or-later",
+    "authors" : [{
+            "name" : "Olivier",
+            "email" : "sabinus52@gmail.com"
+        }
+    ],
+    "require": {
+        "sabinus52/soundtouchapi": "~1"
+    }    
+}
