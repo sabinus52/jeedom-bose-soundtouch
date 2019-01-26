@@ -1,4 +1,4 @@
-<div class="bosesoundtouch" style="background-color:#2f3032; padding:#div.padding#px 0; margin-top:1px; width:#div.width#px; height:#div.height#px; cursor:pointer;" data-type="action" data-subtype="other" data-cmd_id="#id#" data-version="#version#">
+<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_power" data-type="action" data-subtype="other" data-cmd_id="#id#" data-version="#version#">
     <span></span>
     <script>
         $('.bosesoundtouch[data-cmd_id=#id#]:last').on('click', function () {
@@ -6,7 +6,7 @@
         });
         jeedom.cmd.update['#id#'] =function(options) {
             $('.bosesoundtouch[data-cmd_id=#id#] span').empty()
-            .append('<img src="plugins/BoseSoundTouch/images/widget/power-#value#.png" style="width:#icon.width#px;height:#icon.height#px;" title="#name#">');
+            .append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/power-#value#.png" title="#name#">');
         }
         jeedom.cmd.update['#id#']({ value:'#value#',valueDate:'#valueDate#',collectDate:'#collectDate#' });
     </script>

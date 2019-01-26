@@ -17,30 +17,32 @@ class SoundTouchConfig
     const PLAYING = 'PLAYING';
     const SOURCE = 'SOURCE';
     const VOLUME = 'VOLUME';
-    const BASS = 'BASS';
 
     const REFRESH = 'REFRESH';
     const POWER = 'POWER';
     const VOLUME_UP = 'VOLUME_UP';
     const VOLUME_DOWN = 'VOLUME_DOWN';
     const MUTE = 'MUTE';
-    const PRESET_1 = "PRESET_1";
-    const PRESET_2 = "PRESET_2";
-    const PRESET_3 = "PRESET_3";
-    const PRESET_4 = "PRESET_4";
-    const PRESET_5 = "PRESET_5";
-    const PRESET_6 = "PRESET_6";
-    const PLAY = "PLAY";
-    const PAUSE = "PAUSE";
-    const STOP = "STOP";
-    const PREV_TRACK = "PREV_TRACK";
-    const NEXT_TRACK = "NEXT_TRACK";
-    const PLAY_PAUSE = "PLAY_PAUSE";
-    const SHUFFLE_OFF = "SHUFFLE_OFF";
-    const SHUFFLE_ON = "SHUFFLE_ON";
-    const REPEAT_OFF = "REPEAT_OFF";
-    const REPEAT_ONE = "REPEAT_ONE";
-    const REPEAT_ALL = "REPEAT_ALL";
+    const PRESET_1 = 'PRESET_1';
+    const PRESET_2 = 'PRESET_2';
+    const PRESET_3 = 'PRESET_3';
+    const PRESET_4 = 'PRESET_4';
+    const PRESET_5 = 'PRESET_5';
+    const PRESET_6 = 'PRESET_6';
+    const PLAY = 'PLAY';
+    const PAUSE = 'PAUSE';
+    const STOP = 'STOP';
+    const PREV_TRACK = 'TRACK_PREV';
+    const NEXT_TRACK = 'TRACK_NEXT';
+    const PLAY_PAUSE = 'PLAY_PAUSE';
+    const SHUFFLE_OFF = 'SHUFFLE_OFF';
+    const SHUFFLE_ON = 'SHUFFLE_ON';
+    const REPEAT_OFF = 'REPEAT_OFF';
+    const REPEAT_ONE = 'REPEAT_ONE';
+    const REPEAT_ALL = 'REPEAT_ALL';
+    const TV = 'TV';
+    const BLUETOOTH = 'BLUETOOTH';
+
 
 
     static private $configInfos = array(
@@ -89,14 +91,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'refresh',
-                'template' => 'default',
-                'div.width' => 50,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
         
         array(
@@ -109,14 +103,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'power',
-                'template' => 'power',
-                'div.width' => 50,
-                'div.height' => 101,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -129,14 +115,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'volume-up',
-                'template' => 'default',
-                'div.width' => 50,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -149,14 +127,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'volume-down',
-                'template' => 'default',
-                'div.width' => 50,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -169,14 +139,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
-            'display' => array(
-                'icon' => 'mute',
-                'template' => 'default',
-                'div.width' => 50,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -189,14 +151,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'p1',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -209,14 +163,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'p2',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -229,14 +175,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'p3',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -249,14 +187,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'p4',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -269,14 +199,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'p5',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -289,14 +211,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
-            'display' => array(
-                'icon' => 'p6',
-                'template' => 'preset',
-                'div.width' => 70,
-                'div.height' => 70,
-                'icon.width' => 48,
-                'icon.height' => 48,
-            ),
         ),
 
         array(
@@ -309,14 +223,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'play',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -329,14 +235,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'pause',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
         
         array(
@@ -349,14 +247,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'stop',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -369,14 +259,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'step-backward',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -389,14 +271,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'step-forward',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -409,14 +283,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '1',
-            'display' => array(
-                'icon' => 'play-pause',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -429,14 +295,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'shuffle-on',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -449,14 +307,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'shuffle-off',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -469,14 +319,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'repeat-off',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -489,14 +331,6 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'repeat-one',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
         ),
 
         array(
@@ -509,14 +343,30 @@ class SoundTouchConfig
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
-            'display' => array(
-                'icon' => 'repeat-all',
-                'template' => 'default',
-                'div.width' => 60,
-                'div.height' => 50,
-                'icon.width' => 24,
-                'icon.height' => 24,
-            ),
+        ),
+
+        array(
+            'name' => 'Select TV',
+            'logicalId' => self::TV,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 32,
+            'codekey' => '',
+            'isVisible' => true,
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Select BLUETOOTH',
+            'logicalId' => self::BLUETOOTH,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 33,
+            'codekey' => '',
+            'isVisible' => true,
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
         ),
 
     );
