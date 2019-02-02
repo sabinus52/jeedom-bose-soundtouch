@@ -8,6 +8,7 @@ sftp-config.json
 Thumbs.db
 *.php~
 composer.lock
+images/cache*
 
 # Visual Studio Code
 .vs/

@@ -17,6 +17,7 @@ class SoundTouchConfig
     const PLAYING = 'PLAYING';
     const SOURCE = 'SOURCE';
     const VOLUME = 'VOLUME';
+    const PREVIEW = 'PREVIEW';
 
     const REFRESH = 'REFRESH';
     const POWER = 'POWER';
@@ -73,6 +74,16 @@ class SoundTouchConfig
             'type' => 'info',
             'subType' => 'numeric',
             'order' => 3,
+            'isVisible' => true,
+            'generic_type' => 'SPEAKER_STATE',
+        ),
+
+        array(
+            'name' => 'Apercu',
+            'logicalId' => self::PREVIEW,
+            'type' => 'info',
+            'subType' => 'string',
+            'order' => 4,
             'isVisible' => true,
             'generic_type' => 'SPEAKER_STATE',
         ),

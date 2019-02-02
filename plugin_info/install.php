@@ -27,7 +27,7 @@ function BoseSoundTouch_install() {
 		$cron->setFunction('pull');
 		$cron->setEnable(1);
 		$cron->setDeamon(1);
-		$cron->setDeamonSleepTime(20);
+		$cron->setDeamonSleepTime(7);
 		$cron->setSchedule('* * * * *');
 		$cron->setTimeout(1440);
 		$cron->save();
@@ -45,7 +45,7 @@ function BoseSoundTouch_update() {
 	$cron->setFunction('pull');
 	$cron->setEnable(1);
 	$cron->setDeamon(1);
-	$cron->setDeamonSleepTime(20);
+	$cron->setDeamonSleepTime(7);
 	$cron->setTimeout(1440);
 	$cron->setSchedule('* * * * *');
 	$cron->save();
@@ -54,7 +54,8 @@ function BoseSoundTouch_update() {
     foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
         $equipment->save();
         if ($equipment->getIsEnable() == 1) {
-            $equipment->updateCommandSoundTouch();
+			$equipment->updateCommandSoundTouch();
+			$equipment->updatePresets();
         }
     }
 
