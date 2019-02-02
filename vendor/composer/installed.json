@@ -284,24 +284,24 @@
     },
     {
         "name": "sabinus52/soundtouchapi",
-        "version": "1.0",
-        "version_normalized": "1.0.0.0",
+        "version": "1.1",
+        "version_normalized": "1.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sabinus52/SoundTouchApi.git",
-            "reference": "030dadd60d069070aef46935902cc0ecc4b2ef80"
+            "reference": "9f082c0aba3574bbd9a3fba4dfc435558c362c5d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/030dadd60d069070aef46935902cc0ecc4b2ef80",
-            "reference": "030dadd60d069070aef46935902cc0ecc4b2ef80",
+            "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/9f082c0aba3574bbd9a3fba4dfc435558c362c5d",
+            "reference": "9f082c0aba3574bbd9a3fba4dfc435558c362c5d",
             "shasum": ""
         },
         "require": {
             "guzzlehttp/guzzle": "~6",
             "php": "^5.2||^7"
         },
-        "time": "2019-01-24T19:08:47+00:00",
+        "time": "2019-02-01T10:04:57+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
