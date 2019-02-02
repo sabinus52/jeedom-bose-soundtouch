@@ -53,10 +53,6 @@ function BoseSoundTouch_update() {
 
     foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
         $equipment->save();
-        if ($equipment->getIsEnable() == 1) {
-			$equipment->updateCommandSoundTouch();
-			$equipment->updatePresets();
-        }
     }
 
 }
