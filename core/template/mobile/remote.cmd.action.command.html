@@ -1,0 +1,8 @@
+<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-type="action" data-subtype="other" data-cmd_id="#id#" data-version="#version#">
+    <img src="plugins/BoseSoundTouch/core/template/dashboard/images/#icon#.png" title="#name#">
+    <script>
+        $('.bosesoundtouch[data-cmd_id=#id#]:last').on('click', function () {
+            jeedom.cmd.execute({id: '#id#'});
+        });
+    </script>
+</div>

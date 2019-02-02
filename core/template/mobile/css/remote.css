@@ -1,0 +1,54 @@
+.soundtouch_widget {
+    background-color: #131415;
+    color:  #cccccc;
+    overflow: hidden;
+    text-align: center;
+    padding: 1px 1px 1px 1px;
+}
+
+.soundtouch_name {
+    background-color: #2f3032;
+    color: white;
+    padding: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 1px;
+}
+
+.soundtouch_span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.soundtouch_touch {
+    background-color: #2f3032;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+
+.soundtouch_widget td {
+    vertical-align: middle;
+    background-color: #2f3032;
+}
+
+.soundtouch_touch img {
+    width: 20px;
+    height: 20px;
+}
+
+.soundtouch_playing img {
+    width: 96px;
+    height: 96px;
+}
+
+
+.soundtouch_touch_select img {
+    width: 24px;
+    height: 24px;
+}
+
+.soundtouch_preset img {
+    width: 24px;
+    height: 24px;
+}

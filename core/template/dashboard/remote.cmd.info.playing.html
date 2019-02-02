@@ -1,0 +1,10 @@
+<div class="bosesoundtouch soundtouch_touch soundtouch_playing" style="" data-type="info" data-subtype="string" data-cmd_id="#id#" data-version="#version#">
+    <span></span>
+    <script>
+        jeedom.cmd.update['#id#'] =function(options) {
+            $('.bosesoundtouch[data-cmd_id=#id#] span').empty()
+            .append('<img src="'+options.value+'" title="'+options.valueName+', Valeur du '+options.valueDate+'" class="">');
+        }
+        jeedom.cmd.update['#id#']({ value:'#value#', valueDate:'#valueDate#', valueName:'#valueName#' });
+    </script>
+</div>
