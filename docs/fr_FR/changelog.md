@@ -1,3 +1,9 @@
+# Version 0.4 du 08/02/2019
+
+- Correction du bogue lors de la création de l'enceinte
+- Amélioration de l'affichage du widget
+
+
 # Version 0.4 du 02/02/2019
 
 - Mise en place du démon pour le rafraîchissement de la lecture en cours
