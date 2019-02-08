@@ -426,6 +426,7 @@ class BoseSoundTouch extends eqLogic {
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
         if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
         if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
+        if (isset($config['unity'])) $cmdSoundTouch->setUnite( $config['unity'] );
         //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
         $cmdSoundTouch->save();
     }
@@ -482,6 +483,10 @@ class BoseSoundTouchCmd extends cmd {
                         log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
                         if ( !$response ) log::add('BoseSoundTouch', 'error', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                         break;
+                    case SoundTouchConfig::VOLUME_SET:
+                        $response = $speaker->setVolume($_options['slider']);
+                        log::add('BoseSoundTouch', 'debug', "ACTION : VOLUME ".$_options['slider']." -> ".( ($response) ? 'OK' : 'NOK'));
+                        if ( !$response ) log::add('BoseSoundTouch', 'error', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                     default:
                         log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
                         break;
