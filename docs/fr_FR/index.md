@@ -1,6 +1,6 @@
-# ![capture](../images/icon-48.png) Documentation du plugin Bose SoundTouch
+![capture](../images/icon-48.png)
 
-## Description 
+# Description 
 
 Ce plugin permet de contrôler les enceintes Bose SoundTouch.
 
@@ -9,12 +9,12 @@ Rendu visuel de la télécommande :
 ![capture](../images/capture.png)
 
 
-## Configuration du plugin
+# Configuration du plugin
 
 Après téléchargement du plugin, il vous suffit juste d’activer celui-ci, il n’y a aucune configuration à ce niveau.
 
 
-## Configuration des équipements
+# Configuration des équipements
 
 Pour se faire ajouter et paraméter une enceinte, cliquer sur *Plugins / Multimédia / Bose SoundTouch*
 
