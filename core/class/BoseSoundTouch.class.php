@@ -141,7 +141,6 @@ class BoseSoundTouch extends eqLogic {
     public function postSave() {
 
         $this->updateCommandSoundTouch();
-        $this->updatePresets();
         
     }
 
@@ -154,7 +153,9 @@ class BoseSoundTouch extends eqLogic {
     }
 
     public function postUpdate() {
-        
+
+        $this->updatePresets();
+
     }
 
     public function preRemove() {
