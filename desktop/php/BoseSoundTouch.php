@@ -100,6 +100,15 @@ foreach (object::all() as $object) {
             <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="hostname" placeholder=""/>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{Format du widget}}</label>
+        <div class="col-sm-3">
+            <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="format">
+                <option value="remote">Mode télécommande</option>
+                <option value="player">Mode player</option>
+            </select>
+        </div>
+    </div>
 </fieldset>
 </form>
 </div>

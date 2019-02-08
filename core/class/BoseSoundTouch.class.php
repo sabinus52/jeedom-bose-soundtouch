@@ -176,6 +176,9 @@ class BoseSoundTouch extends eqLogic {
         }
         $_version = jeedom::versionAlias($_version);
 
+        // Type du widget
+        $typeWidget = $this->getConfiguration('format');
+
         // Statut POWER
         $power = false;
 
@@ -199,7 +202,7 @@ class BoseSoundTouch extends eqLogic {
                     } else {
                         $replaceInfo['#value#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.(($playing['source.type']) ? strtolower($playing['source.type']) : 'null' ).'.png';
                     }
-                    $replace['#CMD_INFO_PLAYING#'] = template_replace($replaceInfo, getTemplate('core', $_version, 'remote.cmd.info.playing', 'BoseSoundTouch'));
+                    $replace['#CMD_INFO_PLAYING#'] = template_replace($replaceInfo, getTemplate('core', $_version, $typeWidget.'.cmd.info.playing', 'BoseSoundTouch'));
                     break;
             }
         }
@@ -218,7 +221,7 @@ class BoseSoundTouch extends eqLogic {
             switch ($command->getLogicalId()) {
                 case SoundTouchConfig::POWER :
                     $replaceCommand['#value#'] = (($power) ? 'on' : 'off');
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.power', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.power', 'BoseSoundTouch'));
                     break;
 
                 case SoundTouchConfig::PRESET_1 :
@@ -234,31 +237,31 @@ class BoseSoundTouch extends eqLogic {
                         $replaceCommand['#name#'].= ' : '.$preset['name'];
                         $replaceCommand['#icon#'] = $preset['cache'];
                     }
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.preset', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.preset', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::VOLUME_DOWN :
                 case SoundTouchConfig::VOLUME_UP :
                 case SoundTouchConfig::MUTE :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.volume', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.volume', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::REFRESH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.default', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.default', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::TV :
                 case SoundTouchConfig::BLUETOOTH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.select', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.select', 'BoseSoundTouch'));
                     break;
                 
                 default:
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.command', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.command', 'BoseSoundTouch'));
                     break;
             }
         }
 
-        return template_replace($replace, getTemplate('core', $_version, 'remote.eqLogic', 'BoseSoundTouch'));
+        return template_replace($replace, getTemplate('core', $_version, $typeWidget.'.eqLogic', 'BoseSoundTouch'));
 
     }
      
