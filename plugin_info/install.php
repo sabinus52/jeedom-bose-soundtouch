@@ -52,6 +52,9 @@ function BoseSoundTouch_update() {
     $cron->stop();
 
     foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
+		if ( !$equipment->getConfiguration('format') ) {
+			$equipment->setConfiguration('format', 'remote');
+		}
         $equipment->save();
     }
 
