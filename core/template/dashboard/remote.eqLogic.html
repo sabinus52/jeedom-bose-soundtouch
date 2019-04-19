@@ -9,43 +9,94 @@
 
 		<div>
 			<div class="soundtouch_span">
-				#CMD_REFRESH#
-				#CMD_POWER#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_default" data-cmd_id="#REFRESH_ID#" onclick="jeedom.cmd.execute({id: '#REFRESH_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/refresh.png" title="Refresh">
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_power" data-cmd_id="#POWER_ID#" onclick="jeedom.cmd.execute({id: '#POWER_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/power.png" title="Power">
+				</div>
 			</div><div class="soundtouch_span">
-				#CMD_INFO_PLAYING#
+				<div class="bosesoundtouch soundtouch_touch soundtouch_playing">
+					<span><img src="#PREVIEW#"></span>
+				</div>
 			</div><div class="soundtouch_span">
-				#CMD_VOLUME_UP#
-				#CMD_VOLUME_DOWN#
-				#CMD_MUTE#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#VOLUME_DOWN_ID#" onclick="jeedom.cmd.execute({id: '#VOLUME_DOWN_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-up.png" title="Volume Up">
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#VOLUME_IP_ID#" onclick="jeedom.cmd.execute({id: '#VOLUME_IP_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-down.png" title="Volume Down">
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#MUTE_ID#" onclick="jeedom.cmd.execute({id: '#MUTE_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/mute.png" title="Mute">
+				</div>
 			</div>
 		</div>
 
 		<div>
 			<div class="soundtouch_span">
-				#CMD_TRACK_PREV#</div><div class="soundtouch_span">
-				#CMD_PLAY#</div><div class="soundtouch_span">
-				#CMD_PAUSE#</div><div class="soundtouch_span">
-				#CMD_STOP#</div><div class="soundtouch_span">
-				#CMD_TRACK_NEXT#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#TRACK_PREV_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-prev.png" title="Previous">
+				</div>
+			</div><div class="soundtouch_span">
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#PLAY_ID#" onclick="jeedom.cmd.execute({id: '#PLAY_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/play.png" title="Play">
+				</div>
+			</div><div class="soundtouch_span">
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#PAUSE_ID#" onclick="jeedom.cmd.execute({id: '#PAUSE_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/pause.png" title="Pause">
+				</div>
+			</div><div class="soundtouch_span">
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#STOP_ID#" onclick="jeedom.cmd.execute({id: '#STOP_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/stop.png" title="Stop">
+				</div>
+			</div><div class="soundtouch_span">
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#TRACK_NEXT_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
+					<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-next.png" title="Next">
+				</div>
 			</div>
 		</div>
 
 		<div>
 			<div class="soundtouch_span">
-				#CMD_PRESET_1#
-				#CMD_PRESET_4#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_1_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_1_ID#'});">
+					<span><img src="#PRESET_1_ICON#" title="#PRESET_1_NAME#"></span>
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_4_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_4_ID#'});">
+					<span><img src="#PRESET_4_ICON#" title="#PRESET_4_NAME#"></span>
+				</div>
 			</div><div class="soundtouch_span">
-				#CMD_PRESET_2#
-				#CMD_PRESET_5#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_2_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_2_ID#'});">
+					<span><img src="#PRESET_2_ICON#" title="#PRESET_2_NAME#"></span>
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_5_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_5_ID#'});">
+					<span><img src="#PRESET_5_ICON#" title="#PRESET_5_NAME#"></span>
+				</div>
 			</div><div class="soundtouch_span">
-				#CMD_PRESET_3#
-				#CMD_PRESET_6#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_3_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_3_ID#'});">
+					<span><img src="#PRESET_3_ICON#" title="#PRESET_3_NAME#"></span>
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_preset" data-cmd_id="#PRESET_6_ID#" onclick="jeedom.cmd.execute({id: '#PRESET_6_ID#'});">
+					<span><img src="#PRESET_6_ICON#" title="#PRESET_6_NAME#"></span>
+				</div>
 			</div><div class="soundtouch_span">
-				#CMD_TV#
-				#CMD_BLUETOOTH#
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_select" data-cmd_id="#TV_ID#" onclick="jeedom.cmd.execute({id: '#TV_ID#'});">
+					<span><img src="plugins/BoseSoundTouch/core/template/dashboard/images/tv.png" title="TV"></span>
+				</div>
+				<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_select" data-cmd_id="#BLUETOOTH_ID#" onclick="jeedom.cmd.execute({id: '#BLUETOOTH_ID#'});">
+					<span><img src="plugins/BoseSoundTouch/core/template/dashboard/images/bluetooth.png" title="BLUETOOTH"></span>
+				</div>
 			</div>
 		</div>
 	
 	</div>
+
+	<script>
+		// Touche POWER
+		jeedom.cmd.update['#POWER_ID#'] = function (options) {
+			$('.cmd[data-cmd_id=#POWER_ID#]').empty()
+			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAYING_VALUE#.png" title="Power">');
+		}
+		jeedom.cmd.update['#POWER_ID#']({ value:'#PLAYING_VALUE#' });
+	</script>
 
 </div>
