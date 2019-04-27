@@ -135,7 +135,9 @@ class BoseSoundTouch extends eqLogic {
     }
 
     public function preSave() {
-        
+
+        $this->setCategory('multimedia', 1);
+    
     }
 
     public function postSave() {
@@ -169,7 +171,7 @@ class BoseSoundTouch extends eqLogic {
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
      */
-    public function toHtml($_version = 'dashboard') {
+    public function toHtml2Obsolete($_version = 'dashboard') {
 
         $replace = $this->preToHtml($_version);
         if (!is_array($replace)) {
@@ -177,8 +179,15 @@ class BoseSoundTouch extends eqLogic {
         }
         $_version = jeedom::versionAlias($_version);
 
+        // Type du widget
+        $typeWidget = $this->getConfiguration('format');
+
         // Statut POWER
         $power = false;
+
+        if ( $typeWidget == 'player' ) {
+            return $this->toHtmlPlayer($_version, $replace);
+        }
 
         // Traitement des infos
         foreach ($this->getCmd('info') as $info) {
@@ -189,7 +198,7 @@ class BoseSoundTouch extends eqLogic {
                 '#name#'        => $info->getName(),
             );
             switch ($info->getLogicalId()) {
-                case SoundTouchConfig::PLAYING:
+                case SoundTouchConfig::POWERED:
                     $power = $cache['value'];
                     // Récupération des autres infos de la requête /now_playing
                     $playing = $info->getConfiguration('playing');
@@ -200,7 +209,7 @@ class BoseSoundTouch extends eqLogic {
                     } else {
                         $replaceInfo['#value#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.(($playing['source.type']) ? strtolower($playing['source.type']) : 'null' ).'.png';
                     }
-                    $replace['#CMD_INFO_PLAYING#'] = template_replace($replaceInfo, getTemplate('core', $_version, 'remote.cmd.info.playing', 'BoseSoundTouch'));
+                    $replace['#CMD_INFO_PLAYING#'] = template_replace($replaceInfo, getTemplate('core', $_version, $typeWidget.'.cmd.info.playing', 'BoseSoundTouch'));
                     break;
             }
         }
@@ -219,7 +228,7 @@ class BoseSoundTouch extends eqLogic {
             switch ($command->getLogicalId()) {
                 case SoundTouchConfig::POWER :
                     $replaceCommand['#value#'] = (($power) ? 'on' : 'off');
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.power', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.power', 'BoseSoundTouch'));
                     break;
 
                 case SoundTouchConfig::PRESET_1 :
@@ -235,32 +244,110 @@ class BoseSoundTouch extends eqLogic {
                         $replaceCommand['#name#'].= ' : '.$preset['name'];
                         $replaceCommand['#icon#'] = $preset['cache'];
                     }
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.preset', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.preset', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::VOLUME_DOWN :
                 case SoundTouchConfig::VOLUME_UP :
                 case SoundTouchConfig::MUTE :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.volume', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.volume', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::REFRESH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.default', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.default', 'BoseSoundTouch'));
                     break;
                 
                 case SoundTouchConfig::TV :
                 case SoundTouchConfig::BLUETOOTH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.select', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.select', 'BoseSoundTouch'));
                     break;
                 
                 default:
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, 'remote.cmd.action.command', 'BoseSoundTouch'));
+                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.command', 'BoseSoundTouch'));
                     break;
             }
         }
 
-        return template_replace($replace, getTemplate('core', $_version, 'remote.eqLogic', 'BoseSoundTouch'));
+        return template_replace($replace, getTemplate('core', $_version, $typeWidget.'.eqLogic', 'BoseSoundTouch'));
 
+    }
+
+
+    public function toHtml($_version)
+    {
+        $replace = $this->preToHtml($_version);
+        if (!is_array($replace)) {
+            return $replace;
+        }
+        $_version = jeedom::versionAlias($_version);
+
+        // Type du widget
+        $typeWidget = $this->getConfiguration('format');
+
+        // Traitement des infos
+        foreach ($this->getCmd('info') as $info) {
+            $value = $info->execCmd();
+            $replace['#'.$info->getLogicalId().'_ID#'] = $info->getId();
+            $replace['#'.$info->getLogicalId().'_VALUE#'] = $value;
+            switch ($info->getLogicalId()) {
+                case SoundTouchConfig::POWERED :
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? 'power-on' : 'power-off';
+                    break;
+                case SoundTouchConfig::MUTED :
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? 'mute-on' : 'mute';
+                    break;
+                case SoundTouchConfig::SOURCE :
+                    $preview = $info->getConfiguration('preview');
+                    $replace['#PREVIEW#'] = $info->getConfiguration('preview');
+                    break;
+                case SoundTouchConfig::TRACK_ARTIST :
+                case SoundTouchConfig::TRACK_TITLE :
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? $value : '&nbsp;';
+                    break;
+                case SoundTouchConfig::SHUFFLE :
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? 'shuffle-on' : 'shuffle-off';
+                    break;
+                case SoundTouchConfig::REPEAT :
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = 'repeat-'.strtolower($value);
+                    break;
+                case SoundTouchConfig::STATUS :
+                    switch ($value) {
+                        case 'PLAY'      : $replace['#PLAY_PAUSE_VALUE#'] = 'pause'; break;
+                        case 'PAUSE'     : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
+                        case 'STOP'      : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
+                        case 'BUFFERING' : $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/loader.gif';
+                        default          : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
+                    }
+                    break;
+            }
+            log::add('BoseSoundTouch', 'debug', "HTML : #".$info->getLogicalId()."_VALUE#=".$replace['#'.$info->getLogicalId().'_VALUE#']);
+        }
+
+
+        // Traitement des commandes
+        foreach ($this->getCmd('action') as $command) {
+            $display = $command->getConfiguration('display');
+            $replace['#'.$command->getLogicalId().'_ID#'] = $command->getId();
+
+            switch ($command->getLogicalId()) {
+                case SoundTouchConfig::PRESET_1 :
+                case SoundTouchConfig::PRESET_2 :
+                case SoundTouchConfig::PRESET_3 :
+                case SoundTouchConfig::PRESET_4 :
+                case SoundTouchConfig::PRESET_5 :
+                case SoundTouchConfig::PRESET_6 :
+                    $id = intval(substr($command->getLogicalId(), -1, 1));
+                    $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.$display['icon'].'.png';
+                    $preset = $command->getConfiguration('datas');
+                    if (isset($preset['name'])) {
+                        $replace['#'.$command->getLogicalId().'_NAME#'] = $preset['name'];
+                        $replace['#'.$command->getLogicalId().'_ICON#'] = $preset['cache'];
+                    }
+                    break;
+            }
+        }
+
+        return template_replace($replace, getTemplate('core', $_version, $typeWidget.'.eqLogic', 'BoseSoundTouch'));
     }
      
 
@@ -296,19 +383,55 @@ class BoseSoundTouch extends eqLogic {
             log::add('BoseSoundTouch', 'error', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
         }
         $result = $speaker->isPowered();
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PLAYING.' = '. $result);
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::PLAYING,  $result);
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::POWERED,  $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::POWERED.' = '.$result.' ('.$update.')');
         $result = $speaker->getCurrentSource();
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SOURCE.' = '.$result);
         $update |= $this->checkAndUpdateCmd(SoundTouchConfig::SOURCE, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SOURCE.' = '.$result.' ('.$update.')');
+        
         $result = $speaker->getLevelVolume();
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result);
         $update |= $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result.' ('.$update.')');
+        $result = $speaker->isMuted();
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::MUTED, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::MUTED.' = '.$result.' ('.$update.')');
+        
+        $result = $speaker->getStatePlay();
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::STATUS, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::STATUS.' = '.$result.' ('.$update.')');
+        $result = $speaker->isShuffle();
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::SHUFFLE, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SHUFFLE.' = '.$result.' ('.$update.')');
+        $result = $speaker->getStateRepeat();
+        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::REPEAT, $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::REPEAT.' = '.$result.' ('.$update.')');
+        
+        $result = $speaker->getTrackArtist();
+            /*$cmd = $this->getCmd('info', SoundTouchConfig::TRACK_ARTIST); $val = $cmd->execCmd();
+            ob_start();
+            var_dump($val);
+            var_dump($result);
+            var_dump( !(!$result) );
+            var_dump( $this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) );
+            var_dump( $result && $this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) );
+            $content = ob_get_contents();
+            ob_end_clean();
+            log::add('BoseSoundTouch', 'debug', 'DEBUG Response = '.$content);*/
+        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) && $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_ARTIST.' = '.$result.' ('.$update.')');
+        $result = $speaker->getTrackTitle();
+        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_TITLE, $result) && $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_TITLE.' = '.$result.' ('.$update.')');
+        $result = $speaker->getTrackAlbum();
+        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ALBUM, $result) && $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_ALBUM.' = '.$result.' ('.$update.')');
+        $result = $speaker->getTrackImage();
+        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_IMAGE, $result) && $result);
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_IMAGE.' = '.$result.' ('.$update.')');
 
         // Aperçu
-        $result = $speaker->getCurrentImage();
+        /*$result = $speaker->getCurrentImage();
         $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PREVIEW.' = '.$result);
         if ( $result ) {
             if ($change = $this->checkAndUpdateCmd(SoundTouchConfig::PREVIEW, $result)) {
                 file_put_contents($cacheImg, file_get_contents($result));
@@ -319,12 +442,31 @@ class BoseSoundTouch extends eqLogic {
                 @unlink($cacheImg);
             }
         }
+        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PREVIEW.' = '.$result.' ('.$update.')');*/
+        
 
         // Données supplémentaires
-        $info = $this->getCmd(null, SoundTouchConfig::PLAYING);
+        $info = $this->getCmd(null, SoundTouchConfig::SOURCE);
         if (is_object($info)) {
-            $datas = $speaker->getArrayStatus();
+            $datas = $speaker->getArrayNowPlaying();
             $info->setConfiguration('playing', $datas);
+
+            $preview = $speaker->getPreviewImage();
+            
+            if ( substr($preview, 0, 5) == 'local' ) {
+                $previewImage = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower(substr($preview, 8)).'.png';
+            } elseif ( substr($preview, 0, 4) == 'http' ) {
+                $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
+                if ( $preview != $info->getConfiguration('preview') ) {
+                    file_put_contents($cacheImg, file_get_contents($preview));
+                }
+                $previewImage = 'plugins/BoseSoundTouch/images/cache-preview-'.$this->getId().'.png?'.md5($preview);
+            } else {
+                if ( file_exists($cacheImg) ) @unlink($cacheImg);
+            }
+            $info->setConfiguration('preview', $previewImage);
+            log::add('BoseSoundTouch', 'debug', 'Preview Image = '.$preview.' -> '.$previewImage);
+
             $info->save();
             log::add('BoseSoundTouch', 'debug', 'Données en cours de lecture = '.print_r($datas, true));
         }
@@ -363,6 +505,10 @@ class BoseSoundTouch extends eqLogic {
                     $cacheImg = realpath(__DIR__ . '/../../images') . '/cache-p' . $id . '-' . $this->getId() . '.png';
                     log::add('BoseSoundTouch', 'debug', $cacheImg);
                     if ( $preset = $speaker->getPresetByNum($id) ) {
+
+                        if ( !$preset['image'] && $preset['source'] == 'LOCAL_INTERNET_RADIO' ) {
+                            $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_internet_radio.png';
+                        }
 
                         // Compare pour voir si changement
                         $dataOld = $command->getConfiguration('datas');
@@ -427,6 +573,7 @@ class BoseSoundTouch extends eqLogic {
         if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
         if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
         if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
+        if (isset($config['unity'])) $cmdSoundTouch->setUnite( $config['unity'] );
         //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
         $cmdSoundTouch->save();
     }
@@ -470,19 +617,23 @@ class BoseSoundTouchCmd extends cmd {
                 log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche $codeKey");
                 $response = $speaker->sendCommand($codeKey);
                 log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-                if ( !$response ) log::add('BoseSoundTouch', 'error', "ACTION : $idCommand -> ".$speaker->getMessageError() );
+                if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
             } else {
                 switch ($idCommand) {
                     case SoundTouchConfig::TV :
                         $response = $speaker->selectTV();
                         log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-                        if ( !$response ) log::add('BoseSoundTouch', 'error', "ACTION : $idCommand -> ".$speaker->getMessageError() );
+                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                         break;
                     case SoundTouchConfig::BLUETOOTH :
                         $response = $speaker->selectBlueTooth();
                         log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-                        if ( !$response ) log::add('BoseSoundTouch', 'error', "ACTION : $idCommand -> ".$speaker->getMessageError() );
+                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                         break;
+                    case SoundTouchConfig::VOLUME_SET:
+                        $response = $speaker->setVolume($_options['slider']);
+                        log::add('BoseSoundTouch', 'debug', "ACTION : VOLUME ".$_options['slider']." -> ".( ($response) ? 'OK' : 'NOK'));
+                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                     default:
                         log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
                         break;

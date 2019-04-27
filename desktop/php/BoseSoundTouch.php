@@ -87,18 +87,6 @@ foreach (object::all() as $object) {
                    </select>
                </div>
            </div>
-	   <div class="form-group">
-                <label class="col-sm-3 control-label">{{Catégorie}}</label>
-                <div class="col-sm-9">
-                 <?php
-                    foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
-                    echo '<label class="checkbox-inline">';
-                    echo '<input type="checkbox" class="eqLogicAttr" data-l1key="category" data-l2key="' . $key . '" />' . $value['name'];
-                    echo '</label>';
-                    }
-                  ?>
-               </div>
-           </div>
 	<div class="form-group">
 		<label class="col-sm-3 control-label"></label>
 		<div class="col-sm-9">
@@ -106,10 +94,19 @@ foreach (object::all() as $object) {
 			<label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked/>{{Visible}}</label>
 		</div>
 	</div>
-       <div class="form-group">
+    <div class="form-group">
         <label class="col-sm-3 control-label">{{Hôte ou adresse IP}}</label>
         <div class="col-sm-3">
             <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="hostname" placeholder=""/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{Format du widget}}</label>
+        <div class="col-sm-3">
+            <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="format">
+                <option value="remote">Mode télécommande</option>
+                <option value="player">Mode player</option>
+            </select>
         </div>
     </div>
 </fieldset>

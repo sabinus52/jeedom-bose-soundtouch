@@ -1,0 +1,214 @@
+<div class="eqLogic eqLogic-widget noResize allowReorderCmd bose_player_widget" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" style="border:#border#;border-radius:#border-radius#;width:232px;height:312px;#style#" data-category="#category#" data-tags="#data-tags#">
+	<link rel="stylesheet" href="plugins/BoseSoundTouch/core/template/dashboard/css/player.css" />
+	<span class="statusCmd" style="position: absolute; left: 5px; top: 5px; width: 20px; z-index: 1030;"></span>
+	<!-- <span class="cmd refresh cursor" style="position: absolute; right: 5px; top: 5px; width: 20px; z-index: 1030;"><i class="fa fa-refresh"></i></span> -->
+	<div class="bose_player_widget"><!---->
+
+		<div class="bose_player_name">
+			<a href="#eqLink#" class="reportModeHidden" style="#hideEqLogicName#">#name_display#</a>
+		</div>
+
+		<div class="bose_player_menu">
+			<div class="cmd" data-cmd_id="#POWER_ID#" onclick="jeedom.cmd.execute({id: '#POWER_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/power.png" title="Power">
+			</div>
+			<div class="cmd volume" data-toggle="0">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume.png" title="Volume">
+			</div>
+			<div class="cmd" data-cmd_id="#MUTE_ID#" onclick="jeedom.cmd.execute({id: '#MUTE_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/mute.png" title="Mute">
+			</div>
+			<div class="cmd" data-cmd_id="#REFRESH_ID#" onclick="jeedom.cmd.execute({id: '#REFRESH_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/refresh.png" title="Refresh">
+			</div>
+			<div class="cmd presets" data-toggle="0">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/presets.png" title="Presets">
+			</div>
+			<div class="cmd select" data-toggle="0">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/menu.png" title="Menu">
+			</div>
+		</div>
+
+		<div class="bose_player_volume">
+			<img data-cmd_id="#VOLUME_DOWN_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-down.png" title="Volume Down" onclick="jeedom.cmd.execute({id: '#VOLUME_DOWN_ID#'});">
+			<div class="cmd slider noRefresh" data-cmd_id="#VOLUME_SET_ID#" style="width:160px;" value="#VOLUME_VALUE#"></div>
+			<img data-cmd_id="#VOLUME_UP_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-up.png" title="Volume Up" onclick="jeedom.cmd.execute({id: '#VOLUME_UP_ID#'});">
+		</div>
+
+		<div class="bose_player_presets">
+			<div>
+				<img data-cmd_id="#PRESET_1_ID#" src="#PRESET_1_ICON#" title="#PRESET_1_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_1_ID#'});">
+				<img data-cmd_id="#PRESET_2_ID#" src="#PRESET_2_ICON#" title="#PRESET_2_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_2_ID#'});">
+				<img data-cmd_id="#PRESET_3_ID#" src="#PRESET_3_ICON#" title="#PRESET_3_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_3_ID#'});">
+			</div>
+			<div style="margin-top: 5px;">
+				<img data-cmd_id="#PRESET_4_ID#" src="#PRESET_4_ICON#" title="#PRESET_4_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_4_ID#'});">
+				<img data-cmd_id="#PRESET_5_ID#" src="#PRESET_5_ICON#" title="#PRESET_5_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_5_ID#'});">
+				<img data-cmd_id="#PRESET_6_ID#" src="#PRESET_6_ICON#" title="#PRESET_6_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_6_ID#'});">
+			</div>
+		</div>
+
+		<div class="bose_player_select">
+			<div>
+				Select
+				<img data-cmd_id="#TV_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/tv.png" title="TV" onclick="jeedom.cmd.execute({id: '#TV_ID#'});">
+				ou
+				<img data-cmd_id="#BLUETOOTH_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/bluetooth.png" title="BLUETOOTH" onclick="jeedom.cmd.execute({id: '#BLUETOOTH_ID#'});">
+			</div>
+		</div>
+
+		<div class="bose_player_playing">
+			<div class="preview"><img src="#PREVIEW#"></div>
+			<div class="artist">#TRACK_ARTIST_VALUE#</div>
+			<div class="track"><span class="marquee" data-text="#TRACK_TITLE_VALUE#">#TRACK_TITLE_VALUE#&nbsp;-&nbsp;</span></div>
+		</div>
+
+
+
+		<div class="bose_player_commands">	
+			<div class="cmd cursor mode" data-cmd_id="#REPEAT_ID#">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#REPEAT_VALUE#.png" title="Repeat">
+			</div>
+			<div class="cmd cursor step" data-cmd_id="#TRACK_PREV_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-prev.png" title="Previous">
+			</div>
+			<div class="cmd cursor play" data-cmd_id="#PLAY_PAUSE_ID#" onclick="jeedom.cmd.execute({id: '#PLAY_PAUSE_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/play.png" title="Play">
+			</div>
+			<div class="cmd cursor step" data-cmd_id="#TRACK_NEXT_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-next.png" title="Next">
+			</div>
+			<div class="cmd cursor mode" data-cmd_id="#SHUFFLE_ID#">
+				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#SHUFFLE_VALUE#.png" title="Shuffle">
+			</div>
+		</div>
+		
+	</div>
+
+	<script>
+		// Touche POWER
+		jeedom.cmd.update['#POWER_ID#'] = function (options) {
+			$('.cmd[data-cmd_id=#POWER_ID#]').empty()
+			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAYING_VALUE#.png" title="Power">');
+		}
+		jeedom.cmd.update['#POWER_ID#']({ value:'#PLAYING_VALUE#' });
+
+		// Touche MUTE
+		jeedom.cmd.update['#MUTE_ID#'] = function (options) {
+			$('.cmd[data-cmd_id=#MUTE_ID#]').empty()
+			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#MUTED_VALUE#.png" title="Mute">');
+		}
+		jeedom.cmd.update['#MUTE_ID#']({ value:'#MUTED_VALUE#' });
+
+		function closeAllpanels#uid#() {
+			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .volume').data('toggle')) {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .volume').data('toggle', 0);
+			}
+			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').data('toggle')) {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').data('toggle', 0);
+			}
+			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').data('toggle')) {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').data('toggle', 0);
+			}
+		}
+
+		// Touche VOLUME
+		$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .volume').on('click', function (event, ui) {
+			if ( $(this).data('toggle') == 0 ) {
+				closeAllpanels#uid#();
+				console.log($(this).data('toggle') + ' ouvre');
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"0px"});
+				$(this).data('toggle', 1);
+			} else {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$(this).data('toggle', 0);
+			}
+		});
+		$(".bose_player_widget[data-eqLogic_uid=#uid#] .slider").slider({
+			min: 0,
+			max: 100,
+			range: "min",
+			value: ('#VOLUME_VALUE#' == '') ? 0 : parseInt('#VOLUME_VALUE#')
+		});
+		$(".bose_player_widget[data-eqLogic_uid=#uid#] .slider").on('slidestop', function (event, ui) {
+			console.log('set volume = '+ui.value);
+			jeedom.cmd.execute({id: '#VOLUME_SET_ID#', value: {slider: ui.value}});
+		});
+
+		// Touche Préselections
+		$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').on('click', function (event, ui) {
+			if ( $(this).data('toggle') == 0 ) {
+				closeAllpanels#uid#();
+				console.log($(this).data('toggle') + ' ouvre');
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"0px"});
+				$(this).data('toggle', 1);
+			} else {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$(this).data('toggle', 0);
+			}
+		});
+
+		// Touche SELECT
+		$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').on('click', function (event, ui) {
+			if ( $(this).data('toggle') == 0 ) {
+				closeAllpanels#uid#();
+				console.log($(this).data('toggle') + ' ouvre');
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"0px"});
+				$(this).data('toggle', 1);
+			} else {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$(this).data('toggle', 0);
+			}
+		});
+		
+		// REPEAT
+		$('.bose_player_commands .cmd[data-cmd_id=#REPEAT_ID#]').on('click', function (event, ui) {
+			if ( '#REPEAT_VALUE#' == 'repeat-off' ) {
+				console.log('jeedom.cmd.execute(REPEAT_ALL)');
+				jeedom.cmd.execute({id: '#REPEAT_ALL_ID#'});
+			} else if ( '#REPEAT_VALUE#' == 'repeat-all' ) {
+				console.log('jeedom.cmd.execute(REPEAT_ONE)');
+				jeedom.cmd.execute({id: '#REPEAT_ONE_ID#'});
+			} else if ( '#REPEAT_VALUE#' == 'repeat-one' ) {
+				console.log('jeedom.cmd.execute(REPEAT_OFF)');
+				jeedom.cmd.execute({id: '#REPEAT_OFF_ID#'});
+			}
+		});
+		
+		// SHUFFLE
+		$('.bose_player_commands .cmd[data-cmd_id=#SHUFFLE_ID#]').on('click', function (event, ui) {
+			if ( '#SHUFFLE_VALUE#' == 'shuffle-on' ) {
+				console.log('jeedom.cmd.execute(SHUFFLE_OFF)');
+				jeedom.cmd.execute({id: '#SHUFFLE_OFF_ID#'});
+			} else if ( '#SHUFFLE_VALUE#' == 'shuffle-off' ) {
+				console.log('jeedom.cmd.execute(SHUFFLE_ON)');
+				jeedom.cmd.execute({id: '#SHUFFLE_ON_ID#'});
+			}
+		});
+
+		// Touche PLAY PAUSE
+		jeedom.cmd.update['#PLAY_PAUSE_ID#'] = function (options) {
+			$('.cmd[data-cmd_id=#PLAY_PAUSE_ID#]').empty()
+			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAY_PAUSE_VALUE#.png" title="Play / Pause">');
+		}
+		jeedom.cmd.update['#PLAY_PAUSE_ID#']({ value:'#PLAYING_VALUE#' });
+
+	</script>
+
+</div>
+
