@@ -2,7 +2,7 @@
     background-color: #cccccc;
     background-image: url(../images/player-back.jpg);
     color:  #ffffff;
-    width: 240px;
+    width: 232px;
     /*height: 338px;*/
     overflow: hidden;
     text-align: center;
@@ -23,7 +23,7 @@
 .bose_player_menu {
     background-color: rgba(47, 48, 50, 0.8);
     vertical-align: middle;
-    padding: 3px 3px 6px 3px;
+    padding: 6px 3px 8px 3px;
 }
 
 .bose_player_menu .cmd {
@@ -42,7 +42,7 @@
 .bose_player_volume {
     position: absolute;
     width: 100%;
-    left: -240px;
+    left: -232px;
     background-color: rgba(47, 48, 50, 0.8);
     vertical-align: middle;
     padding: 10px 0px 10px 0px;
@@ -62,7 +62,7 @@
 .bose_player_presets {
     position: absolute;
     width: 100%;
-    left: -240px;
+    left: -232px;
     background-color: rgba(47, 48, 50, 0.8);
     vertical-align: middle;
     padding: 5px 0px 5px 0px;
@@ -80,7 +80,7 @@
 .bose_player_select {
     position: absolute;
     width: 100%;
-    left: -240px;
+    left: -232px;
     background-color: rgba(47, 48, 50, 0.8);
     vertical-align: middle;
     padding: 5px 0px 5px 0px;
@@ -97,7 +97,7 @@
 
 .bose_player_playing {
     vertical-align: middle;
-    padding: 5px;
+    padding: 7px;
 }
 
 .bose_player_playing .preview {
@@ -119,6 +119,7 @@
 .bose_player_playing .artist {
     color: #2f3032;
     font-size: 0.8em;
+    margin-top: 3px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
@@ -127,12 +128,13 @@
 .bose_player_playing .track {
     color: #2f3032;
     font-size: 0.9em;
+    margin-top: 3px;
     display: block;
 	margin: 0em auto;
 	overflow: hidden;
 	position: relative;
 	table-layout: fixed;
-	width: 240px;
+	width: 232px;
 }
 
 .marquee {
