@@ -1,4 +1,14 @@
-# Version 0.4 du 08/02/2019
+# Version 0.6 du 
+
+- **Nouveau widget style "player"**
+- Remontée des infos sur la piste en cours de lecture
+- Remontée d'infos supplémentaire sur l'état de l'enceinte
+- Ajustement du volume
+- Correction du widget suite à la mise à jour de la version 3.3 de Jeedom
+- Corrections de quelques bogues
+
+
+# Version 0.5 du 08/02/2019
 
 - Correction du bogue lors de la création de l'enceinte
 - Amélioration de l'affichage du widget
