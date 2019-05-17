@@ -171,108 +171,6 @@ class BoseSoundTouch extends eqLogic {
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
      */
-    public function toHtml2Obsolete($_version = 'dashboard') {
-
-        $replace = $this->preToHtml($_version);
-        if (!is_array($replace)) {
-            return $replace;
-        }
-        $_version = jeedom::versionAlias($_version);
-
-        // Type du widget
-        $typeWidget = $this->getConfiguration('format');
-
-        // Statut POWER
-        $power = false;
-
-        if ( $typeWidget == 'player' ) {
-            return $this->toHtmlPlayer($_version, $replace);
-        }
-
-        // Traitement des infos
-        foreach ($this->getCmd('info') as $info) {
-            $cache = $info->getCache();
-            $replaceInfo = array(
-                '#id#'          => $info->getId(),
-                '#version#'     => $_version,
-                '#name#'        => $info->getName(),
-            );
-            switch ($info->getLogicalId()) {
-                case SoundTouchConfig::POWERED:
-                    $power = $cache['value'];
-                    // Récupération des autres infos de la requête /now_playing
-                    $playing = $info->getConfiguration('playing');
-                    $replaceInfo['#valueDate#'] = strtolower($cache['valueDate']);
-                    $replaceInfo['#valueName#'] = strtoupper($playing['source.name']);
-                    if ( $playing['source.image'] ) {
-                        $replaceInfo['#value#'] = 'plugins/BoseSoundTouch/images/cache-preview-'.$this->getId().'.png?'.md5($playing['source.image']);
-                    } else {
-                        $replaceInfo['#value#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.(($playing['source.type']) ? strtolower($playing['source.type']) : 'null' ).'.png';
-                    }
-                    $replace['#CMD_INFO_PLAYING#'] = template_replace($replaceInfo, getTemplate('core', $_version, $typeWidget.'.cmd.info.playing', 'BoseSoundTouch'));
-                    break;
-            }
-        }
-
-        // Traitement des commandes
-        foreach ($this->getCmd('action') as $command) {
-            // Recupération de la configuration des infos de visualisation
-            $display = $command->getConfiguration('display');
-            $replaceCommand = array(
-                '#id#'          => $command->getId(),
-                '#version#'     => $_version,
-                '#name#'        => $command->getName(),
-                '#icon#'        => str_replace('_', '-', strtolower($command->getLogicalId())),
-            );
-
-            switch ($command->getLogicalId()) {
-                case SoundTouchConfig::POWER :
-                    $replaceCommand['#value#'] = (($power) ? 'on' : 'off');
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.power', 'BoseSoundTouch'));
-                    break;
-
-                case SoundTouchConfig::PRESET_1 :
-                case SoundTouchConfig::PRESET_2 :
-                case SoundTouchConfig::PRESET_3 :
-                case SoundTouchConfig::PRESET_4 :
-                case SoundTouchConfig::PRESET_5 :
-                case SoundTouchConfig::PRESET_6 :
-                    $id = intval(substr($command->getLogicalId(), -1, 1));
-                    $replaceCommand['#icon#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.$display['icon'].'.png';
-                    $preset = $command->getConfiguration('datas');
-                    if (isset($preset['name'])) {
-                        $replaceCommand['#name#'].= ' : '.$preset['name'];
-                        $replaceCommand['#icon#'] = $preset['cache'];
-                    }
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.preset', 'BoseSoundTouch'));
-                    break;
-                
-                case SoundTouchConfig::VOLUME_DOWN :
-                case SoundTouchConfig::VOLUME_UP :
-                case SoundTouchConfig::MUTE :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.volume', 'BoseSoundTouch'));
-                    break;
-                
-                case SoundTouchConfig::REFRESH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.default', 'BoseSoundTouch'));
-                    break;
-                
-                case SoundTouchConfig::TV :
-                case SoundTouchConfig::BLUETOOTH :
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.select', 'BoseSoundTouch'));
-                    break;
-                
-                default:
-                    $replace['#CMD_'.$command->getLogicalId().'#'] = template_replace($replaceCommand, getTemplate('core', $_version, $typeWidget.'.cmd.action.command', 'BoseSoundTouch'));
-                    break;
-            }
-        }
-
-        return template_replace($replace, getTemplate('core', $_version, $typeWidget.'.eqLogic', 'BoseSoundTouch'));
-
-    }
-
-
     public function toHtml($_version)
     {
         $replace = $this->preToHtml($_version);
@@ -407,16 +305,6 @@ class BoseSoundTouch extends eqLogic {
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::REPEAT.' = '.$result.' ('.$update.')');
         
         $result = $speaker->getTrackArtist();
-            /*$cmd = $this->getCmd('info', SoundTouchConfig::TRACK_ARTIST); $val = $cmd->execCmd();
-            ob_start();
-            var_dump($val);
-            var_dump($result);
-            var_dump( !(!$result) );
-            var_dump( $this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) );
-            var_dump( $result && $this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) );
-            $content = ob_get_contents();
-            ob_end_clean();
-            log::add('BoseSoundTouch', 'debug', 'DEBUG Response = '.$content);*/
         $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) && $result);
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_ARTIST.' = '.$result.' ('.$update.')');
         $result = $speaker->getTrackTitle();
@@ -428,22 +316,6 @@ class BoseSoundTouch extends eqLogic {
         $result = $speaker->getTrackImage();
         $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_IMAGE, $result) && $result);
         log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_IMAGE.' = '.$result.' ('.$update.')');
-
-        // Aperçu
-        /*$result = $speaker->getCurrentImage();
-        $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
-        if ( $result ) {
-            if ($change = $this->checkAndUpdateCmd(SoundTouchConfig::PREVIEW, $result)) {
-                file_put_contents($cacheImg, file_get_contents($result));
-                $update = true;
-            }
-        } else {
-            if ( file_exists($cacheImg) ) {
-                @unlink($cacheImg);
-            }
-        }
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::PREVIEW.' = '.$result.' ('.$update.')');*/
-        
 
         // Données supplémentaires
         $info = $this->getCmd(null, SoundTouchConfig::SOURCE);
