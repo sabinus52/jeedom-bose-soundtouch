@@ -51,6 +51,7 @@ class SoundTouchConfig
     const REPEAT_ALL = 'REPEAT_ALL';
     const TV = 'TV';
     const BLUETOOTH = 'BLUETOOTH';
+    const AUX_INPUT = 'AUX_INPUT';
 
 
 
@@ -463,6 +464,17 @@ class SoundTouchConfig
             'type' => 'action',
             'subType' => 'other',
             'order' => 54,
+            'isVisible' => true,
+            'generic_type' => 'GENERIC_ACTION',
+            'forceReturnLineAfter' => '0',
+        ),
+
+        array(
+            'name' => 'Select AUX',
+            'logicalId' => self::AUX_INPUT,
+            'type' => 'action',
+            'subType' => 'other',
+            'order' => 55,
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',
