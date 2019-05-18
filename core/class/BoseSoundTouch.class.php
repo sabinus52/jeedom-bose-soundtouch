@@ -197,6 +197,9 @@ class BoseSoundTouch extends eqLogic {
                 case SoundTouchConfig::SOURCE :
                     $preview = $info->getConfiguration('preview');
                     $replace['#PREVIEW#'] = $info->getConfiguration('preview');
+                    if ($value == 'UPDATE') {
+                        $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/loader.gif';
+                    }
                     break;
                 case SoundTouchConfig::TRACK_ARTIST :
                 case SoundTouchConfig::TRACK_TITLE :
@@ -378,8 +381,12 @@ class BoseSoundTouch extends eqLogic {
                     log::add('BoseSoundTouch', 'debug', $cacheImg);
                     if ( $preset = $speaker->getPresetByNum($id) ) {
 
-                        if ( !$preset['image'] && $preset['source'] == 'LOCAL_INTERNET_RADIO' ) {
-                            $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_internet_radio.png';
+                        if ( !$preset['image']) {
+                            switch ($preset['source']) {
+                                case 'LOCAL_INTERNET_RADIO': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_internet_radio.png'; break;
+                                case 'STORED_MUSIC': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/stored_music.png'; break;
+                                case 'LOCAL_MUSIC': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_music.png'; break;
+                            }
                         }
 
                         // Compare pour voir si changement
