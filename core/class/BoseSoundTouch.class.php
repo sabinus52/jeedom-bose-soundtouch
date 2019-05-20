@@ -496,6 +496,7 @@ class BoseSoundTouchCmd extends cmd {
                 $this->execCmdKeySpeaker($speaker, $codeKey, $idCommand, $hostname);
                 switch ($idCommand) {
                     case SoundTouchConfig::PLAY_PAUSE:
+                    case SoundTouchConfig::VOLUME_DOWN:
                         $cmdMuted = $soundTouch->getCmd(null, SoundTouchConfig::MUTED);
                         $valueMuted = $cmdMuted->execCmd();
                         log::add('BoseSoundTouch', 'debug', "VOLUME INFO : MUTE = $valueMuted");
