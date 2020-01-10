@@ -7,11 +7,13 @@ sftp-config.json
 .DS_Store
 Thumbs.db
 *.php~
-composer.lock
-images/cache*
 
 # Visual Studio Code
 .vs/
+.vscode/
+*.code-workspace
 
 # Espace de travail
 workspace/
+images/*
+!images/.empty
