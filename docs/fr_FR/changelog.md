@@ -1,3 +1,10 @@
+# Version 0.8 du 10 janvier 2019
+
+- Correction compatibilité Jeedom V4
+- Mise à jour de la documentation
+- Création d'une branche pour jeedom V3
+
+
 # Version 0.7 du 20 mai 2019
 
 - Ajout de la touche *AUX*
