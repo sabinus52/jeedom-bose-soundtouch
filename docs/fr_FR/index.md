@@ -23,7 +23,10 @@ Rendu visuel du widget *Télécommande* / *Player* :
 - Choix des présélections
 - Play, pause, stop, piste suivante et précédente
 - Activation du shuffle et repeat
-- Selection TV ou Bluetooth
+- Selection TV ou Bluetooth ou AUX
+
+***Remarque*** : TV ne fonctionne seulement si une TV est connectée en sortie de l'enceinte en HDMI. AUX ne fonctionne que sur certaines enceintes et est maintenant déprécié par Bose.
+
 
 
 # Configuration du plugin
