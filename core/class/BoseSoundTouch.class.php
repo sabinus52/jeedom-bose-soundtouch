@@ -340,11 +340,12 @@ class BoseSoundTouch extends eqLogic {
     private function updateInfoCommand($value, $command)
     {
         if ($value === null) {
+            $result = $this->checkAndUpdateCmd($command, '');
             log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = NULL');
             return false;
         } else {
             if ( $value === '' )
-                $result = false;
+                $result = $this->checkAndUpdateCmd($command, "&nbsp;");
             else
                 $result = $this->checkAndUpdateCmd($command, $value);
             log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = '.$value.' ('.$result.')');
