@@ -281,44 +281,20 @@ class BoseSoundTouch extends eqLogic {
 
         // Récupération des différentes valeur
         if ($err = $speaker->getMessageError()) {
-            log::add('BoseSoundTouch', 'error', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
+            log::add('BoseSoundTouch', 'warning', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
+            return;
         }
-        $result = $speaker->isPowered();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::POWERED,  $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::POWERED.' = '.$result.' ('.$update.')');
-        $result = $speaker->getCurrentSource();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::SOURCE, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SOURCE.' = '.$result.' ('.$update.')');
-        
-        $result = $speaker->getLevelVolume();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::VOLUME, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::VOLUME.' = '.$result.' ('.$update.')');
-        $result = $speaker->isMuted();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::MUTED, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::MUTED.' = '.$result.' ('.$update.')');
-        
-        $result = $speaker->getStatePlay();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::STATUS, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::STATUS.' = '.$result.' ('.$update.')');
-        $result = $speaker->isShuffle();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::SHUFFLE, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::SHUFFLE.' = '.$result.' ('.$update.')');
-        $result = $speaker->getStateRepeat();
-        $update |= $this->checkAndUpdateCmd(SoundTouchConfig::REPEAT, $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::REPEAT.' = '.$result.' ('.$update.')');
-        
-        $result = $speaker->getTrackArtist();
-        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ARTIST, $result) && $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_ARTIST.' = '.$result.' ('.$update.')');
-        $result = $speaker->getTrackTitle();
-        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_TITLE, $result) && $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_TITLE.' = '.$result.' ('.$update.')');
-        $result = $speaker->getTrackAlbum();
-        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_ALBUM, $result) && $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_ALBUM.' = '.$result.' ('.$update.')');
-        $result = $speaker->getTrackImage();
-        $update |= ($this->checkAndUpdateCmd(SoundTouchConfig::TRACK_IMAGE, $result) && $result);
-        log::add('BoseSoundTouch', 'debug', 'Response '.SoundTouchConfig::TRACK_IMAGE.' = '.$result.' ('.$update.')');
+        $update |= $this->updateInfoCommand($speaker->isPowered(), SoundTouchConfig::POWERED);
+        $update |= $this->updateInfoCommand($speaker->getCurrentSource(), SoundTouchConfig::SOURCE);
+        $update |= $this->updateInfoCommand($speaker->getLevelVolume(), SoundTouchConfig::VOLUME);
+        $update |= $this->updateInfoCommand($speaker->isMuted(), SoundTouchConfig::MUTED);
+        $update |= $this->updateInfoCommand($speaker->getStatePlay(), SoundTouchConfig::STATUS);
+        $update |= $this->updateInfoCommand($speaker->isShuffle(), SoundTouchConfig::SHUFFLE);
+        $update |= $this->updateInfoCommand($speaker->getStateRepeat(), SoundTouchConfig::REPEAT);
+        $update |= $this->updateInfoCommand($speaker->getTrackArtist(), SoundTouchConfig::TRACK_ARTIST);
+        $update |= $this->updateInfoCommand($speaker->getTrackTitle(), SoundTouchConfig::TRACK_TITLE);
+        $update |= $this->updateInfoCommand($speaker->getTrackAlbum(), SoundTouchConfig::TRACK_ALBUM);
+        $update |= $this->updateInfoCommand($speaker->getTrackImage(), SoundTouchConfig::TRACK_IMAGE);
 
         // Données supplémentaires
         $info = $this->getCmd(null, SoundTouchConfig::SOURCE);
@@ -351,6 +327,30 @@ class BoseSoundTouch extends eqLogic {
             log::add('BoseSoundTouch', 'debug', 'WIDGET rafraîchit...');
         }
         log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
+    }
+
+
+    /**
+     * Met à jour une valeur d'une commande info et retourne si elle a été changé ou pas
+     * 
+     * @param $value : Valeur à modifier
+     * @param $command : Constante de la commande à modifier
+     * @return Boolean
+     */
+    private function updateInfoCommand($value, $command)
+    {
+        if ($value === null) {
+            $result = $this->checkAndUpdateCmd($command, '');
+            log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = NULL');
+            return false;
+        } else {
+            if ( $value === '' )
+                $result = $this->checkAndUpdateCmd($command, "&nbsp;");
+            else
+                $result = $this->checkAndUpdateCmd($command, $value);
+            log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = '.$value.' ('.$result.')');
+            return $result;
+        }
     }
 
 

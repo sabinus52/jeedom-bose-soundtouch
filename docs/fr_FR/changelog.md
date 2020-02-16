@@ -1,4 +1,11 @@
-# Version 0.8 du 10 janvier 2019
+# Version 0.9 du 16 février 2020
+
+- Mise à jour de l'API
+- Correction lorsque l'enceinte retourne une réponse non conforme
+- Quelques corrections sur le template du widget
+
+
+# Version 0.8 du 10 janvier 2020
 
 - Correction compatibilité Jeedom V4
 - Mise à jour de la documentation

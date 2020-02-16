@@ -1,4 +1,4 @@
-<div class="eqLogic eqLogic-widget bose_player_widget" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" style="border:#border#;border-radius:#border-radius#;height:18.9em;#style#">
+<div class="eqLogic eqLogic-widget bose_player_widget" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" style="border:#border#;border-radius:#border-radius#;height:21em;#style#">
 	<link rel="stylesheet" href="plugins/BoseSoundTouch/core/template/mobile/css/player.css" />
 	<span class="statusCmd" style="position: absolute; left: 5px; top: 5px; width: 20px; z-index: 1030;"></span>
 	<div class="bose_player_widget">
@@ -59,19 +59,19 @@
 
 
 		<div class="bose_player_commands">	
-			<div class="cmd cursor mode" data-cmd_id="#REPEAT_ID#">
+			<div class="cmd cursor mode" data-cmd_id="#REPEAT_ID#" style="padding-top: 8px;">
 				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#REPEAT_VALUE#.png" title="Repeat">
 			</div>
-			<div class="cmd cursor step" data-cmd_id="#TRACK_PREV_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
+			<div class="cmd cursor step" data-cmd_id="#TRACK_PREV_ID#" style="padding-top: 4px;" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
 				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-prev.png" title="Previous">
 			</div>
 			<div class="cmd cursor play" data-cmd_id="#PLAY_PAUSE_ID#" onclick="jeedom.cmd.execute({id: '#PLAY_PAUSE_ID#'});">
 				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/play.png" title="Play">
 			</div>
-			<div class="cmd cursor step" data-cmd_id="#TRACK_NEXT_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
+			<div class="cmd cursor step" data-cmd_id="#TRACK_NEXT_ID#" style="padding-top: 4px;" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
 				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-next.png" title="Next">
 			</div>
-			<div class="cmd cursor mode" data-cmd_id="#SHUFFLE_ID#">
+			<div class="cmd cursor mode" data-cmd_id="#SHUFFLE_ID#" style="padding-top: 8px;">
 				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#SHUFFLE_VALUE#.png" title="Shuffle">
 			</div>
 		</div>
