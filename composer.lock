@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.2",
+            "version": "6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82"
+                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/43ece0e75098b7ecd8d13918293029e555a50f82",
-                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
+                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-12-23T11:57:10+00:00"
+            "time": "2019-12-07T18:20:45+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -287,20 +287,20 @@
         },
         {
             "name": "sabinus52/soundtouchapi",
-            "version": "1.4",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabinus52/SoundTouchApi.git",
-                "reference": "93d96c4948626bbcbff7ef60557b4ada4d18cc81"
+                "reference": "9f3ed21830eeb8a5c424554ce6128812487a4c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/93d96c4948626bbcbff7ef60557b4ada4d18cc81",
-                "reference": "93d96c4948626bbcbff7ef60557b4ada4d18cc81",
+                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/9f3ed21830eeb8a5c424554ce6128812487a4c41",
+                "reference": "9f3ed21830eeb8a5c424554ce6128812487a4c41",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~6",
+                "guzzlehttp/guzzle": "6.5.0",
                 "php": "^5.2||^7"
             },
             "type": "library",
@@ -326,7 +326,7 @@
                 "SoundTouch",
                 "api"
             ],
-            "time": "2020-02-15T16:22:48+00:00"
+            "time": "2020-03-07T19:23:20+00:00"
         }
     ],
     "packages-dev": [],

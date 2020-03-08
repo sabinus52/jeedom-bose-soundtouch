@@ -1,3 +1,11 @@
+# Version 0.9.1 du 8 mars 2020
+
+Suite à la mise à jour des librairies externes, le plugin ne fonctionne plus sur les box Jeedom Smart. Rien à signaler sur les autres supports.
+> Infos sur l'erreur (https://github.com/guzzle/guzzle/issues/2511).
+
+- Retour à la version 6.5.0 de la librairies externe ***GuzzleHttp***
+
+
 # Version 0.9 du 16 février 2020
 
 - Mise à jour de l'API
