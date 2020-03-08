@@ -171,7 +171,7 @@ class BoseSoundTouch extends eqLogic {
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
      */
-    public function toHtml($_version)
+    public function toHtml($_version = 'dashboard')
     {
         $replace = $this->preToHtml($_version);
         if (!is_array($replace)) {
