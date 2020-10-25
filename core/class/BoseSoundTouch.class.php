@@ -237,8 +237,7 @@ class BoseSoundTouch extends eqLogic {
                 case SoundTouchConfig::PRESET_4 :
                 case SoundTouchConfig::PRESET_5 :
                 case SoundTouchConfig::PRESET_6 :
-                    $id = intval(substr($command->getLogicalId(), -1, 1));
-                    $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.$display['icon'].'.png';
+                    $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower($command->getLogicalId()).'.png';
                     $preset = $command->getConfiguration('datas');
                     if (isset($preset['name'])) {
                         $replace['#'.$command->getLogicalId().'_NAME#'] = $preset['name'];
