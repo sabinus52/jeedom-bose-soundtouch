@@ -1,3 +1,10 @@
+# Version 1.0.0 du 1 novembre 2020
+
+- Mise à jour de l'API
+- Style au format de la version 4 de Jeedom
+- Quelques corrections sur le template du widget
+
+
 # Version 0.9.1 du 8 mars 2020
 
 Suite à la mise à jour des librairies externes, le plugin ne fonctionne plus sur les box Jeedom Smart. Rien à signaler sur les autres supports.
