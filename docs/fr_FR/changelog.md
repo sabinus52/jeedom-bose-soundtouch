@@ -1,3 +1,6 @@
+**A partir d'octobre 2020, la plugin pour la version 3 de Jeedom ne bénéficiera plus des nouvelles mises à jour. Il sera necessaire de migrer vers la version 4 pour profiter des nouvelles fonctionnalités et des corrections.**
+
+
 # Version 0.9.1 du 8 mars 2020
 
 Suite à la mise à jour des librairies externes, le plugin ne fonctionne plus sur les box Jeedom Smart. Rien à signaler sur les autres supports.

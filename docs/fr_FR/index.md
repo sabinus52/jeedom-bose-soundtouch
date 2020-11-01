@@ -1,5 +1,7 @@
 ![capture](../images/icon-48.png) **Documentation du plugin Bose SoundTouch**
 
+> A partir d'octobre 2020, la plugin pour la version 3 de Jeedom ne bénéficiera plus des nouvelles mises à jour. Il sera necessaire de migrer vers la version 4 pour profiter des nouvelles fonctionnalités et des corrections.
+
 # Description 
 
 Ce plugin permet de contrôler les enceintes Bose SoundTouch.
