@@ -1,3 +1,9 @@
+# Version 1.1.0 du 3 mars 2021
+
+- Découverte et création des commandes de sélection des différentes sources.
+> Il faut cliquer sur le bouton `Recréer les commandes manquantes` pour recréer les commandes de sélection des différentes sources de l'enceinte.
+
+
 # Version 1.0.0 du 1 novembre 2020
 
 - Mise à jour de l'API
