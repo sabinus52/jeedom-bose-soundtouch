@@ -49,13 +49,9 @@
 		</div>
 
 		<div class="bose_player_select">
-			<div>
-				<img data-cmd_id="#TV_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/tv.png" title="TV" onclick="jeedom.cmd.execute({id: '#TV_ID#'});">
-				|
-				<img data-cmd_id="#BLUETOOTH_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/bluetooth.png" title="BLUETOOTH" onclick="jeedom.cmd.execute({id: '#BLUETOOTH_ID#'});">
-				|
-				<img data-cmd_id="#AUX_INPUT_ID#" src="plugins/BoseSoundTouch/core/template/dashboard/images/aux-input.png" title="Auxiliaire" onclick="jeedom.cmd.execute({id: '#AUX_INPUT_ID#'});">
-			</div>
+			<ul>
+				#SOURCES_LIST#
+			</ul>
 		</div>
 
 		<div class="bose_player_playing">

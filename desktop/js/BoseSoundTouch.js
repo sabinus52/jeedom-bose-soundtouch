@@ -41,7 +41,7 @@ function addCmdToTable(_cmd) {
         tr += '<a class="btn btn-default btn-xs cmdAction" data-action="configure"><i class="fas fa-cogs"></i></a> ';
         tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> {{Tester}}</a>';
     }
-    //tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i>';
+    tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i>';
     tr += '</td>';
     tr += '</tr>';
     $('#table_cmd tbody').append(tr);
@@ -51,3 +51,28 @@ function addCmdToTable(_cmd) {
     }
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
+
+
+$('#bt_recreatecommand').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: "plugins/BoseSoundTouch/core/ajax/BoseSoundTouch.ajax.php",
+        data: {
+            action: "reCreateCommand",
+            id: $('.eqLogicAttr[data-l1key=id]').value()
+        },
+        dataType: 'json',
+        global: false,
+        error: function (request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
+                return;
+            }
+            $('#div_alert').showAlert({message: '{{Opération réalisée avec succès}}', level: 'success'});
+        }
+    });
+});
+

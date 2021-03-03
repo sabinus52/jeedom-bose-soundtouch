@@ -8,6 +8,7 @@
 //require_once __DIR__  . '/../../3rparty/SoundTouchKey.class.php';
 //require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/JeedomSoundTouchApi.php';
 use Sabinus\SoundTouch\Constants\Key as SoundTouchKey;
 
 
@@ -442,39 +443,6 @@ class SoundTouchConfig
             'subType' => 'other',
             'order' => 52,
             'codekey' => SoundTouchKey::REPEAT_ALL,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Select TV',
-            'logicalId' => self::TV,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 53,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Select BLUETOOTH',
-            'logicalId' => self::BLUETOOTH,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 54,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Select AUX',
-            'logicalId' => self::AUX_INPUT,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 55,
             'isVisible' => true,
             'generic_type' => 'GENERIC_ACTION',
             'forceReturnLineAfter' => '0',

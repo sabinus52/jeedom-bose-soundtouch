@@ -23,7 +23,7 @@ Rendu visuel du widget *Télécommande* / *Player* :
 - Choix des présélections
 - Play, pause, stop, piste suivante et précédente
 - Activation du shuffle et repeat
-- Selection TV ou Bluetooth ou AUX
+- Selection des sources découvertes en fonction de l'enceinte
 
 ***Remarque*** : TV ne fonctionne seulement si une TV est connectée en sortie de l'enceinte en HDMI. AUX ne fonctionne que sur certaines enceintes et est maintenant déprécié par Bose.
 
@@ -50,6 +50,9 @@ Puis cliquer sur l'icône **Ajouter** et définir :
 Pour terminer, cliquer sur **Sauvegarder** et l'enceinte est prête à être contrôler
 
 
-# Forum
+# Liens utiles
 
-Accès à la page du plugin du forum de Jeedom : https://www.jeedom.com/forum/viewtopic.php?f=142&t=44945
+- Topic sur le forum Jeedom Community : [https://community.jeedom.com/t/plugin-bose-soundtouch-discussion-generale/55311](https://community.jeedom.com/t/plugin-bose-soundtouch-discussion-generale/55311)
+- Notes de version : [https://sabinus52.github.io/jeedom-bose-soundtouch/fr_FR/changelog](https://sabinus52.github.io/jeedom-bose-soundtouch/fr_FR/changelog)
+- Dépôt Github : [https://github.com/sabinus52/jeedom-bose-soundtouch](https://github.com/sabinus52/jeedom-bose-soundtouch)
+

@@ -27,6 +27,16 @@ try {
     ajax::init();
 
 
+    if (init('action') == 'reCreateCommand') {
+        $eqLogic = BoseSoundTouch::byId(init('id'));
+        if (!is_object($eqLogic)) {
+            throw new Exception(__('BoseSoundTouch eqLogic non trouvé : ', __FILE__) . init('id'));
+        }
+        $eqLogic->save();
+        ajax::success();
+    }
+
+
 
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */
