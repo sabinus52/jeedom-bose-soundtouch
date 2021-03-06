@@ -139,18 +139,6 @@ class JeedomSoundTouchApi extends SoundTouchApi
     }
 
 
-    public function getSourceLocal($refresh = false)
-    {
-        $result = array();
-        foreach ($this->getSources() as $source) {
-            if ( ! $source->getIsLocal() || $source->getSource() == 'QPLAY' ) continue;
-            $result[] = $source;
-        }
-
-        return $result;
-    }
-
-
     /**
      * Selectionne la source Bluetooth
      */
@@ -195,6 +183,26 @@ class JeedomSoundTouchApi extends SoundTouchApi
         $content->setSource($source);
         if ($source != $account) $content->setAccount($account);
         $this->selectSource($content);
+    }
+
+
+    public function selectTuneIn($station)
+    {
+        $source = new ContentItem();
+        $source->setSource(Source::TUNEIN)
+            ->setType('stationurl')
+            ->setLocation($station);
+        $this->selectSource($source);
+    }
+
+    public function selectRadioInternet($name, $station)
+    {
+        $source = new ContentItem();
+        $source->setSource('LOCAL_INTERNET_RADIO')
+            ->setType('stationurl')
+            ->setName($name)
+            ->setLocation($station);
+        $this->selectSource($source);
     }
 
 

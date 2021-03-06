@@ -1,0 +1,181 @@
+{
+    "commands": [
+        {
+            "name" : "Refresh",
+            "logicalId" : "REFRESH",
+            "type" : "action",
+            "subType" : "other",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Power",
+            "logicalId" : "POWER",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "POWER"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Volume Haut",
+            "logicalId" : "VOLUME_UP",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "VOLUME_UP"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Volume Bas",
+            "logicalId" : "VOLUME_DOWN",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "VOLUME_DOWN"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Sourdine",
+            "logicalId" : "MUTE",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "MUTE"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Set Volume",
+            "logicalId" : "VOLUME_SET",
+            "type" : "action",
+            "subType" : "slider",
+            "unite" : "%",
+            "generic_type": "VOLUME",
+            "configuration": {
+                "minValue": 0,
+                "maxValue": 100
+            },
+            "isVisible" : 1,
+            "value" : "VOLUME"
+        },
+        {
+            "name" : "Play",
+            "logicalId" : "PLAY",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_RESUME",
+            "configuration": {
+                "codekey": "PLAY"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Pause",
+            "logicalId" : "PAUSE",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_PAUSE",
+            "configuration": {
+                "codekey": "PAUSE"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Stop",
+            "logicalId" : "STOP",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_STOP",
+            "configuration": {
+                "codekey": "STOP"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste précédente",
+            "logicalId" : "PREV_TRACK",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_PREVIOUS",
+            "configuration": {
+                "codekey": "PREV_TRACK"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste suivante",
+            "logicalId" : "NEXT_TRACK",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_NEXT",
+            "configuration": {
+                "codekey": "NEXT_TRACK"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Play/Pause",
+            "logicalId" : "PLAY_PAUSE",
+            "type" : "action",
+            "subType" : "other",
+            "generic_type": "MEDIA_RESUME",
+            "configuration": {
+                "codekey": "PLAY_PAUSE"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Hasard ON",
+            "logicalId" : "SHUFFLE_ON",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "SHUFFLE_ON"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Hasard OFF",
+            "logicalId" : "SHUFFLE_OFF",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "SHUFFLE_OFF"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Répétition OFF",
+            "logicalId" : "REPEAT_OFF",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "REPEAT_OFF"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Répétition Une",
+            "logicalId" : "REPEAT_ONE",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "REPEAT_ONE"
+            },
+            "isVisible" : 1
+        },
+        {
+            "name" : "Répétition Tous",
+            "logicalId" : "REPEAT_ALL",
+            "type" : "action",
+            "subType" : "other",
+            "configuration": {
+                "codekey": "REPEAT_ALL"
+            },
+            "isVisible" : 1
+        }
+    ]
+}

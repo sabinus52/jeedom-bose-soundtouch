@@ -435,42 +435,17 @@ class BoseSoundTouch extends eqLogic {
      */
     public function updateCommandSoundTouch()
     {
-        // Ajoute les infos
-        foreach (SoundTouchConfig::getConfigInfos() as $config) {
-            $this->addCommandSoundTouch($config);
-        }
-        // Ajoute les actions
-        foreach (SoundTouchConfig::getConfigCmds() as $config) {
-            $this->addCommandSoundTouch($config);
+        log::add('BoseSoundTouch', 'debug', 'SAVE : === BEGIN =======================================');
+
+        $hostname = $this->getConfiguration('hostname');
+        if ( empty($hostname) ) $hostname = 'soundtouch'; // FIXME
+        $configs = new SoundTouchConfig( new SoundTouchSourceApi($hostname) );
+
+        foreach ($configs->getListCommands() as $command) {
+            $this->addCommand($command);
         }
 
-        // Compatibilité avec la nouvelle version sur l'ajout de la découverte des sources
-        $hostname = $this->getConfiguration('hostname');
-        $speaker = new JeedomSoundTouchApi($hostname);
-        // Supprime le AUX
-        $cmdAUX = $this->getCmd(null, SoundTouchConfig::AUX_INPUT);
-        if ( is_object($cmdAUX) ) {
-            log::add('BoseSoundTouch', 'debug', 'remove ' . $cmdAUX->getLogicalId());
-            $cmdAUX->remove();
-        }
-        $order = 70;
-        foreach ($speaker->getSourceLocal() as $source) {
-            log::add('BoseSoundTouch', 'debug', 'add ' . $source->getName().' / '.$source->getSource());
-            $this->addCommandSoundTouch(array(
-                'name' => 'Select '.$source->getName(),
-                'logicalId' => $source->getName(),
-                'type' => 'action',
-                'subType' => 'other',
-                'order' => $order++,
-                'isVisible' => true,
-                'generic_type' => 'GENERIC_ACTION',
-                'forceReturnLineAfter' => '0',
-                'contentItem' => array(
-                    'account' => $source->getName(),
-                    'source' => $source->getSource(),
-                ),
-            ));
-        }
+        log::add('BoseSoundTouch', 'debug', 'SAVE : === END =========================================');
     }
 
 
@@ -479,24 +454,43 @@ class BoseSoundTouch extends eqLogic {
      * 
      * @param Array $config : Configuration de la commande
      */
-    public function addCommandSoundTouch(Array $config)
+    public function addCommand(Array $config)
     {
+        
         $cmdSoundTouch = $this->getCmd(null, $config['logicalId']);
         if ( !is_object($cmdSoundTouch) ) {
-            $cmdSoundTouch = new BoseSoundTouchCmd();
+
+            $cmdSoundTouch = new SmartLifeCmd();
+            $cmdSoundTouch->setName(__($config['name'], __FILE__));
+            $cmdSoundTouch->setLogicalId( $config['logicalId'] );
+            $cmdSoundTouch->setEqLogic_id( $this->getId() );
+
+            if ( isset($config['display']) ) {
+                foreach ($config['display'] as $key => $value) {
+                    $cmdSoundTouch->setDisplay($key, $value);
+                }
+                unset($config['display']);
+            }
+
+            // Assigne les paramètres du JSON à chaque fonction de l'eqLogic
+            utils::a2o($cmdSoundTouch, $config);
+            //SmartLifeLog::debug('DISCOVERY', $device, 'ADD COMMAND '.$config['logicalId']);
+            log::add('BoseSoundTouch', 'debug', 'SAVE : ADD COMMAND '.$config['logicalId']);
         }
-        $cmdSoundTouch->setName(__($config['name'], __FILE__));
-        $cmdSoundTouch->setLogicalId( $config['logicalId'] );
-        $cmdSoundTouch->setEqLogic_id( $this->getId() );
+
+        // Ne doit pas être changé
         $cmdSoundTouch->setType( $config['type'] );
         $cmdSoundTouch->setSubType( $config['subType'] );
-        $cmdSoundTouch->setOrder( $config['order'] );
-        if (isset($config['codekey'])) $cmdSoundTouch->setConfiguration( 'codekey', $config['codekey'] );
-        if (isset($config['icon'])) $cmdSoundTouch->setDisplay( 'icon', '<img src="plugins/BoseSoundTouch/images/'.$config['icon'].'.png" style="width:20px;height:20px;">' ); //<i class="fa '.$config['icon'].'"></i>
-        if (isset($config['forceReturnLineAfter'])) $cmdSoundTouch->setDisplay( 'forceReturnLineAfter', $config['forceReturnLineAfter'] );
-        if (isset($config['unity'])) $cmdSoundTouch->setUnite( $config['unity'] );
-        if (isset($config['contentItem'])) $cmdSoundTouch->setConfiguration( 'ContentItem', $config['contentItem'] );
-        //$cmdSoundTouch->setDisplay( 'generic_type', $config['generic_type'] ); // ???
+        if (isset($config['value'])) {
+            foreach ($this->getCmd() as $eqLogic_cmd) {
+				if ($config['value'] == $eqLogic_cmd->getLogicalId()) {
+					$cmdSoundTouch->setValue($eqLogic_cmd->getId());
+				}
+			}
+        }
+        log::add('BoseSoundTouch', 'debug', 'SAVE : UPDATE COMMAND '.$config['logicalId']);
+
+        // Sauvegarde
         $cmdSoundTouch->save();
     }
 
