@@ -207,22 +207,6 @@ class JeedomSoundTouchApi extends SoundTouchApi
 
 
     /**
-     * Retourne les données d'une préselection
-     */
-    public function getPresetByNum($num, $refresh = false)
-    {
-        $presets = $this->getPresets($refresh);
-        $num--;
-        if ( !isset($presets[$num]) ) return null;
-        return array(
-            'source' => $presets[$num]->getContentItem()->getSource(),
-            'name' => $presets[$num]->getContentItem()->getName(),
-            'image' => $presets[$num]->getContentItem()->getImage(),
-        );
-    }
-
-
-    /**
      * Retourne le status en cours
      */
     public function getArrayNowPlaying($refresh = false)

@@ -15,5 +15,5 @@ Thumbs.db
 
 # Espace de travail
 workspace/
-images/*
-!images/.empty
+data/*
+!data/.empty

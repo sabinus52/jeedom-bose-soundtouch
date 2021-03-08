@@ -377,52 +377,13 @@ class BoseSoundTouch extends eqLogic {
         log::add('BoseSoundTouch', 'debug', '=== PRESETS ==================================================');
         log::add('BoseSoundTouch', 'debug', "Rafraichissement des présélections depuis '$hostname'");
 
-        // Paramètre de l'adresse de l'enceinte
+        // Déclaration de l'API avec l'adresse de l'enceinte
         $hostname = $this->getConfiguration('hostname');
-        // Déclaration de l'API
-        $speaker = new JeedomSoundTouchApi($hostname);
+        if ( empty($hostname) ) $hostname = 'soundtouch'; // FIXME
+        $configs = new SoundTouchConfig( new SoundTouchSourceApi($hostname) );
 
-        foreach ($this->getCmd('action') as $command) {
-            switch ($command->getLogicalId()) {
-                case SoundTouchConfig::PRESET_1 :
-                case SoundTouchConfig::PRESET_2 :
-                case SoundTouchConfig::PRESET_3 :
-                case SoundTouchConfig::PRESET_4 :
-                case SoundTouchConfig::PRESET_5 :
-                case SoundTouchConfig::PRESET_6 :
-                    $id = intval(substr($command->getLogicalId(), -1, 1));
-                    $cacheImg = realpath(__DIR__ . '/../../images') . '/cache-p' . $id . '-' . $this->getId() . '.png';
-                    log::add('BoseSoundTouch', 'debug', $cacheImg);
-                    if ( $preset = $speaker->getPresetByNum($id) ) {
-
-                        if ( !$preset['image']) {
-                            switch ($preset['source']) {
-                                case 'LOCAL_INTERNET_RADIO': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_internet_radio.png'; break;
-                                case 'STORED_MUSIC': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/stored_music.png'; break;
-                                case 'LOCAL_MUSIC': $preset['image'] = realpath(__DIR__ . '/..').'/template/dashboard/images/local_music.png'; break;
-                            }
-                        }
-
-                        // Compare pour voir si changement
-                        $dataOld = $command->getConfiguration('datas');
-                        if ( $dataOld['image'] != $preset['image'] ) {
-                            file_put_contents($cacheImg, file_get_contents($preset['image']));
-                        }
-
-                        // Sauvegarde les données de la présélection dans la commande
-                        $preset['cache'] = 'plugins/BoseSoundTouch/images/cache-p' . $id . '-' . $this->getId() . '.png?'.substr(md5($preset['image']), 0, 5);
-                        $command->setConfiguration('datas', $preset);
-                        log::add('BoseSoundTouch', 'debug', $command->getLogicalId().' = ('.$preset['source'].') '.$preset['name'].' - '.$preset['image'].' - '.$preset['cache']);
-
-                    } else {
-                        $command->setConfiguration('datas', array());
-                        if ( file_exists($cacheImg) ) {
-                            @unlink($cacheImg);
-                        }
-                    }
-                    $command->save();
-                    break;
-            }
+        foreach (cmd::searchConfigurationEqLogic($this->getId(), '"preset"', 'action') as $command) {
+                $configs->updatePreset($command);
         }
 
         log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
