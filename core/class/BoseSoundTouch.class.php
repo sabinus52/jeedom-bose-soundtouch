@@ -488,25 +488,16 @@ class BoseSoundTouchCmd extends cmd {
 
         } else {
 
-            $codeKey = $this->getConfiguration('codekey');
-            $speaker = new JeedomSoundTouchApi($hostname, false);
-            if ( $codeKey != '' ) {
-                $this->execCmdKeySpeaker($speaker, $codeKey, $idCommand, $hostname);
-                switch ($idCommand) {
-                    case SoundTouchConfig::PLAY_PAUSE:
-                    case SoundTouchConfig::VOLUME_DOWN:
-                        $cmdMuted = $soundTouch->getCmd(null, SoundTouchConfig::MUTED);
-                        $valueMuted = $cmdMuted->execCmd();
-                        log::add('BoseSoundTouch', 'debug', "VOLUME INFO : MUTE = $valueMuted");
-                        if ($valueMuted) {
-                            $this->execCmdKeySpeaker($speaker, SoundTouchConfig::MUTE, $idCommand, $hostname);
-                        }
-                        break;
-                }
-            } elseif ($content = $this->getConfiguration('ContentItem')) {
-                $response = $speaker->selectLocalSource($content['source'], $content['account']);
-                log::add('BoseSoundTouch', 'debug', "ACTION : SELECT LOCAL $idCommand (".$content['source'].', '.$content['account'].") -> ".( ($response) ? 'OK' : 'NOK'));
-                if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
+            if ( $codeKey = $this->getConfiguration('codekey') ) {
+
+                $api = new SoundTouchCommandKeyApi($hostname);
+                $api->sendCommandJeedom($this);
+
+            } elseif ( $idCommand == 'VOLUME_SET' ) {
+
+                $api = new SoundTouchCommandKeyApi($hostname);
+                $api->setVolumeJeedom($_options['slider']);
+
             } else {
                 switch ($idCommand) {
                     case SoundTouchConfig::TV :
@@ -519,16 +510,6 @@ class BoseSoundTouchCmd extends cmd {
                         log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
                         if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                         break;
-                    case SoundTouchConfig::VOLUME_SET:
-                        $cmdMuted = $soundTouch->getCmd(null, SoundTouchConfig::MUTED);
-                        $valueMuted = $cmdMuted->execCmd();
-                        log::add('BoseSoundTouch', 'debug', "VOLUME INFO : MUTE = $valueMuted");
-                        if ($valueMuted) {
-                            $this->execCmdKeySpeaker($speaker, SoundTouchConfig::MUTE, $idCommand, $hostname);
-                        }
-                        $response = $speaker->setVolume($_options['slider']);
-                        log::add('BoseSoundTouch', 'debug', "ACTION : VOLUME ".$_options['slider']." -> ".( ($response) ? 'OK' : 'NOK'));
-                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
                     default:
                         log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
                         break;
@@ -540,15 +521,6 @@ class BoseSoundTouchCmd extends cmd {
 
         return;
 
-    }
-
-
-    private function execCmdKeySpeaker($speaker, $codeKey, $idCommand, $hostname)
-    {
-        log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche $codeKey");
-        $response = $speaker->sendCommand($codeKey);
-        log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
     }
 
     /*     * **********************Getteur Setteur*************************** */

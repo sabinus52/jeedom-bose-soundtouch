@@ -15,6 +15,9 @@
             "configuration": {
                 "codekey": "POWER"
             },
+            "display" : {
+                "icon" : "<i class=\"fas fa-power-off\"><\/i>"
+            },
             "isVisible" : 1
         },
         {
@@ -24,6 +27,9 @@
             "subType" : "other",
             "configuration": {
                 "codekey": "VOLUME_UP"
+            },
+            "display" : {
+                "icon" : "<i class=\"fas fa-volume-up\"><\/i>"
             },
             "isVisible" : 1
         },
@@ -35,6 +41,9 @@
             "configuration": {
                 "codekey": "VOLUME_DOWN"
             },
+            "display" : {
+                "icon" : "<i class=\"fas fa-volume-down\"><\/i>"
+            },
             "isVisible" : 1
         },
         {
@@ -44,6 +53,9 @@
             "subType" : "other",
             "configuration": {
                 "codekey": "MUTE"
+            },
+            "display" : {
+                "icon" : "<i class=\"fas fa-volume-off\"><\/i>"
             },
             "isVisible" : 1
         },
@@ -70,6 +82,9 @@
             "configuration": {
                 "codekey": "PLAY"
             },
+            "display" : {
+                "icon" : "<i class=\"fas fa-play\"><\/i>"
+            },
             "isVisible" : 1
         },
         {
@@ -80,6 +95,9 @@
             "generic_type": "MEDIA_PAUSE",
             "configuration": {
                 "codekey": "PAUSE"
+            },
+            "display" : {
+                "icon" : "<i class=\"fas fa-pause\"><\/i>"
             },
             "isVisible" : 1
         },
@@ -92,6 +110,9 @@
             "configuration": {
                 "codekey": "STOP"
             },
+            "display" : {
+                "icon" : "<i class=\"fas fa-stop\"><\/i>"
+            },
             "isVisible" : 1
         },
         {
@@ -102,6 +123,9 @@
             "generic_type": "MEDIA_PREVIOUS",
             "configuration": {
                 "codekey": "PREV_TRACK"
+            },
+            "display" : {
+                "icon" : "<i class=\"fas fa-step-forward\"><\/i>"
             },
             "isVisible" : 1
         },
@@ -114,6 +138,9 @@
             "configuration": {
                 "codekey": "NEXT_TRACK"
             },
+            "display" : {
+                "icon" : "<i class=\"fas fa-step-backward\"><\/i>"
+            },
             "isVisible" : 1
         },
         {
@@ -125,7 +152,10 @@
             "configuration": {
                 "codekey": "PLAY_PAUSE"
             },
-            "isVisible" : 1
+            "display" : {
+                "icon" : "<i class=\"fas fa-play-circle\"><\/i>"
+            },
+            "isVisible" : 0
         },
         {
             "name" : "Hasard ON",

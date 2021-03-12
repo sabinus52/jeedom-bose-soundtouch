@@ -36,50 +36,7 @@ class JeedomSoundTouchApi extends SoundTouchApi
     }
 
 
-    /**
-     * @see parent::setKey($key)
-     */
-    public function sendCommand($key)
-    {
-        return $this->setKey($key);
-    }
-
     
-    /**
-     * Retourne le niveau de volume
-     * 
-     * @return Integer
-     */
-    public function getLevelVolume($refresh = false)
-    {
-        $volume = $this->getVolume($refresh);
-        if ( ! ($volume instanceof Volume) ) return null;
-        return $volume->getActual();
-    }
-
-    
-    /**
-     * Retourne si le volume est coupé
-     * 
-     * @return Boolean
-     */
-    public function isMuted($refresh = false)
-    {
-        $volume = $this->getVolume($refresh);
-        if ( ! ($volume instanceof Volume) ) return null;
-        return $volume->isMuted();
-    }
-
-
-    /**
-     * Retrourne si l'enceinte est allumée
-     */
-    public function isPowered($refresh = false)
-    {
-        $status = $this->getNowPlaying($refresh);
-        if ( ! ($status instanceof NowPlaying) ) return null;
-        return ( $status->getSource() != Source::STANDBY );
-    }
 
 
     /**
@@ -97,45 +54,6 @@ class JeedomSoundTouchApi extends SoundTouchApi
             return strval($status->getContentItem()->getAccount());
         else
             return strval($status->getSource());
-    }
-
-
-    /**
-     * Activer ou pas le shuffle
-     * 
-     * @param Boolean $shuffle
-     */
-    public function shuffle($shuffle) {
-        if ($shuffle)
-            $this->setKey(Key::SHUFFLE_ON);
-        else
-            $this->setKey(Key::SHUFFLE_OFF);
-    }
-
-
-    /**
-     * Allume l'enceinte
-     */
-    public function powerOn()
-    {
-        $status = $this->getNowPlaying(true);
-        if ( ! ($status instanceof NowPlaying) ) return null;
-        if ( $status->getSource() == Source::STANDBY )
-            return $this->setKey(Key::POWER);
-        return true;
-    }
-
-
-    /**
-     * Eteins l'enceinte
-     */
-    public function powerOff()
-    {
-        $status = $this->getNowPlaying(true);
-        if ( ! ($status instanceof NowPlaying) ) return null;
-        if ( $status->getSource() != Source::STANDBY )
-            return $this->setKey(Key::POWER);
-        return true;
     }
 
 

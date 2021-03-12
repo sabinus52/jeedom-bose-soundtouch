@@ -6,6 +6,7 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/JeedomSoundTouchApi.php';
 require_once __DIR__ . '/SoundTouchSource.api.php';
+require_once __DIR__ . '/SoundTouchCommandKey.api.php';
 use \Sabinus\SoundTouch\SoundTouchApi;
 
 
