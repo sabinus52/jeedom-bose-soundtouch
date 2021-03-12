@@ -57,51 +57,7 @@ class JeedomSoundTouchApi extends SoundTouchApi
     }
 
 
-    /**
-     * Selectionne la source Bluetooth
-     */
-    public function selectBlueTooth()
-    {
-        $source = new ContentItem();
-        $source->setSource(Source::BLUETOOTH);
-        $this->selectSource($source);
-    }
-
-
-    /**
-     * Selectionne la source TV
-     */
-    public function selectTV()
-    {
-        $source = new ContentItem();
-        $source->setSource(Source::PRODUCT)
-            ->setAccount('TV');
-        $this->selectSource($source);
-    }
-
-
-    /**
-     * Selectionne la source HDMI
-     */
-    public function selectHDMI()
-    {
-        $source = new ContentItem();
-        $source->setSource(Source::PRODUCT)
-            ->setAccount('HDMI_1');
-        $this->selectSource($source);
-    }
-
-
-    /**
-     * Selectionne une source locale
-     */
-    public function selectLocalSource($source, $account)
-    {
-        $content = new ContentItem();
-        $content->setSource($source);
-        if ($source != $account) $content->setAccount($account);
-        $this->selectSource($content);
-    }
+    
 
 
     public function selectTuneIn($station)

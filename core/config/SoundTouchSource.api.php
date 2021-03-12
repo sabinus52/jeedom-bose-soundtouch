@@ -3,9 +3,8 @@
  * Librairie de la gestion des sources dans Jeedom
  */
 
-//namespace Sabinus\SoundTouch;
-
 use \Sabinus\SoundTouch\SoundTouchApi;
+use \Sabinus\SoundTouch\Constants\Source;
 use \Sabinus\SoundTouch\Component\ContentItem;
 
 
@@ -68,6 +67,59 @@ class SoundTouchSourceApi extends SoundTouchApi
         }
 
         return $image;
+    }
+
+
+    /**
+     * Selectionne la source
+     * 
+     * @param String $source  : Source (BLUETOOTH, PRODUCT, TUNEIN)
+     * @param String $account : Compte (TV, HDMI)
+     */
+    public function selectSourceJeedom($source, $account)
+    {
+        log::add('BoseSoundTouch', 'debug', "ACTION : ".$source." sur l'enceinte '".$this->hostname."' - Touche $account");
+        switch ($source) {
+            case Source::BLUETOOTH :
+                $response = $this->selectBlueTooth();
+                break;
+            
+            case Source::PRODUCT :
+                $response = $this->selectLocalSource($source, $account);
+                break;
+            
+            default:
+                
+                break;
+        }
+        log::add('BoseSoundTouch', 'debug', "ACTION : ".$source." -> ".( ($response !== false) ? 'OK' : 'NOK'));
+        if ( $response === false ) log::add('BoseSoundTouch', 'debug', "ACTION : ".$source." -> ".$this->getMessageError() );
+    }
+
+
+    /**
+     * Selectionne la source Bluetooth
+     */
+    private function selectBlueTooth()
+    {
+        $source = new ContentItem();
+        $source->setSource(Source::BLUETOOTH);
+        $this->selectSource($source);
+    }
+
+
+    /**
+     * Selectionne une source locale
+     * 
+     * @param String $source  : Source (BLUETOOTH, PRODUCT)
+     * @param String $account : Compte (TV, HDMI)
+     */
+    private function selectLocalSource($source, $account)
+    {
+        $content = new ContentItem();
+        $content->setSource($source)
+            ->setAccount($account);
+        $this->selectSource($content);
     }
 
 }

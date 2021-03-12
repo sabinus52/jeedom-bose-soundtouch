@@ -498,18 +498,13 @@ class BoseSoundTouchCmd extends cmd {
                 $api = new SoundTouchCommandKeyApi($hostname);
                 $api->setVolumeJeedom($_options['slider']);
 
+            } elseif ( $content = $this->getConfiguration('contentItem') ) {
+
+                $api = new SoundTouchSourceApi($hostname);
+                $api->selectSourceJeedom($content['source'], $content['account']);
+
             } else {
                 switch ($idCommand) {
-                    case SoundTouchConfig::TV :
-                        $response = $speaker->selectTV();
-                        log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
-                        break;
-                    case SoundTouchConfig::BLUETOOTH :
-                        $response = $speaker->selectBlueTooth();
-                        log::add('BoseSoundTouch', 'debug', "ACTION : SELECT $idCommand -> ".( ($response) ? 'OK' : 'NOK'));
-                        if ( !$response ) log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand -> ".$speaker->getMessageError() );
-                        break;
                     default:
                         log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
                         break;
