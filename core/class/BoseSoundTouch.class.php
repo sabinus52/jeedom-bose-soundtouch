@@ -475,46 +475,35 @@ class BoseSoundTouchCmd extends cmd {
 
     public function execute($_options = array()) {
 
-        $soundTouch = $this->getEqLogic();
-
-        // Paramètre de l'adresse de l'enceinte
-        $hostname = $soundTouch->getConfiguration('hostname');
         $idCommand = $this->getLogicalId();
 
         if ($idCommand == 'REFRESH') {
 
+            // Rafraichissement des données
             $soundTouch->updatePresets();
             $soundTouch->updateInfos();
 
+        } elseif ( $codeKey = $this->getConfiguration('codekey') ) {
+
+            // Action sur sur touche
+            $api = new SoundTouchCommandKeyApi($this->getEqLogic());
+            $api->sendCommandJeedom($this);
+
+        } elseif ( $idCommand == 'VOLUME_SET' ) {
+
+            // Ajuste le volume
+            $api = new SoundTouchCommandKeyApi($this->getEqLogic());
+            $api->setVolumeJeedom($_options['slider']);
+
+        } elseif ( $content = $this->getConfiguration('contentItem') ) {
+
+            // Sélectionne une source
+            $api = new SoundTouchSourceApi($this->getEqLogic());
+            $api->selectSourceJeedom($content['source'], $content['account']);
+
         } else {
-
-            if ( $codeKey = $this->getConfiguration('codekey') ) {
-
-                $api = new SoundTouchCommandKeyApi($hostname);
-                $api->sendCommandJeedom($this);
-
-            } elseif ( $idCommand == 'VOLUME_SET' ) {
-
-                $api = new SoundTouchCommandKeyApi($hostname);
-                $api->setVolumeJeedom($_options['slider']);
-
-            } elseif ( $content = $this->getConfiguration('contentItem') ) {
-
-                $api = new SoundTouchSourceApi($hostname);
-                $api->selectSourceJeedom($content['source'], $content['account']);
-
-            } else {
-                switch ($idCommand) {
-                    default:
-                        log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
-                        break;
-                }
-            }
-            
-            //$soundTouch->updateInfos();
+            log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
         }
-
-        return;
 
     }
 

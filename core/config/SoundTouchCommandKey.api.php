@@ -3,14 +3,13 @@
  * Librairie de la gestion commandes de touches dans Jeedom
  */
 
-use \Sabinus\SoundTouch\SoundTouchApi;
 use \Sabinus\SoundTouch\Constants\Key;
 use \Sabinus\SoundTouch\Constants\Source;
 use \Sabinus\SoundTouch\Component\NowPlaying;
 
 
 
-class SoundTouchCommandKeyApi extends SoundTouchApi
+class SoundTouchCommandKeyApi extends JeedomSoundTouchApi
 {
 
 
@@ -70,7 +69,8 @@ class SoundTouchCommandKeyApi extends SoundTouchApi
      */
     public function turnOnVolumeIsMuted()
     {
-        $isMuted = $this->isMuted(true);
+        //$isMuted = $this->isMuted(true);
+        $isMuted = $this->eqLogic->getCmd(null, 'MUTED')->execCmd();
         log::add('BoseSoundTouch', 'debug', "VOLUME INFO : MUTE = $isMuted");
         if ($isMuted) {
             $this->sendCommandAndLog(Key::MUTE);

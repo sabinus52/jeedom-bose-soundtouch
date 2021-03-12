@@ -3,12 +3,11 @@
  * Librairie de la gestion des sources dans Jeedom
  */
 
-use \Sabinus\SoundTouch\SoundTouchApi;
 use \Sabinus\SoundTouch\Constants\Source;
 use \Sabinus\SoundTouch\Component\ContentItem;
 
 
-class SoundTouchSourceApi extends SoundTouchApi
+class SoundTouchSourceApi extends JeedomSoundTouchApi
 {
 
     /**
