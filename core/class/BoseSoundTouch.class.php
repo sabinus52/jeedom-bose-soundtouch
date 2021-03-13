@@ -285,38 +285,37 @@ class BoseSoundTouch extends eqLogic {
      */
     public function updateInfos()
     {
-        // Paramètre de l'adresse de l'enceinte
-        $hostname = $this->getConfiguration('hostname');
         $update = false;
+        $hostname = $this->getConfiguration('hostname');
 
-        $speaker = new JeedomSoundTouchApi($hostname);
+        $api = new SoundTouchNowPlayingApi($this, true);
         log::add('BoseSoundTouch', 'debug', '=== REFRESH ==================================================');
         log::add('BoseSoundTouch', 'debug', "Rafraichissement des données depuis '$hostname'");
 
         // Récupération des différentes valeur
-        if ($err = $speaker->getMessageError()) {
+        if ($err = $api->getMessageError()) {
             log::add('BoseSoundTouch', 'warning', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
             return;
         }
-        $update |= $this->updateInfoCommand($speaker->isPowered(), SoundTouchConfig::POWERED);
-        $update |= $this->updateInfoCommand($speaker->getCurrentSource(), SoundTouchConfig::SOURCE);
-        $update |= $this->updateInfoCommand($speaker->getLevelVolume(), SoundTouchConfig::VOLUME);
-        $update |= $this->updateInfoCommand($speaker->isMuted(), SoundTouchConfig::MUTED);
-        $update |= $this->updateInfoCommand($speaker->getStatePlay(), SoundTouchConfig::STATUS);
-        $update |= $this->updateInfoCommand($speaker->isShuffle(), SoundTouchConfig::SHUFFLE);
-        $update |= $this->updateInfoCommand($speaker->getStateRepeat(), SoundTouchConfig::REPEAT);
-        $update |= $this->updateInfoCommand($speaker->getTrackArtist(), SoundTouchConfig::TRACK_ARTIST);
-        $update |= $this->updateInfoCommand($speaker->getTrackTitle(), SoundTouchConfig::TRACK_TITLE);
-        $update |= $this->updateInfoCommand($speaker->getTrackAlbum(), SoundTouchConfig::TRACK_ALBUM);
-        $update |= $this->updateInfoCommand($speaker->getTrackImage(), SoundTouchConfig::TRACK_IMAGE);
+        $update |= $this->updateInfoCommand( SoundTouchConfig::POWERED,      $api->isPowered() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::SOURCE,       $api->getCurrentSource() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::VOLUME,       $api->getLevelVolume() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::MUTED,        $api->isMuted() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::STATUS,       $api->getStatePlay() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::SHUFFLE,      $api->isShuffle() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::REPEAT,       $api->getStateRepeat() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_ARTIST, $api->getTrackArtist() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_TITLE,  $api->getTrackTitle() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_ALBUM,  $api->getTrackAlbum() );
+        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_IMAGE,  $api->getTrackImage() );
 
         // Données supplémentaires
         $info = $this->getCmd(null, SoundTouchConfig::SOURCE);
         if (is_object($info)) {
-            $datas = $speaker->getArrayNowPlaying();
+            $datas = $api->getArrayNowPlaying();
             $info->setConfiguration('playing', $datas);
 
-            $preview = $speaker->getPreviewImage();
+            $preview = $api->getPreviewImage();
             
             if ( substr($preview, 0, 5) == 'local' ) {
                 $previewImage = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower(substr($preview, 8)).'.png';
@@ -347,11 +346,11 @@ class BoseSoundTouch extends eqLogic {
     /**
      * Met à jour une valeur d'une commande info et retourne si elle a été changé ou pas
      * 
-     * @param $value : Valeur à modifier
      * @param $command : Constante de la commande à modifier
+     * @param $value : Valeur à modifier
      * @return Boolean
      */
-    private function updateInfoCommand($value, $command)
+    private function updateInfoCommand($command, $value)
     {
         if ($value === null) {
             $result = $this->checkAndUpdateCmd($command, '');
@@ -480,8 +479,8 @@ class BoseSoundTouchCmd extends cmd {
         if ($idCommand == 'REFRESH') {
 
             // Rafraichissement des données
-            $soundTouch->updatePresets();
-            $soundTouch->updateInfos();
+            //$this->getEqLogic()->updatePresets();
+            $this->getEqLogic()->updateInfos();
 
         } elseif ( $codeKey = $this->getConfiguration('codekey') ) {
 

@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/JeedomSoundTouchApi.php';
 require_once __DIR__ . '/SoundTouchSource.api.php';
 require_once __DIR__ . '/SoundTouchCommandKey.api.php';
+require_once __DIR__ . '/SoundTouchNowPlaying.api.php';
 use \Sabinus\SoundTouch\SoundTouchApi;
 
 
@@ -44,31 +45,8 @@ class SoundTouchConfig
     const TRACK_ALBUM = 'TRACK_ALBUM';
 
     const REFRESH = 'REFRESH';
-    const POWER = 'POWER';
-    const VOLUME_UP = 'VOLUME_UP';
-    const VOLUME_DOWN = 'VOLUME_DOWN';
     const VOLUME_SET = 'VOLUME_SET';
-    const MUTE = 'MUTE';
-    const PRESET_1 = 'PRESET_1';
-    const PRESET_2 = 'PRESET_2';
-    const PRESET_3 = 'PRESET_3';
-    const PRESET_4 = 'PRESET_4';
-    const PRESET_5 = 'PRESET_5';
-    const PRESET_6 = 'PRESET_6';
-    const PLAY = 'PLAY';
-    const PAUSE = 'PAUSE';
-    const STOP = 'STOP';
-    const PREV_TRACK = 'TRACK_PREV';
-    const NEXT_TRACK = 'TRACK_NEXT';
-    const PLAY_PAUSE = 'PLAY_PAUSE';
-    const SHUFFLE_OFF = 'SHUFFLE_OFF';
-    const SHUFFLE_ON = 'SHUFFLE_ON';
-    const REPEAT_OFF = 'REPEAT_OFF';
-    const REPEAT_ONE = 'REPEAT_ONE';
-    const REPEAT_ALL = 'REPEAT_ALL';
-    const TV = 'TV';
-    const BLUETOOTH = 'BLUETOOTH';
-    const AUX_INPUT = 'AUX_INPUT';
+
 
 
     static private $cmdTypes = [ self::CMD_INFO_STATUS, self::CMD_ACTION_KEYTOUCH ];
