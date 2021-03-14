@@ -309,30 +309,15 @@ class BoseSoundTouch extends eqLogic {
         $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_ALBUM,  $api->getTrackAlbum() );
         $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_IMAGE,  $api->getTrackImage() );
 
-        // Données supplémentaires
-        $info = $this->getCmd(null, SoundTouchConfig::SOURCE);
-        if (is_object($info)) {
-            $datas = $api->getArrayNowPlaying();
-            $info->setConfiguration('playing', $datas);
-
-            $preview = $api->getPreviewImage();
-            
-            if ( substr($preview, 0, 5) == 'local' ) {
-                $previewImage = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower(substr($preview, 8)).'.png';
-            } elseif ( substr($preview, 0, 4) == 'http' ) {
-                $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
-                if ( $preview != $info->getConfiguration('preview') ) {
-                    file_put_contents($cacheImg, file_get_contents($preview));
-                }
-                $previewImage = 'plugins/BoseSoundTouch/images/cache-preview-'.$this->getId().'.png?'.md5($preview);
-            } else {
-                if ( file_exists($cacheImg) ) @unlink($cacheImg);
-            }
-            $info->setConfiguration('preview', $previewImage);
-            log::add('BoseSoundTouch', 'debug', 'Preview Image = '.$preview.' -> '.$previewImage);
-
-            $info->save();
-            log::add('BoseSoundTouch', 'debug', 'Données en cours de lecture = '.print_r($datas, true));
+        // Image de Preview à stoker dans la commande infos SOURCE
+        $sourceInfo = $this->getCmd(null, SoundTouchConfig::SOURCE);
+        if ( is_object($sourceInfo) ) {
+            $oldPreview = $sourceInfo->getConfiguration('preview');
+            $oldImage = ( isset($oldPreview['image']) ) ? $oldPreview['image'] : '';
+            $preview = $api->getPreviewArray($oldImage);
+            $sourceInfo->setConfiguration('preview', $preview);
+            log::add('BoseSoundTouch', 'debug', 'Preview Image = '.print_r($preview, true));
+            $sourceInfo->save();
         }
 
         if ($update) {

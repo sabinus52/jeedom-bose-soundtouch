@@ -147,4 +147,62 @@ class SoundTouchNowPlayingApi extends JeedomSoundTouchApi
         return $status->getImage();
     }
 
+
+    /**
+     * Retourne les données de l'image (chemin + URI)
+     * 
+     * @return Array[image,uri]
+     */
+    public function getPreviewArray($oldImage, $refresh = false)
+    {
+        $newImage = $this->getPreviewImage($refresh);
+        return array(
+            'image' => $newImage,
+            'uri'   => $this->getPreviewUri($newImage, $oldImage),
+        );
+    }
+
+
+    /**
+     * Retourne l'image de la source courante
+     * 
+     * @return String
+     */
+    private function getPreviewImage($refresh = false)
+    {
+        $status = $this->getNowPlaying($refresh);
+        if ( ! ($status instanceof NowPlaying) ) return null;
+        if ( $status->getImage() ) {
+            return $status->getImage();
+        } elseif ( $status->getContentItem() ) {
+            return $this->getImageFromContentItem($status->getContentItem());
+        } else {
+            return 'file://'.realpath(__DIR__ . '/../..').sprintf(self::PATH_IMAGE, 'invalid_source');;
+        }
+    }
+
+
+    /**
+     * Retourne l'URI de l'image courante
+     * 
+     * @param String $newImage : URL de la nouvelle image
+     * @param String $oldImage : URL de l'ancienne image
+     * @param String
+     */
+    private function getPreviewUri($newImage, $oldImage)
+    {
+        // Image local en cache
+        $cacheName = 'preview-'.$this->eqLogic->getId();
+        $cacheImage = SoundTouchConfig::getFileImageCache($cacheName);
+
+        if ( $newImage ) {
+            log::add('BoseSoundTouch', 'debug', 'preview = '.$cacheImage);
+            SoundTouchConfig::storeImageCache($cacheImage, $oldImage, $newImage);
+            return SoundTouchConfig::getUriImageCache($cacheName, $newImage);
+        } else {
+            SoundTouchConfig::clearImageCache($cacheImage);
+            return null;
+        }
+
+    }
 }

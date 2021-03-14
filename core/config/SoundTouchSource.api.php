@@ -11,12 +11,6 @@ class SoundTouchSourceApi extends JeedomSoundTouchApi
 {
 
     /**
-     * Masque de l'emplacement des images de type sources
-     */
-    const PATH_IMAGE = '/core/template/images/source/%s.png';
-
-
-    /**
      * Retourne les sources de l'enceinte valable localement (HDMI, TV, BLUETOOTH)
      */
     public function getSourceLocal($refresh = false)
@@ -44,28 +38,8 @@ class SoundTouchSourceApi extends JeedomSoundTouchApi
         return array(
             'source' => $presets[$num]->getContentItem()->getSource(),
             'name' => $presets[$num]->getContentItem()->getName(),
-            'image' => $this->getImage($presets[$num]->getContentItem()),
+            'image' => $this->getImageFromContentItem($presets[$num]->getContentItem()),
         );
-    }
-
-
-    /**
-     * Retourne l'image en fonction de la source
-     * 
-     * @param ContentItem $item : Contenu de la source
-     * @return String
-     */
-    private function getImage(ContentItem $item)
-    {
-        $image = $item->getImage();
-
-        if ( empty($item->getImage()) ) {
-            $image = realpath(__DIR__ . '/../..').sprintf(self::PATH_IMAGE, strtolower($item->getSource()));
-            if ( ! file_exists($image) ) $image = realpath(__DIR__ . '/../..').sprintf(self::PATH_IMAGE, 'invalid_source');
-            $image = 'file://' . $image;
-        }
-
-        return $image;
     }
 
 
