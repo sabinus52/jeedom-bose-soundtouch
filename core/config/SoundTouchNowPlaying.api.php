@@ -196,7 +196,6 @@ class SoundTouchNowPlayingApi extends JeedomSoundTouchApi
         $cacheImage = SoundTouchConfig::getFileImageCache($cacheName);
 
         if ( $newImage ) {
-            log::add('BoseSoundTouch', 'debug', 'preview = '.$cacheImage);
             SoundTouchConfig::storeImageCache($cacheImage, $oldImage, $newImage);
             return SoundTouchConfig::getUriImageCache($cacheName, $newImage);
         } else {

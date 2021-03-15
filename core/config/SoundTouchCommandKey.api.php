@@ -22,7 +22,7 @@ class SoundTouchCommandKeyApi extends JeedomSoundTouchApi
     {
         $key = $command->getConfiguration('codekey');
         if ( empty($key) ) {
-            log::add('BoseSoundTouch', 'debug', "ACTION : Touche vide");
+            SoundTouchLog::debug('EXECUTE', 'Touche vide');
             return false;
         }
 
@@ -42,10 +42,10 @@ class SoundTouchCommandKeyApi extends JeedomSoundTouchApi
      */
     private function sendCommandAndLog($key)
     {
-        log::add('BoseSoundTouch', 'debug', "ACTION : ".$key." sur l'enceinte '".$this->hostname."' - Touche $key");
+        SoundTouchLog::info('EXECUTE', 'Touche "'.$key.'" sur l\'enceinte "'.$this->hostname.'"');
         $response = $this->setKey($key);
-        log::add('BoseSoundTouch', 'debug', "ACTION : ".$key." -> ".( ($response !== false) ? 'OK' : 'NOK'));
-        if ( $response === false ) log::add('BoseSoundTouch', 'debug', "ACTION : ".$key." -> ".$this->getMessageError() );
+        SoundTouchLog::debug('EXECUTE', 'setKey('.$key.') -> '.( ($response !== false) ? 'OK' : 'NOK'));
+        if ( $response === false ) SoundTouchLog::debug('EXECUTE', 'setKey('.$key.') -> '.$this->getMessageError());
     }
 
 
@@ -57,10 +57,10 @@ class SoundTouchCommandKeyApi extends JeedomSoundTouchApi
     public function setVolumeJeedom($volume)
     {
         $this->turnOnVolumeIsMuted();
-        log::add('BoseSoundTouch', 'debug', "ACTION : setVolume(".$volume.") sur l'enceinte '".$this->hostname);
+        SoundTouchLog::info('EXECUTE', 'Ajuste volume sur l\'enceinte "'.$this->hostname.'"');
         $response = $this->setVolume($volume);
-        log::add('BoseSoundTouch', 'debug', "ACTION : setVolume -> ".( ($response !== false) ? 'OK' : 'NOK'));
-        if ( $response === false ) log::add('BoseSoundTouch', 'debug', "ACTION : setVolume -> ".$this->getMessageError() );
+        SoundTouchLog::debug('EXECUTE', 'setVolume('.$volume.') -> '.( ($response !== false) ? 'OK' : 'NOK'));
+        if ( $response === false ) SoundTouchLog::debug('EXECUTE', 'setVolume('.$volume.') -> '.$this->getMessageError());
     }
 
 
@@ -71,7 +71,7 @@ class SoundTouchCommandKeyApi extends JeedomSoundTouchApi
     {
         //$isMuted = $this->isMuted(true);
         $isMuted = $this->eqLogic->getCmd(null, 'MUTED')->execCmd();
-        log::add('BoseSoundTouch', 'debug', "VOLUME INFO : MUTE = $isMuted");
+        SoundTouchLog::debug('EXECUTE', 'Check isMuted = '.$isMuted);
         if ($isMuted) {
             $this->sendCommandAndLog(Key::MUTE);
         }

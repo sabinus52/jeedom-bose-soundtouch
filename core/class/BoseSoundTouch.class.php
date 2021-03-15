@@ -74,13 +74,12 @@ class BoseSoundTouch extends eqLogic {
     
     public static function pull($_eqLogic_id = null)
     {
-        log::add('BoseSoundTouch', 'debug', "PULL ----------------------------");
+        SoundTouchLog::begin('PULL');
 		foreach (self::byType('BoseSoundTouch') as $eqLogic) {
-            log::add('BoseSoundTouch', 'debug', "PULL : $_eqLogic_id - ".$eqLogic->getId());
+            SoundTouchLog::debug('PULL', 'eqLogic ID -> '.$eqLogic->getId().' , enabled = '.$eqLogic->getIsEnable());
 			if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
 				continue;
             }
-            log::add('BoseSoundTouch', 'debug', "PULL : enable ".$eqLogic->getIsEnable());
 			if ($eqLogic->getIsEnable() == 0) {
 				continue;
             }
@@ -90,6 +89,7 @@ class BoseSoundTouch extends eqLogic {
                 $eqLogic->updatePresets();
             }
         }
+        SoundTouchLog::end('PULL');
     }
 
     /**
@@ -286,15 +286,14 @@ class BoseSoundTouch extends eqLogic {
     public function updateInfos()
     {
         $update = false;
-        $hostname = $this->getConfiguration('hostname');
 
         $api = new SoundTouchNowPlayingApi($this, true);
-        log::add('BoseSoundTouch', 'debug', '=== REFRESH ==================================================');
-        log::add('BoseSoundTouch', 'debug', "Rafraichissement des données depuis '$hostname'");
+        SoundTouchLog::begin('REFRESH');
+        SoundTouchLog::info('REFRESH', 'Rafraichissement des données depuis "'.$api->getHostname().'"');
 
         // Récupération des différentes valeur
         if ($err = $api->getMessageError()) {
-            log::add('BoseSoundTouch', 'warning', 'Interrogation de l\'enceinte "'.$hostname.'" : '.$err);
+            SoundTouchLog::warning('REFRESH', 'Interrogation de l\'enceinte "'.$api->getHostname().'" : '.$err);
             return;
         }
         $update |= $this->updateInfoCommand( SoundTouchConfig::POWERED,      $api->isPowered() );
@@ -316,15 +315,15 @@ class BoseSoundTouch extends eqLogic {
             $oldImage = ( isset($oldPreview['image']) ) ? $oldPreview['image'] : '';
             $preview = $api->getPreviewArray($oldImage);
             $sourceInfo->setConfiguration('preview', $preview);
-            log::add('BoseSoundTouch', 'debug', 'Preview Image = '.print_r($preview, true));
+            SoundTouchLog::debug('REFRESH', 'Preview Image = '.print_r($preview, true));
             $sourceInfo->save();
         }
 
         if ($update) {
             BoseSoundTouch::refreshWidget();
-            log::add('BoseSoundTouch', 'debug', 'WIDGET rafraîchit...');
+            SoundTouchLog::info('REFRESH', 'WIDGET rafraîchit...');
         }
-        log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
+        SoundTouchLog::end('REFRESH');
     }
 
 
@@ -339,14 +338,14 @@ class BoseSoundTouch extends eqLogic {
     {
         if ($value === null) {
             $result = $this->checkAndUpdateCmd($command, '');
-            log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = NULL');
+            SoundTouchLog::infoUpdateCommand($command, 'NULL', $result);
             return false;
         } else {
             if ( $value === '' )
-                $result = $this->checkAndUpdateCmd($command, "&nbsp;");
+                $result = $this->checkAndUpdateCmd($command, "&nbsp;"); // TODO à améliorer
             else
                 $result = $this->checkAndUpdateCmd($command, $value);
-            log::add('BoseSoundTouch', 'debug', 'Response '.$command.' = '.$value.' ('.$result.')');
+            SoundTouchLog::infoUpdateCommand($command, $value, $result);
             return $result;
         }
     }
@@ -357,20 +356,18 @@ class BoseSoundTouch extends eqLogic {
      */
     public function updatePresets()
     {
-        $hostname = $this->getConfiguration('hostname');
-        log::add('BoseSoundTouch', 'debug', '=== PRESETS ==================================================');
-        log::add('BoseSoundTouch', 'debug', "Rafraichissement des présélections depuis '$hostname'");
-
         // Déclaration de l'API avec l'adresse de l'enceinte
-        $hostname = $this->getConfiguration('hostname');
-        if ( empty($hostname) ) $hostname = 'soundtouch'; // FIXME
-        $configs = new SoundTouchConfig( new SoundTouchSourceApi($hostname) );
+        $api = new SoundTouchSourceApi($this);
+        $configs = new SoundTouchConfig($api);
+
+        SoundTouchLog::begin('PRESETS');
+        SoundTouchLog::info('PRESETS', 'Rafraichissement des présélections depuis "'.$api->getHostname().'"');
 
         foreach (cmd::searchConfigurationEqLogic($this->getId(), '"preset"', 'action') as $command) {
-                $configs->updatePreset($command);
+            $configs->updatePreset($command);
         }
 
-        log::add('BoseSoundTouch', 'debug', '--------------------------------------------------------------');
+        SoundTouchLog::end('PRESETS');
         BoseSoundTouch::refreshWidget();
     }
 
@@ -380,17 +377,18 @@ class BoseSoundTouch extends eqLogic {
      */
     public function updateCommandSoundTouch()
     {
-        log::add('BoseSoundTouch', 'debug', 'SAVE : === BEGIN =======================================');
+        // Déclaration de l'API avec l'adresse de l'enceinte
+        $api = new SoundTouchSourceApi($this);
+        $configs = new SoundTouchConfig($api);
 
-        $hostname = $this->getConfiguration('hostname');
-        if ( empty($hostname) ) $hostname = 'soundtouch'; // FIXME
-        $configs = new SoundTouchConfig( new SoundTouchSourceApi($hostname) );
+        SoundTouchLog::begin('SAVE CMD');
+        SoundTouchLog::info('SAVE CMD', 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
 
         foreach ($configs->getListCommands() as $command) {
             $this->addCommand($command);
         }
 
-        log::add('BoseSoundTouch', 'debug', 'SAVE : === END =========================================');
+        SoundTouchLog::end('SAVE CMD');
     }
 
 
@@ -419,8 +417,7 @@ class BoseSoundTouch extends eqLogic {
 
             // Assigne les paramètres du JSON à chaque fonction de l'eqLogic
             utils::a2o($cmdSoundTouch, $config);
-            //SmartLifeLog::debug('DISCOVERY', $device, 'ADD COMMAND '.$config['logicalId']);
-            log::add('BoseSoundTouch', 'debug', 'SAVE : ADD COMMAND '.$config['logicalId']);
+            SoundTouchLog::info('SAVE CMD', 'ADD '.$config['logicalId']);
         }
 
         // Ne doit pas être changé
@@ -433,7 +430,8 @@ class BoseSoundTouch extends eqLogic {
 				}
 			}
         }
-        log::add('BoseSoundTouch', 'debug', 'SAVE : UPDATE COMMAND '.$config['logicalId']);
+        SoundTouchLog::debug('SAVE CMD', $config['logicalId'].' : '.print_r($config, true));
+        SoundTouchLog::debugCommand('SAVE CMD', $cmdSoundTouch);
 
         // Sauvegarde
         $cmdSoundTouch->save();
@@ -464,29 +462,33 @@ class BoseSoundTouchCmd extends cmd {
         if ($idCommand == 'REFRESH') {
 
             // Rafraichissement des données
-            //$this->getEqLogic()->updatePresets();
+            SoundTouchLog::debug('EXECUTE', 'updatePresets() | updateInfos()');
+            $this->getEqLogic()->updatePresets();
             $this->getEqLogic()->updateInfos();
 
         } elseif ( $codeKey = $this->getConfiguration('codekey') ) {
 
             // Action sur sur touche
+            SoundTouchLog::debug('EXECUTE', 'sendCommandJeedom('.$codeKey.')');
             $api = new SoundTouchCommandKeyApi($this->getEqLogic());
             $api->sendCommandJeedom($this);
 
         } elseif ( $idCommand == 'VOLUME_SET' ) {
 
             // Ajuste le volume
+            SoundTouchLog::debug('EXECUTE', 'setVolumeJeedom('.$_options['slider'].')');
             $api = new SoundTouchCommandKeyApi($this->getEqLogic());
             $api->setVolumeJeedom($_options['slider']);
 
         } elseif ( $content = $this->getConfiguration('contentItem') ) {
 
             // Sélectionne une source
+            SoundTouchLog::debug('EXECUTE', 'selectSourceJeedom('.$content['source'].', '.$content['account'].')');
             $api = new SoundTouchSourceApi($this->getEqLogic());
             $api->selectSourceJeedom($content['source'], $content['account']);
 
         } else {
-            log::add('BoseSoundTouch', 'debug', "ACTION : $idCommand sur l'enceinte '$hostname' - Touche NULL");
+            SoundTouchLog::debug('EXECUTE', 'NULL : pas de commande à exécuter');
         }
 
     }

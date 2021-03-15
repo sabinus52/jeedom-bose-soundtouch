@@ -63,6 +63,17 @@ class JeedomSoundTouchApi extends SoundTouchApi
 
 
     /**
+     * Retourne le hostname
+     * 
+     * @return String
+     */
+    public function getHostname()
+    {
+        return $this->hostname;
+    }
+
+
+    /**
      * Retourne l'URL de l'image à partir de l'objet ContentItem
      * 
      * @param ContentItem $item
@@ -86,7 +97,6 @@ class JeedomSoundTouchApi extends SoundTouchApi
 
             // Matche les sources avec les images prédéfinies sur disque
             $source = ( isset(self::$matchImages[$source]) ) ? strtolower(self::$matchImages[$source]) : strtolower($source);
-            log::add('BoseSoundTouch', 'debug', "ACTION : source ".$item->getAccount().' --> '.$source." sur l'enceinte");
 
             // Chemin complet de l'image locale
             $image = realpath(__DIR__ . '/../..').sprintf(self::PATH_IMAGE, $source);

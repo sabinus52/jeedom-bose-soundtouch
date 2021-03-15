@@ -4,6 +4,7 @@
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/SoundTouchLog.class.php';
 require_once __DIR__ . '/JeedomSoundTouchApi.php';
 require_once __DIR__ . '/SoundTouchSource.api.php';
 require_once __DIR__ . '/SoundTouchCommandKey.api.php';
@@ -108,7 +109,7 @@ class SoundTouchConfig
     private function getCommands($type)
     {
         $commands = $this->loadJSON($type);
-        if ( $commands === false ) log::add('BoseSoundTouch', 'warning', 'SAVE : probleme chargement du fichier json '.$type);
+        if ( $commands === false ) SoundTouchLog::warning('SAVE CMD', 'Probleme chargement du fichier json '.$type);
         return $commands;
     }
 
@@ -158,7 +159,6 @@ class SoundTouchConfig
 
         if ( $newContent ) {
             // Présence d'une présélection
-            log::add('BoseSoundTouch', 'debug', $command->getLogicalId().' = '.$cacheImage);
             self::storeImageCache($cacheImage, $oldContent['image'], $newContent['image']);
             // Sauvegarde les données de la présélection dans la commande
             $newContent['uri'] = self::getUriImageCache($cacheName, $newContent['image']);
@@ -169,7 +169,8 @@ class SoundTouchConfig
             $command->setConfiguration('content', null);
         }
 
-        log::add('BoseSoundTouch', 'debug', $command->getLogicalId().' = '.print_r($newContent, true));
+        SoundTouchLog::info('PRESETS', $idPreset.' = '.$newContent['name'].' ('.$newContent['source'].')');
+        SoundTouchLog::debug('PRESETS', $command->getLogicalId().' = '.print_r($newContent, true));
         $command->save();
     }
 
@@ -183,7 +184,7 @@ class SoundTouchConfig
     {
         $commands = [];
         foreach ($this->api->getSourceLocal() as $source) {
-            log::add('BoseSoundTouch', 'debug', 'add ' . $source->getName().' / '.$source->getSource());
+            SoundTouchLog::debug('SAVE CMD', 'Nouvelle source trouvée'.$source->getName().' / '.$source->getSource());
             $commands[] = array(
                 'name' => 'Select '.$source->getName(),
                 'logicalId' => $source->getName(),
