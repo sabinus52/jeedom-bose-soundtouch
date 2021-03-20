@@ -181,6 +181,10 @@ class BoseSoundTouch extends eqLogic {
 
         // Type du widget
         $typeWidget = $this->getConfiguration('format');
+        $hostname = $this->getConfiguration('hostname');
+
+        SoundTouchLog::begin('TOHTML');
+        SoundTouchLog::debug('TOHTML', 'Affichage du widget au format "'.$typeWidget.'" de l\'enceinte "'.$hostname.'"');
 
         // Traitement des infos
         foreach ($this->getCmd('info') as $info) {
@@ -196,9 +200,9 @@ class BoseSoundTouch extends eqLogic {
                     break;
                 case SoundTouchConfig::SOURCE :
                     $preview = $info->getConfiguration('preview');
-                    $replace['#PREVIEW#'] = $info->getConfiguration('preview');
+                    $replace['#PREVIEW#'] = $preview['uri'];
                     if ($value == 'UPDATE') {
-                        $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/loader.gif';
+                        $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/images/loader.gif';
                     }
                     break;
                 case SoundTouchConfig::TRACK_ARTIST :
@@ -216,52 +220,60 @@ class BoseSoundTouch extends eqLogic {
                         case 'PLAY'      : $replace['#PLAY_PAUSE_VALUE#'] = 'pause'; break;
                         case 'PAUSE'     : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
                         case 'STOP'      : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
-                        case 'BUFFERING' : $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/loader.gif';
+                        case 'BUFFERING' : $replace['#PREVIEW#'] = 'plugins/BoseSoundTouch/core/template/images/loader.gif';
                         default          : $replace['#PLAY_PAUSE_VALUE#'] = 'play'; break;
                     }
                     break;
             }
-            log::add('BoseSoundTouch', 'debug', "HTML : #".$info->getLogicalId()."_VALUE#=".$replace['#'.$info->getLogicalId().'_VALUE#']);
+            SoundTouchLog::debug('TOHTML', '#'.$info->getLogicalId().'# [ID] = '.$replace['#'.$info->getLogicalId().'_ID#'].', [VALUE] = '.$replace['#'.$info->getLogicalId().'_VALUE#']);
         }
 
 
         // Traitement des commandes
         $replace['#SOURCES_LIST#'] = '';
         foreach ($this->getCmd('action') as $command) {
-            $display = $command->getConfiguration('display');
+            //$display = $command->getConfiguration('display');
             $replace['#'.$command->getLogicalId().'_ID#'] = $command->getId();
 
-            switch ($command->getLogicalId()) {
-                case SoundTouchConfig::PRESET_1 :
-                case SoundTouchConfig::PRESET_2 :
-                case SoundTouchConfig::PRESET_3 :
-                case SoundTouchConfig::PRESET_4 :
-                case SoundTouchConfig::PRESET_5 :
-                case SoundTouchConfig::PRESET_6 :
-                    $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower($command->getLogicalId()).'.png';
-                    $preset = $command->getConfiguration('datas');
-                    if (isset($preset['name'])) {
-                        $replace['#'.$command->getLogicalId().'_NAME#'] = $preset['name'];
-                        $replace['#'.$command->getLogicalId().'_ICON#'] = $preset['cache'];
-                    }
-                    break;
-            }
+            if ( $presetNumber = $command->getConfiguration('preset') ) {
 
-            // Liste des sources
-            if ( $contentItem = $command->getConfiguration('ContentItem') ) {
-                if ( intval(substr($contentItem['account'], -1)) > 0 ) {
-                    $image = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower(substr($contentItem['account'], 0, -1)).'.png';
+                // PRESELECTION
+                if ( $presetContent = $command->getConfiguration('content') ) {
+                    // Présélection avec un contenu
+                    $replace['#'.$command->getLogicalId().'_NAME#'] = $presetContent['name'];
+                    $replace['#'.$command->getLogicalId().'_ICON#'] = $presetContent['uri'];
                 } else {
-                    $image = 'plugins/BoseSoundTouch/core/template/dashboard/images/'.strtolower($contentItem['account']).'.png';
+                    // Préselection vide
+                    $replace['#'.$command->getLogicalId().'_NAME#'] = 'Preset '.$presetNumber;
+                    $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/images/keytouch/preset_'.$presetNumber.'.png';
+                }
+                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$replace['#'.$command->getLogicalId().'_NAME#'].', [ICON] => '.$replace['#'.$command->getLogicalId().'_ICON#']);
+
+            } elseif ( $contentItem = $command->getConfiguration('contentItem') ) {
+
+                // Liste des sources
+                if ( intval(substr($contentItem['account'], -1)) > 0 ) {
+                    $image = 'plugins/BoseSoundTouch/core/template/images/source/'.strtolower(substr($contentItem['account'], 0, -1)).'.png';
+                } else {
+                    $image = 'plugins/BoseSoundTouch/core/template/images/source/'.strtolower($contentItem['account']).'.png';
                 }
                 if ( ! file_exists(realpath(__DIR__ . '/../../../../').'/'.$image) ) {
-                    $image = 'plugins/BoseSoundTouch/core/template/dashboard/images/aux-input.png';
+                    $image = 'plugins/BoseSoundTouch/core/template/images/source/aux.png';
                 }
                 $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
                 $replace['#SOURCES_LIST#'] .= '<li><img data-cmd_id="'.$command->getId().'" src="'.$image.'" title="'.$contentItem['account'].'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"></li>';
+                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$contentItem['account'].', [ICON] => '.$image);
+
+            } else {
+
+                // Toutes les autres commandes
+                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#']);
+
             }
+            
         }
 
+        SoundTouchLog::end('TOHTML');
         return template_replace($replace, getTemplate('core', $_version, $typeWidget.'.eqLogic', 'BoseSoundTouch'));
     }
      
