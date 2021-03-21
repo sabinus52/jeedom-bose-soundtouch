@@ -351,7 +351,7 @@ class BoseSoundTouch extends eqLogic {
         if ($value === null) {
             $result = $this->checkAndUpdateCmd($command, '');
             SoundTouchLog::infoUpdateCommand($command, 'NULL', $result);
-            return false;
+		return false;
         } else {
             if ( $value === '' )
                 $result = $this->checkAndUpdateCmd($command, "&nbsp;"); // TODO à améliorer
@@ -359,7 +359,7 @@ class BoseSoundTouch extends eqLogic {
                 $result = $this->checkAndUpdateCmd($command, $value);
             SoundTouchLog::infoUpdateCommand($command, $value, $result);
             return $result;
-        }
+    }
     }
 
 
@@ -405,13 +405,33 @@ class BoseSoundTouch extends eqLogic {
 
 
     /**
+     * Met à jour les commandes du Plugin
+     */
+    public function reCreateCommandSoundTouch()
+    {
+        // Déclaration de l'API avec l'adresse de l'enceinte
+        $api = new SoundTouchSourceApi($this);
+        $configs = new SoundTouchConfig($api);
+
+        SoundTouchLog::begin('RECREATE CMD');
+        SoundTouchLog::info('RECREATE CMD', 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
+
+        foreach ($configs->getListCommands() as $command) {
+            $this->addCommand($command, true);
+        }
+
+        SoundTouchLog::end('RECREATE CMD');
+    }
+
+
+    /**
      * Ajout des commandes à Jeedom
      * 
      * @param Array $config : Configuration de la commande
+     * @param Boolean $force : Force la recréation de la commande
      */
-    public function addCommand(Array $config)
+    public function addCommand(Array $config, $force = false)
     {
-        
         $cmdSoundTouch = $this->getCmd(null, $config['logicalId']);
         if ( !is_object($cmdSoundTouch) ) {
 
@@ -430,6 +450,11 @@ class BoseSoundTouch extends eqLogic {
             // Assigne les paramètres du JSON à chaque fonction de l'eqLogic
             utils::a2o($cmdSoundTouch, $config);
             SoundTouchLog::info('SAVE CMD', 'ADD '.$config['logicalId']);
+        }
+
+        if ( $force ) {
+            utils::a2o($cmdSoundTouch, $config);
+            SoundTouchLog::info('RECREATE CMD', 'ADD '.$config['logicalId']);
         }
 
         // Ne doit pas être changé
