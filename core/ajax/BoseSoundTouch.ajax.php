@@ -32,7 +32,7 @@ try {
         if (!is_object($eqLogic)) {
             throw new Exception(__('BoseSoundTouch eqLogic non trouvé : ', __FILE__) . init('id'));
         }
-        $eqLogic->save();
+        $eqLogic->reCreateCommandSoundTouch();
         ajax::success();
     }
 

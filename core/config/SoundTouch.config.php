@@ -1,20 +1,41 @@
 <?php
 /**
  * Classe de configuration du plugin
- *  - Infos de l'enceinte
- *  - Action sur l'enceinte
  */
 
-//require_once __DIR__  . '/../../3rparty/SoundTouchKey.class.php';
-//require_once __DIR__  . '/../../3rparty/SoundTouchCommand.class.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/SoundTouchLog.class.php';
 require_once __DIR__ . '/JeedomSoundTouchApi.php';
-use Sabinus\SoundTouch\Constants\Key as SoundTouchKey;
+require_once __DIR__ . '/SoundTouchSource.api.php';
+require_once __DIR__ . '/SoundTouchCommandKey.api.php';
+require_once __DIR__ . '/SoundTouchNowPlaying.api.php';
+use \Sabinus\SoundTouch\SoundTouchApi;
 
 
 class SoundTouchConfig
 {
 
+    /**
+     * Masque des images à mettre en cache
+     */
+    const MASK_CACHE = 'plugins/BoseSoundTouch/data/cache-%s.png';
+
+    /**
+     * Masque du chemin complet du fichier JSON
+     */
+    const FILE_CONFIG = '/../config/json/%s.json';
+
+    /**
+     * Liste des types de commandes
+     */
+    const CMD_INFO_STATUS       = 'status.info';
+    const CMD_ACTION_KEYTOUCH   = 'keytouch.action';
+    const CMD_ACTION_PRESETS    = 'presets.action';
+
+
+    /**
+     * Commandes de type "info"
+     */
     const POWERED = 'PLAYING';
     const SOURCE = 'SOURCE';
     const VOLUME = 'VOLUME';
@@ -28,438 +49,239 @@ class SoundTouchConfig
     const TRACK_ALBUM = 'TRACK_ALBUM';
 
     const REFRESH = 'REFRESH';
-    const POWER = 'POWER';
-    const VOLUME_UP = 'VOLUME_UP';
-    const VOLUME_DOWN = 'VOLUME_DOWN';
     const VOLUME_SET = 'VOLUME_SET';
-    const MUTE = 'MUTE';
-    const PRESET_1 = 'PRESET_1';
-    const PRESET_2 = 'PRESET_2';
-    const PRESET_3 = 'PRESET_3';
-    const PRESET_4 = 'PRESET_4';
-    const PRESET_5 = 'PRESET_5';
-    const PRESET_6 = 'PRESET_6';
-    const PLAY = 'PLAY';
-    const PAUSE = 'PAUSE';
-    const STOP = 'STOP';
-    const PREV_TRACK = 'TRACK_PREV';
-    const NEXT_TRACK = 'TRACK_NEXT';
-    const PLAY_PAUSE = 'PLAY_PAUSE';
-    const SHUFFLE_OFF = 'SHUFFLE_OFF';
-    const SHUFFLE_ON = 'SHUFFLE_ON';
-    const REPEAT_OFF = 'REPEAT_OFF';
-    const REPEAT_ONE = 'REPEAT_ONE';
-    const REPEAT_ALL = 'REPEAT_ALL';
-    const TV = 'TV';
-    const BLUETOOTH = 'BLUETOOTH';
-    const AUX_INPUT = 'AUX_INPUT';
 
 
 
-    static private $configInfos = array(
-    
-        array(
-            'name' => 'Etat',
-            'logicalId' => self::POWERED,
-            'type' => 'info',
-            'subType' => 'binary',
-            'order' => 1,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Source',
-            'logicalId' => self::SOURCE,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 2,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_SOURCE',
-        ),
-
-        array(
-            'name' => 'Volume',
-            'logicalId' => self::VOLUME,
-            'type' => 'info',
-            'subType' => 'numeric',
-            'order' => 3,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Etat Volume',
-            'logicalId' => self::MUTED,
-            'type' => 'info',
-            'subType' => 'binary',
-            'order' => 4,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Etat de lecture',
-            'logicalId' => self::STATUS,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 5,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Etat Shuffle',
-            'logicalId' => self::SHUFFLE,
-            'type' => 'info',
-            'subType' => 'binary',
-            'order' => 6,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Etat Repeat',
-            'logicalId' => self::REPEAT,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 7,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Track Image',
-            'logicalId' => self::TRACK_IMAGE,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 8,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Track Artiste',
-            'logicalId' => self::TRACK_ARTIST,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 9,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Track Titre',
-            'logicalId' => self::TRACK_TITLE,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 11,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-        array(
-            'name' => 'Track Album',
-            'logicalId' => self::TRACK_ALBUM,
-            'type' => 'info',
-            'subType' => 'string',
-            'order' => 11,
-            'isVisible' => true,
-            'generic_type' => 'SPEAKER_STATE',
-        ),
-
-    );
+    static private $cmdTypes = [ self::CMD_INFO_STATUS, self::CMD_ACTION_KEYTOUCH ];
 
 
-    static private $configCommands = array(
-    
-        array(
-            'name' => 'Refresh',
-            'logicalId' => self::REFRESH,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 20,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-        
-        array(
-            'name' => 'Power',
-            'logicalId' => self::POWER,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 21,
-            'codekey' => SoundTouchKey::POWER,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
+    /**
+     * Liste des commandes récupérées dans le fichier JSON
+     * 
+     * @var Array
+     */
+    private $commands;
 
-        array(
-            'name' => 'Volume Haut',
-            'logicalId' => self::VOLUME_UP,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 22,
-            'codekey' => SoundTouchKey::VOLUME_UP,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Volume Bas',
-            'logicalId' => self::VOLUME_DOWN,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 23,
-            'codekey' => SoundTouchKey::VOLUME_DOWN,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Mute',
-            'logicalId' => self::MUTE,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 24,
-            'codekey' => SoundTouchKey::MUTE,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
-        ),
-
-        array(
-            'name' => 'Set Volume',
-            'logicalId' => self::VOLUME_SET,
-            'type' => 'action',
-            'subType' => 'slider',
-            'order' => 25,
-            'unity' => '%',
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
-        ),
-
-        array(
-            'name' => 'Présélection 1',
-            'logicalId' => self::PRESET_1,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 26,
-            'codekey' => SoundTouchKey::PRESET_1,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Présélection 2',
-            'logicalId' => self::PRESET_2,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 27,
-            'codekey' => SoundTouchKey::PRESET_2,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Présélection 3',
-            'logicalId' => self::PRESET_3,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 28,
-            'codekey' => SoundTouchKey::PRESET_3,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Présélection 4',
-            'logicalId' => self::PRESET_4,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 29,
-            'codekey' => SoundTouchKey::PRESET_4,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Présélection 5',
-            'logicalId' => self::PRESET_5,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 40,
-            'codekey' => SoundTouchKey::PRESET_5,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Présélection 6',
-            'logicalId' => self::PRESET_6,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 41,
-            'codekey' => SoundTouchKey::PRESET_6,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
-        ),
-
-        array(
-            'name' => 'Play',
-            'logicalId' => self::PLAY,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 42,
-            'codekey' => SoundTouchKey::PLAY,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Pause',
-            'logicalId' => self::PAUSE,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 43,
-            'codekey' => SoundTouchKey::PAUSE,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-        
-        array(
-            'name' => 'Stop',
-            'logicalId' => self::STOP,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 44,
-            'codekey' => SoundTouchKey::STOP,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Piste précédente',
-            'logicalId' => self::PREV_TRACK,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 45,
-            'codekey' => SoundTouchKey::PREV_TRACK,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Piste suivante',
-            'logicalId' => self::NEXT_TRACK,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 46,
-            'codekey' => SoundTouchKey::NEXT_TRACK,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Play/Pause',
-            'logicalId' => self::PLAY_PAUSE,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 47,
-            'codekey' => SoundTouchKey::PLAY_PAUSE,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '1',
-        ),
-
-        array(
-            'name' => 'Hasard ON',
-            'logicalId' => self::SHUFFLE_ON,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 48,
-            'codekey' => SoundTouchKey::SHUFFLE_ON,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Hasard OFF',
-            'logicalId' => self::SHUFFLE_OFF,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 49,
-            'codekey' => SoundTouchKey::SHUFFLE_OFF,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Répétition OFF',
-            'logicalId' => self::REPEAT_OFF,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 50,
-            'codekey' => SoundTouchKey::REPEAT_OFF,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Répétition Une',
-            'logicalId' => self::REPEAT_ONE,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 51,
-            'codekey' => SoundTouchKey::REPEAT_ONE,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-        array(
-            'name' => 'Répétition Tous',
-            'logicalId' => self::REPEAT_ALL,
-            'type' => 'action',
-            'subType' => 'other',
-            'order' => 52,
-            'codekey' => SoundTouchKey::REPEAT_ALL,
-            'isVisible' => true,
-            'generic_type' => 'GENERIC_ACTION',
-            'forceReturnLineAfter' => '0',
-        ),
-
-    );
+    /**
+     * @var SoundTouchApi
+     */
+    private $api;
 
 
-    static public function getConfigCmds()
+    /**
+     * Constructeur
+     */
+    public function __construct(SoundTouchApi $api)
     {
-        return self::$configCommands;
+        $this->api = $api;
+        $this->commands = [];
     }
 
 
-    static public function getConfigInfos()
+    /**
+     * Retourne la liste des commandes
+     * 
+     * @return Array
+     */
+    public function getListCommands()
     {
-        return self::$configInfos;
+        $this->commands = [];
+
+        foreach (self::$cmdTypes as $type) {
+            $cmds = $this->getCommands($type);
+            if ( is_array($cmds) ) $this->commands = array_merge($this->commands, $cmds);
+        }
+
+        // Présélection
+        $this->commands = array_merge($this->commands, $this->getCommandsPreset());
+
+        // Sources
+        $this->commands = array_merge($this->commands, $this->getCommandsSource());
+        
+        return $this->commands;
+    }
+
+
+    /**
+     * Retourne les commandes d'un certain type
+     * 
+     * @param String $type : infos, action, preset
+     * @return Array
+     */
+    private function getCommands($type)
+    {
+        $commands = $this->loadJSON($type);
+        if ( $commands === false ) SoundTouchLog::warning('SAVE CMD', 'Probleme chargement du fichier json '.$type);
+        return $commands;
+    }
+
+
+    /**
+     * Retourne la liste des commandes de présélection
+     * 
+     * @return Array
+     */
+    private function getCommandsPreset()
+    {
+        $commands = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $commands[] = array(
+                'name' => 'Présélection '.$i,
+                'logicalId' => 'PRESET_'.$i,
+                'type' => 'action',
+                'subType' => 'other',
+                'isVisible' => true,
+                'configuration' => array(
+                    'codekey' => 'PRESET_'.$i,
+                    'preset' => $i,
+                ),
+            );
+        }
+        return $commands;
+    }
+
+
+    /**
+     * Mets à jour la commande en fonction des données de la présélection
+     * 
+     * @param BoseSoundTouchCmd $command : Commande jeedom
+     */
+    public function updatePreset(BoseSoundTouchCmd $command)
+    {
+        // Ancien contenu des données de la présélection
+        $oldContent = $command->getConfiguration('content');
+
+        // Récupération du nouveau contenu de la présélection
+        $idPreset = $command->getConfiguration('preset');
+        $newContent = $this->api->getPresetByNum($idPreset);
+
+        // Image local en cache
+        $cacheName = 'preset'.$idPreset.'-'.$command->getEqLogic_id();
+        $cacheImage = self::getFileImageCache($cacheName);
+
+        if ( $newContent ) {
+            // Présence d'une présélection
+            self::storeImageCache($cacheImage, $oldContent['image'], $newContent['image']);
+            // Sauvegarde les données de la présélection dans la commande
+            $newContent['uri'] = self::getUriImageCache($cacheName, $newContent['image']);
+            $command->setConfiguration('content', $newContent);
+        } else {
+            // Plus de préselection affectée
+            self::clearImageCache($cacheImage);
+            $command->setConfiguration('content', null);
+        }
+
+        SoundTouchLog::info('PRESETS', $idPreset.' = '.$newContent['name'].' ('.$newContent['source'].')');
+        SoundTouchLog::debug('PRESETS', $command->getLogicalId().' = '.print_r($newContent, true));
+        $command->save();
+    }
+
+
+    /**
+     * Retourne les commandes de la découverte des sources
+     * 
+     * @return Array
+     */
+    private function getCommandsSource()
+    {
+        $commands = [];
+        foreach ($this->api->getSourceLocal() as $source) {
+            SoundTouchLog::debug('SAVE CMD', 'Nouvelle source trouvée'.$source->getName().' / '.$source->getSource());
+            $commands[] = array(
+                'name' => 'Select '.$source->getName(),
+                'logicalId' => $source->getName(),
+                'type' => 'action',
+                'subType' => 'other',
+                'isVisible' => true,
+                'configuration' => array(
+                    'contentItem' => array(
+                        'account' => $source->getName(),
+                        'source' => $source->getSource(),
+                    ),
+                ),
+            );
+        }
+        return $commands;
+    }
+
+
+    /**
+     * Chargement de la configuration d'un équipement depuis le fichier JSON
+     * 
+     * @return Array|Boolean si KO
+     */
+    private function loadJSON($typeCmd)
+    {
+        // Chargement du fichier
+        $content = file_get_contents( sprintf(__DIR__.self::FILE_CONFIG, $typeCmd) );
+        if ( ! is_json($content) ) return false;
+        $result = json_decode($content, true);
+
+        // Vérification du contenu
+        if ( ! isset($result['commands']) ) return false;
+        if ( ! is_array($result['commands']) ) return false;
+
+        // Affectation du contenu
+        return $result['commands'];
+    }
+
+
+
+    // === FONCTIONS STATIQUES SUR LE CACHE ======================================================================================== //
+
+
+    /**
+     * Stocke l'image dans le dossier de cache
+     * 
+     * @param String $cacheImage : Nom du fichier complet de cache
+     * @param String $oldImage   : Url de l'ancienne image
+     * @param String $newImage   : Url de la nouvelle image
+     */
+    static public function storeImageCache($cacheImage, $oldImage, $newImage)
+    {
+        // Compare pour voir si un changement a eu lieu sur l'image'
+        if ( $oldImage != $newImage || ! file_exists($cacheImage) ) {
+            file_put_contents($cacheImage, file_get_contents($newImage));
+        }
+    }
+
+
+    /**
+     * Efface l'image du cache
+     * 
+     * @param String $cacheImage : Nom du fichier complet de cache
+     */
+    static public function clearImageCache($cacheImage)
+    {
+        if ( file_exists($cacheImage) ) {
+            @unlink($cacheImage);
+        }
+    }
+
+
+    /**
+     * Retourne le chemin + nom de l'image en cahche
+     * 
+     * @param String $name : Nom court pour identifier le cache
+     * @return String
+     */
+    static public function getFileImageCache($name)
+    {
+        return realpath(__DIR__ . '/../../../../') .'/'. sprintf(self::MASK_CACHE, $name);
+    }
+
+
+    /**
+     * Retourne l'URI de l'image en cache
+     * 
+     * @param String $name  : Nom court pour identifier le cache
+     * @param String $image : Url de l'image
+     * @return String
+     */
+    static public function getUriImageCache($name, $image)
+    {
+        return sprintf(self::MASK_CACHE, $name) .'?'. substr(md5($image), 0, 5);;
     }
 
 }

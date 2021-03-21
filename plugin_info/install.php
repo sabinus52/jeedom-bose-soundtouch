@@ -21,17 +21,17 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function BoseSoundTouch_install() {
 
     $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
-	if (!is_object($cron)) {
-		$cron = new cron();
-		$cron->setClass('BoseSoundTouch');
-		$cron->setFunction('pull');
-		$cron->setEnable(1);
-		$cron->setDeamon(1);
-		$cron->setDeamonSleepTime(7);
-		$cron->setSchedule('* * * * *');
-		$cron->setTimeout(1440);
-		$cron->save();
-	}
+    if (!is_object($cron)) {
+        $cron = new cron();
+        $cron->setClass('BoseSoundTouch');
+        $cron->setFunction('pull');
+        $cron->setEnable(1);
+        $cron->setDeamon(1);
+        $cron->setDeamonSleepTime(7);
+        $cron->setSchedule('* * * * *');
+        $cron->setTimeout(1440);
+        $cron->save();
+    }
 
 }
 
@@ -39,21 +39,37 @@ function BoseSoundTouch_update() {
     
     $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
     if (!is_object($cron)) {
-		$cron = new cron();
-	}
-	$cron->setClass('BoseSoundTouch');
-	$cron->setFunction('pull');
-	$cron->setEnable(1);
-	$cron->setDeamon(1);
-	$cron->setDeamonSleepTime(7);
-	$cron->setTimeout(1440);
-	$cron->setSchedule('* * * * *');
-	$cron->save();
+        $cron = new cron();
+    }
+    $cron->setClass('BoseSoundTouch');
+    $cron->setFunction('pull');
+    $cron->setEnable(1);
+    $cron->setDeamon(1);
+    $cron->setDeamonSleepTime(7);
+    $cron->setTimeout(1440);
+    $cron->setSchedule('* * * * *');
+    $cron->save();
     $cron->stop();
 
-    foreach (BoseSoundTouch::byType('BoseSoundTouch') as $equipment) {
-		if ( !$equipment->getConfiguration('format') ) {
-			$equipment->setConfiguration('format', 'remote');
+    $convertLogicalId = array(
+        'TRACK_NEXT' => 'NEXT_TRACK',
+        'TRACK_PREV' => 'PREV_TRACK',
+    );
+    foreach (eqLogic::byType('BoseSoundTouch') as $equipment) {
+		// Mets par défaut le widget 'remote'
+        if ( !$equipment->getConfiguration('format') ) {
+            $equipment->setConfiguration('format', 'remote');
+        }
+		// Remplace les logicalID de certaines commandes
+        foreach ($equipment->getCmd() as $cmd) {
+			try {
+            	$save = false;
+            	if ( isset($convertLogicalId[$cmd->getLogicalId()]) ) {
+                	$cmd->setLogicalId($convertLogicalId[$cmd->getLogicalId()]);
+                	$save = true;
+            	}
+            	if( $save ) $cmd->save();
+            } catch (\Exception $e) { }
 		}
         $equipment->save();
     }
@@ -64,8 +80,8 @@ function BoseSoundTouch_update() {
 function BoseSoundTouch_remove() {
     
     $cron = cron::byClassAndFunction('BoseSoundTouch', 'pull');
-	if (is_object($cron)) {
-		$cron->remove();
+    if (is_object($cron)) {
+        $cron->remove();
     }
 
 }
