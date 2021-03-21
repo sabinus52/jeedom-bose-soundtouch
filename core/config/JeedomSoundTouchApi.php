@@ -51,7 +51,7 @@ class JeedomSoundTouchApi extends SoundTouchApi
      * @param BoseSoundTouch $eqLogic
      * @param Boolean $init : initialise ou pas le statut de l'enceinte
      */
-    public function __construct(BoseSoundTouch $eqLogic, $init = true)
+    public function __construct(BoseSoundTouch $eqLogic, $init = false)
     {
         $this->eqLogic = $eqLogic;
         $host = $this->eqLogic->getConfiguration('hostname');

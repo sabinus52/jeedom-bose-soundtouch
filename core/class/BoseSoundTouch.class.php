@@ -297,6 +297,7 @@ class BoseSoundTouch extends eqLogic {
      */
     public function updateInfos()
     {
+        if ( $this->getIsEnable() == 0 ) return false;
         $update = false;
 
         $api = new SoundTouchNowPlayingApi($this, true);
@@ -308,17 +309,17 @@ class BoseSoundTouch extends eqLogic {
             SoundTouchLog::warning('REFRESH', 'Interrogation de l\'enceinte "'.$api->getHostname().'" : '.$err);
             return;
         }
-        $update |= $this->updateInfoCommand( SoundTouchConfig::POWERED,      $api->isPowered() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::SOURCE,       $api->getCurrentSource() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::VOLUME,       $api->getLevelVolume() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::MUTED,        $api->isMuted() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::STATUS,       $api->getStatePlay() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::SHUFFLE,      $api->isShuffle() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::REPEAT,       $api->getStateRepeat() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_ARTIST, $api->getTrackArtist() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_TITLE,  $api->getTrackTitle() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_ALBUM,  $api->getTrackAlbum() );
-        $update |= $this->updateInfoCommand( SoundTouchConfig::TRACK_IMAGE,  $api->getTrackImage() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::POWERED,      $api->isPowered() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::SOURCE,       $api->getCurrentSource() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::VOLUME,       $api->getLevelVolume() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::MUTED,        $api->isMuted() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::STATUS,       $api->getStatePlay() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::SHUFFLE,      $api->isShuffle() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::REPEAT,       $api->getStateRepeat() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::TRACK_ARTIST, $api->getTrackArtist() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::TRACK_TITLE,  $api->getTrackTitle() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::TRACK_ALBUM,  $api->getTrackAlbum() );
+        $update |= $this->checkAndUpdateCommand( SoundTouchConfig::TRACK_IMAGE,  $api->getTrackImage() );
 
         // Image de Preview à stoker dans la commande infos SOURCE
         $sourceInfo = $this->getCmd(null, SoundTouchConfig::SOURCE);
@@ -342,24 +343,24 @@ class BoseSoundTouch extends eqLogic {
     /**
      * Met à jour une valeur d'une commande info et retourne si elle a été changé ou pas
      * 
-     * @param $command : Constante de la commande à modifier
+     * @param $cmdLogicalId : ID logique de la commande à modifier
      * @param $value : Valeur à modifier
      * @return Boolean
      */
-    private function updateInfoCommand($command, $value)
+    private function checkAndUpdateCommand($cmdLogicalId, $value)
     {
-        if ($value === null) {
-            $result = $this->checkAndUpdateCmd($command, '');
-            SoundTouchLog::infoUpdateCommand($command, 'NULL', $result);
+		$cmd = $this->getCmd('info', $cmdLogicalId);
+		if ( !is_object($cmd) ) return false;
+
+        // Compare si la valeur à changer
+		$oldValue = $cmd->execCmd();
+		if ( $oldValue !== $cmd->formatValue($value) ) {
+			$cmd->event($value);
+            SoundTouchLog::infoUpdateCommand($cmdLogicalId, $value, true);
+			return true;
+		}
+        SoundTouchLog::infoUpdateCommand($cmdLogicalId, $value, false);
 		return false;
-        } else {
-            if ( $value === '' )
-                $result = $this->checkAndUpdateCmd($command, "&nbsp;"); // TODO à améliorer
-            else
-                $result = $this->checkAndUpdateCmd($command, $value);
-            SoundTouchLog::infoUpdateCommand($command, $value, $result);
-            return $result;
-    }
     }
 
 

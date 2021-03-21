@@ -33,6 +33,9 @@ class SoundTouchConfig
     const CMD_ACTION_PRESETS    = 'presets.action';
 
 
+    /**
+     * Commandes de type "info"
+     */
     const POWERED = 'PLAYING';
     const SOURCE = 'SOURCE';
     const VOLUME = 'VOLUME';

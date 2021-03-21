@@ -52,7 +52,7 @@
             "name" : "Etat Repeat",
             "logicalId" : "REPEAT",
             "type" : "info",
-            "subType" : "binary",
+            "subType" : "string",
             "isVisible" : 1
         },
         {
