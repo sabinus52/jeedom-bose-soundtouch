@@ -55,6 +55,7 @@ class JeedomSoundTouchApi extends SoundTouchApi
     {
         $this->eqLogic = $eqLogic;
         $host = $this->eqLogic->getConfiguration('hostname');
+        if ($host == '') $host = 'soundtouch';
 
         parent::__construct($host, true);
         
