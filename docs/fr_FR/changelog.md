@@ -1,3 +1,10 @@
+# Version 2.0.0 du 10 avril 2021
+
+- Réécriture complète du code
+- Mise à jour de l'API
+> Il sera peut être nécessaire de cliquer sur le bouton `Recréer les commandes manquantes` en cas d'erreur lors de la mise à jour.
+
+
 # Version 1.1.0 du 3 mars 2021
 
 - Découverte et création des commandes de sélection des différentes sources.
