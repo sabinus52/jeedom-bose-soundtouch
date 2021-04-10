@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'f40f652f326529014507fd6a2d73731160a2f012',
+    'reference' => '8df27630e71083776d51749adffb0ad635a02db5',
     'name' => 'jeedom/bose-soundtouch',
   ),
   'versions' => 
@@ -45,7 +45,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'f40f652f326529014507fd6a2d73731160a2f012',
+      'reference' => '8df27630e71083776d51749adffb0ad635a02db5',
     ),
     'psr/http-message' => 
     array (
@@ -74,12 +74,12 @@
     ),
     'sabinus52/soundtouchapi' => 
     array (
-      'pretty_version' => '1.4.1',
-      'version' => '1.4.1.0',
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9f3ed21830eeb8a5c424554ce6128812487a4c41',
+      'reference' => '9613bdb7109a83320e6f450e052e9229f7b51f8c',
     ),
   ),
 );

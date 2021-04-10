@@ -1,0 +1,87 @@
+{
+    "commands": [
+        {
+            "name" : "Etat",
+            "logicalId" : "PLAYING",
+            "type" : "info",
+            "subType" : "binary",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Source",
+            "logicalId" : "SOURCE",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Volume",
+            "logicalId" : "VOLUME",
+            "type" : "info",
+            "subType" : "numeric",
+            "unite" : "%",
+            "generic_type": "VOLUME",
+            "configuration": {
+                "minValue": 0,
+                "maxValue": 100
+            },
+            "isVisible" : 0
+        },
+        {
+            "name" : "Etat sourdine",
+            "logicalId" : "MUTED",
+            "type" : "info",
+            "subType" : "binary",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Etat de lecture",
+            "logicalId" : "STATUS",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Etat Shuffle",
+            "logicalId" : "SHUFFLE",
+            "type" : "info",
+            "subType" : "binary",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Etat Repeat",
+            "logicalId" : "REPEAT",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste : Artiste",
+            "logicalId" : "TRACK_ARTIST",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste : Titre",
+            "logicalId" : "TRACK_TITLE",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste : Album",
+            "logicalId" : "TRACK_ALBUM",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        },
+        {
+            "name" : "Piste : Image",
+            "logicalId" : "TRACK_IMAGE",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 1
+        }
+    ]
+}

@@ -306,16 +306,16 @@
         },
         {
             "name": "sabinus52/soundtouchapi",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabinus52/SoundTouchApi.git",
-                "reference": "9f3ed21830eeb8a5c424554ce6128812487a4c41"
+                "reference": "9613bdb7109a83320e6f450e052e9229f7b51f8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/9f3ed21830eeb8a5c424554ce6128812487a4c41",
-                "reference": "9f3ed21830eeb8a5c424554ce6128812487a4c41",
+                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/9613bdb7109a83320e6f450e052e9229f7b51f8c",
+                "reference": "9613bdb7109a83320e6f450e052e9229f7b51f8c",
                 "shasum": ""
             },
             "require": {
@@ -347,9 +347,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sabinus52/SoundTouchApi/issues",
-                "source": "https://github.com/sabinus52/SoundTouchApi/tree/master"
+                "source": "https://github.com/sabinus52/SoundTouchApi/tree/1.5.0"
             },
-            "time": "2020-03-07T19:23:20+00:00"
+            "time": "2021-03-21T16:42:28+00:00"
         }
     ],
     "packages-dev": [],
