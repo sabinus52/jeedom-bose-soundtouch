@@ -122,6 +122,75 @@ class BoseSoundTouch extends eqLogic {
     }
     
 
+    /*     * *********************Méthodes d'upgrade************************** */
+
+
+    /**
+     * UPGRADE du plugin
+     * 
+     * @param Integer $version : Version à upgrader
+     */
+    public static function upgradeEqLogics($version)
+    {
+        SoundTouchLog::begin('UPGRADE PLUGIN');
+        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version à upgrader '.$version);
+
+        foreach (eqLogic::byType('BoseSoundTouch') as $eqLogic) {
+
+            $versionEqLogic = $eqLogic->getConfiguration('version', 0);
+            SoundTouchLog::debug('UPGRADE PLUGIN', 'Version eqLogic = '.$versionEqLogic);
+
+            // Déjà à jour
+            if ($versionEqLogic >= $version) continue;
+
+            if ($versionEqLogic <= 1 && $version >= 1) self::_upgradeVersion01($eqLogic);
+            if ($versionEqLogic <= 2 && $version >= 2) self::_upgradeVersion02($eqLogic);
+
+            // Mise à jour de la version
+            $eqLogic->setConfiguration('version', $version);
+            SoundTouchLog::debug('UPGRADE PLUGIN', 'Version eqLogic = '.$version);
+            $eqLogic->save();
+        }
+
+        SoundTouchLog::end('UPGRADE PLUGIN');
+    }
+
+
+    /**
+     * UPGRADE V1 : Mets par défaut le widget 'remote'
+     * 
+     * @param BoseSoundTouch $eqLogic
+     */
+    private static function _upgradeVersion01($eqLogic)
+    {
+        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 0 -> 1'); return;
+        if ( !$eqLogic->getConfiguration('format') ) {
+            $eqLogic->setConfiguration('format', 'player');
+        }
+    }
+
+
+    /**
+     * UPGRADE V2 : Remplace les logicalID de certaines commandes
+     * 
+     * @param BoseSoundTouch $eqLogic
+     */
+    private static function _upgradeVersion02($eqLogic)
+    {
+        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 1 -> 2'); return;
+        $convertLogicalId = array(
+            'TRACK_NEXT' => 'NEXT_TRACK',
+            'TRACK_PREV' => 'PREV_TRACK',
+        );
+        foreach ($eqLogic->getCmd() as $cmd) {
+          	$save = false;
+           	if ( isset($convertLogicalId[$cmd->getLogicalId()]) ) {
+               	$cmd->setLogicalId($convertLogicalId[$cmd->getLogicalId()]);
+               	$save = true;
+           	}
+           	if( $save ) $cmd->save();
+		}
+    }
 
 
     /*     * *********************Méthodes d'instance************************* */
@@ -524,7 +593,7 @@ class BoseSoundTouchCmd extends cmd {
             SoundTouchLog::debug('EXECUTE', 'selectSourceJeedom('.$content['source'].', '.$content['account'].')');
             $api = new SoundTouchSourceApi($this->getEqLogic());
             $api->selectSourceJeedom($content['source'], $content['account']);
-
+        
         } else {
             SoundTouchLog::debug('EXECUTE', 'NULL : pas de commande à exécuter');
         }
