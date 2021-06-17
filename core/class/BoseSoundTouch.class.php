@@ -635,6 +635,13 @@ class BoseSoundTouchCmd extends cmd {
             $api = new SoundTouchSourceApi($this->getEqLogic());
             $api->selectSourceJeedom($content['source'], $content['account']);
         
+        } elseif ( $zone = $this->getConfiguration('zone') ) {
+
+            // Sélectionne une source
+            SoundTouchLog::debug('EXECUTE', 'setZoneJeedom('.print_r($zone, true).')');
+            $api = new SoundTouchZoneApi($this->getEqLogic());
+            $api->setZoneJeedom($zone['action'], $zone['ip'], $zone['mac']);
+
         } else {
             SoundTouchLog::debug('EXECUTE', 'NULL : pas de commande à exécuter');
         }

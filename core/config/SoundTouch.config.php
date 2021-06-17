@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/SoundTouchLog.class.php';
 require_once __DIR__ . '/JeedomSoundTouchApi.php';
 require_once __DIR__ . '/SoundTouchSource.api.php';
+require_once __DIR__ . '/SoundTouchZone.api.php';
 require_once __DIR__ . '/SoundTouchCommandKey.api.php';
 require_once __DIR__ . '/SoundTouchNowPlaying.api.php';
 use \Sabinus\SoundTouch\SoundTouchApi;
@@ -98,6 +99,9 @@ class SoundTouchConfig
 
         // Sources
         $this->commands = array_merge($this->commands, $this->getCommandsSource());
+
+        // MultiRoom
+        $this->commands = array_merge($this->commands, $this->getCommandsZone());
         
         return $this->commands;
     }
@@ -187,7 +191,7 @@ class SoundTouchConfig
     {
         $commands = [];
         foreach ($this->api->getSourceLocal() as $source) {
-            SoundTouchLog::debug('SAVE CMD', 'Nouvelle source trouvée'.$source->getName().' / '.$source->getSource());
+            SoundTouchLog::debug('SAVE CMD', 'Source trouvée : '.$source->getName().' / '.$source->getSource());
             $commands[] = array(
                 'name' => 'Select '.$source->getName(),
                 'logicalId' => $source->getName(),
@@ -204,6 +208,46 @@ class SoundTouchConfig
         }
         return $commands;
     }
+
+
+    /**
+     * Retourne les commandes pour le MultiRoom
+     * 
+     * @return Array
+     */
+    private function getCommandsZone()
+    {
+        $commands = [];
+        SoundTouchLog::debug('SAVE CMD', 'Zone actuelle : '.$this->api->getEqLogicName().' ('.$this->api->getEqLogicId().')');
+        foreach (eqLogic::byType('BoseSoundTouch') as $equipment) {
+            // On utilise pas le SoundTouch actuel
+            if ( $equipment->getId() == $this->api->getEqLogicId()) continue;
+            SoundTouchLog::debug('SAVE CMD', 'Zone trouvée : '.$equipment->getName().' ('.$equipment->getId().')');
+            $zone = $equipment->getconfiguration('zone');
+            $commands[] = array(
+                'name' => 'Ajout zone '.$equipment->getName(),
+                'logicalId' => '+'.$equipment->getLogicalID(),
+                'type' => 'action',
+                'subType' => 'other',
+                'isVisible' => true,
+                'configuration' => array(
+                    'zone' => $zone + array('action' => 'ADD'),
+                ),
+            );
+            $commands[] = array(
+                'name' => 'Supression zone '.$equipment->getName(),
+                'logicalId' => '-'.$equipment->getLogicalID(),
+                'type' => 'action',
+                'subType' => 'other',
+                'isVisible' => true,
+                'configuration' => array(
+                    'zone' => $zone + array('action' => 'SUB'),
+                ),
+            );
+        }
+        return $commands;
+    }
+
 
 
     /**
