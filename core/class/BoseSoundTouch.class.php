@@ -145,6 +145,7 @@ class BoseSoundTouch extends eqLogic {
 
             if ($versionEqLogic <= 1 && $version >= 1) self::_upgradeVersion01($eqLogic);
             if ($versionEqLogic <= 2 && $version >= 2) self::_upgradeVersion02($eqLogic);
+            if ($versionEqLogic <= 3 && $version >= 3) self::_upgradeVersion03($eqLogic);
 
             // Mise à jour de la version
             $eqLogic->setConfiguration('version', $version);
@@ -193,6 +194,22 @@ class BoseSoundTouch extends eqLogic {
     }
 
 
+    /**
+     * UPGRADE V2 : Affecte le logicalID et la zone master de l'eqLogic
+     * 
+     * @param BoseSoundTouch $eqLogic
+     */
+    private static function _upgradeVersion03($eqLogic)
+    {
+        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 2 -> 3'); return;
+        
+        // Logical ID
+        // $eqLogic->setLogicalID(XXXXXXXXXXXX);
+        // Configuration MAC et IP adresse
+        // $eqLogic->setConfiguration('zone', [ 'name', 'ip', 'mac' ]);
+    }
+
+
     /*     * *********************Méthodes d'instance************************* */
 
     public function preInsert() {
@@ -218,8 +235,32 @@ class BoseSoundTouch extends eqLogic {
     public function preUpdate() {
 
         if ($this->getConfiguration('hostname') == '') {
-            throw new Exception(__('Merci de renseigner l\'hôte ou l\'IP de l\'enceinte.',__FILE__));	
+            throw new Exception(__('Merci de renseigner l\'hôte ou l\'IP de l\'enceinte.', __FILE__));
         }
+
+        $api = new JeedomSoundTouchApi($this);
+        $infos = $api->getInfo();
+        if ( empty($infos) ) {
+            SoundTouchLog::warning('PRE UPDATE', 'Impossible de joindre l\'enceinte '.$api->getHostname());
+            throw new Exception(__('Impossible de joindre l\'enceinte '.$api->getHostname(), __FILE__));
+        }
+
+        // Logical ID
+        $logicalID = $infos->getDeviceID();
+        if ( ! empty($logicalID) ) {
+            SoundTouchLog::debug('PRE UPDATE', 'setLogicalID = '.$logicalID);
+            $this->setLogicalID($logicalID);
+        }
+
+        // Configuration MAC et IP adresse
+        $this->setConfiguration('zone', array(
+            'name' => $infos->getName(),
+            'ip'   => $infos->getNetwork()->getIpAddress(),
+            'mac'  => $infos->getNetwork()->getMacAddress(),
+        ));
+        SoundTouchLog::debug('PRE UPDATE', 'name = '.$infos->getName());
+        SoundTouchLog::debug('PRE UPDATE', 'addressIP = '.$infos->getNetwork()->getIpAddress());
+        SoundTouchLog::debug('PRE UPDATE', 'addressMAC = '.$infos->getNetwork()->getMacAddress());
 
     }
 
