@@ -307,9 +307,15 @@ class BoseSoundTouch extends eqLogic {
             switch ($info->getLogicalId()) {
                 case SoundTouchConfig::POWERED :
                     $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? 'power-on' : 'power-off';
+                    $zoneIsPowered = $value;
                     break;
                 case SoundTouchConfig::MUTED :
                     $replace['#'.$info->getLogicalId().'_VALUE#'] = ($value) ? 'mute-on' : 'mute';
+                    break;
+                case SoundTouchConfig::ZONE :
+                    $zoneMultiRoom = $info->getConfiguration('zones');
+                    $zoneZoneType = $value;
+                    $replace['#'.$info->getLogicalId().'_VALUE#'] = 'zones-'.$value;
                     break;
                 case SoundTouchConfig::SOURCE :
                     $preview = $info->getConfiguration('preview');
@@ -343,7 +349,7 @@ class BoseSoundTouch extends eqLogic {
 
 
         // Traitement des commandes
-        $replace['#SOURCES_LIST#'] = '';
+        $replace['#SOURCES_LIST#'] = $replace['#ZONES_LIST#'] = '';
         foreach ($this->getCmd('action') as $command) {
             //$display = $command->getConfiguration('display');
             $replace['#'.$command->getLogicalId().'_ID#'] = $command->getId();
@@ -376,6 +382,30 @@ class BoseSoundTouch extends eqLogic {
                 $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
                 $replace['#SOURCES_LIST#'] .= '<li><img data-cmd_id="'.$command->getId().'" src="'.$image.'" title="'.$contentItem['account'].'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"></li>';
                 SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$contentItem['account'].', [ICON] => '.$image);
+
+            } elseif ( $zone = $command->getConfiguration('zone') ) {
+            
+                $icons = array( 'ADD' => 'plus', 'SUB' => 'minus');
+                // Si eteint pas de commande MultiRoom
+                if ( ! $zoneIsPowered ) continue;
+
+                // En fonction du type de zone
+                switch ($zoneZoneType) {
+                    case 'master' :
+                        if ( (in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'SUB') || (!in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'ADD') ) {
+                            $replace['#ZONES_LIST#'] .= '<li><a data-cmd_id="'.$command->getId().'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"><i class="fa fa-'.$icons[$zone['action']].'"></i>&nbsp;&nbsp;'.$zone['name'].'</li>';
+                            SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
+                        }
+                        break;
+                    case 'slave' :
+                        break;
+                    default:
+                        if ( (in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'SUB') || (!in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'ADD') ) {
+                            $replace['#ZONES_LIST#'] .= '<li><a data-cmd_id="'.$command->getId().'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"><i class="fa fa-'.$icons[$zone['action']].'"></i>&nbsp;&nbsp;'.$zone['name'].'</li>';
+                            SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
+                        }
+                        break;
+                }
 
             } else {
 

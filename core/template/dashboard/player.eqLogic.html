@@ -18,11 +18,11 @@
 			<div class="cmd" data-cmd_id="#MUTE_ID#" onclick="jeedom.cmd.execute({id: '#MUTE_ID#'});">
 				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#MUTED_VALUE#.png" title="Mute">
 			</div>
-			<div class="cmd" data-cmd_id="#REFRESH_ID#" onclick="jeedom.cmd.execute({id: '#REFRESH_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/images/menu/refresh.png" title="Refresh">
-			</div>
 			<div class="cmd presets" data-toggle="0">
 				<img src="plugins/BoseSoundTouch/core/template/images/menu/presets.png" title="Presets">
+			</div>
+			<div class="cmd zones" data-toggle="0">
+				<img src="plugins/BoseSoundTouch/core/template/images/menu/#ZONE_VALUE#.png" title="MultiRoom">
 			</div>
 			<div class="cmd select" data-toggle="0">
 				<img src="plugins/BoseSoundTouch/core/template/images/menu/menu.png" title="Menu">
@@ -46,6 +46,12 @@
 				<img data-cmd_id="#PRESET_5_ID#" src="#PRESET_5_ICON#" title="#PRESET_5_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_5_ID#'});">
 				<img data-cmd_id="#PRESET_6_ID#" src="#PRESET_6_ICON#" title="#PRESET_6_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_6_ID#'});">
 			</div>
+		</div>
+
+		<div class="bose_player_zones">
+			<ul>
+				#ZONES_LIST#
+			</ul>
 		</div>
 
 		<div class="bose_player_select">
@@ -96,6 +102,12 @@
 				});
 				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').data('toggle', 0);
 			}
+			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').data('toggle')) {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').data('toggle', 0);
+			}
 			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').data('toggle')) {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"232px"}, function () {
 					$(this).css({left:"-232px"});
@@ -138,6 +150,21 @@
 				$(this).data('toggle', 1);
 			} else {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"232px"}, function () {
+					$(this).css({left:"-232px"});
+				});
+				$(this).data('toggle', 0);
+			}
+		});
+
+		// Touche ZONES
+		$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').on('click', function (event, ui) {
+			if ( $(this).data('toggle') == 0 ) {
+				closeAllpanels#uid#();
+				console.log($(this).data('toggle') + ' ouvre');
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"0px"});
+				$(this).data('toggle', 1);
+			} else {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"232px"}, function () {
 					$(this).css({left:"-232px"});
 				});
 				$(this).data('toggle', 0);
