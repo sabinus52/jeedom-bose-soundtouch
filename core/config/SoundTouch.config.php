@@ -49,6 +49,8 @@ class SoundTouchConfig
     const TRACK_TITLE = 'TRACK_TITLE';
     const TRACK_ALBUM = 'TRACK_ALBUM';
 
+    const ZONE = 'ZONE';
+
     const REFRESH = 'REFRESH';
     const VOLUME_SET = 'VOLUME_SET';
 

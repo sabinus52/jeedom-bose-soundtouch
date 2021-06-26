@@ -98,4 +98,21 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
         return $slave;
     }
 
+
+    /**
+     * Retourne la configuration pour la commande info "MultiRoom"
+     */
+    public function getConfigurationCommandInfo()
+    {
+        $result = array('master' => null, 'slaves' => array());
+
+        if ( empty($zone) ) $this->zone = $this->getZone();
+        $master = $this->zone->getMaster();
+        $result['master'] = ( empty($master) ) ? null : $master;
+        foreach ($this->zone->getSlaves() as $slave) {
+            $result['slaves'][] = $slave->getMacAddress();
+        }
+
+        return $result;
+    }
 }
