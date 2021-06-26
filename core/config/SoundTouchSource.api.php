@@ -51,7 +51,7 @@ class SoundTouchSourceApi extends JeedomSoundTouchApi
      */
     public function selectSourceJeedom($source, $account)
     {
-        SoundTouchLog::info('EXECUTE', 'Selectionne la source '.$source.' "'.$this->hostname.'"');
+        SoundTouchLog::info('EXECUTE', $this->eqLogic, 'Selectionne la source '.$source.' "'.$this->hostname.'"');
         switch ($source) {
             case Source::BLUETOOTH :
                 $response = $this->selectBlueTooth();
@@ -68,8 +68,8 @@ class SoundTouchSourceApi extends JeedomSoundTouchApi
                 $functionLog = 'null()';
                 break;
         }
-        SoundTouchLog::debug('EXECUTE', $functionLog.' -> '.( ($response !== false) ? 'OK' : 'NOK'));
-        if ( $response === false ) SoundTouchLog::debug('EXECUTE', $functionLog.' -> '.$this->getMessageError());
+        SoundTouchLog::debug('EXECUTE', $this->eqLogic, $functionLog.' -> '.( ($response !== false) ? 'OK' : 'NOK'));
+        if ( $response === false ) SoundTouchLog::debug('EXECUTE', $this->eqLogic, $functionLog.' -> '.$this->getMessageError());
     }
 
 

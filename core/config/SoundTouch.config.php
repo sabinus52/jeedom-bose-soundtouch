@@ -118,7 +118,7 @@ class SoundTouchConfig
     private function getCommands($type)
     {
         $commands = $this->loadJSON($type);
-        if ( $commands === false ) SoundTouchLog::warning('SAVE CMD', 'Probleme chargement du fichier json '.$type);
+        if ( $commands === false ) SoundTouchLog::warning('SAVE CMD', $this->api->getEqLogic(), 'Probleme chargement du fichier json '.$type);
         return $commands;
     }
 
@@ -178,8 +178,8 @@ class SoundTouchConfig
             $command->setConfiguration('content', null);
         }
 
-        SoundTouchLog::info('PRESETS', $idPreset.' = '.$newContent['name'].' ('.$newContent['source'].')');
-        SoundTouchLog::debug('PRESETS', $command->getLogicalId().' = '.print_r($newContent, true));
+        SoundTouchLog::info('PRESETS', $this->api->getEqLogic(), $idPreset.' = '.$newContent['name'].' ('.$newContent['source'].')');
+        SoundTouchLog::debug('PRESETS', $this->api->getEqLogic(), $command->getLogicalId().' = '.print_r($newContent, true));
         $command->save();
     }
 
@@ -193,7 +193,7 @@ class SoundTouchConfig
     {
         $commands = [];
         foreach ($this->api->getSourceLocal() as $source) {
-            SoundTouchLog::debug('SAVE CMD', 'Source trouvée : '.$source->getName().' / '.$source->getSource());
+            SoundTouchLog::debug('SAVE CMD', $this->api->getEqLogic(), 'Source trouvée : '.$source->getName().' / '.$source->getSource());
             $commands[] = array(
                 'name' => 'Select '.$source->getName(),
                 'logicalId' => $source->getName(),
@@ -220,11 +220,11 @@ class SoundTouchConfig
     private function getCommandsZone()
     {
         $commands = [];
-        SoundTouchLog::debug('SAVE CMD', 'Zone actuelle : '.$this->api->getEqLogicName().' ('.$this->api->getEqLogicId().')');
+        SoundTouchLog::debug('SAVE CMD', $this->api->getEqLogic(), 'Zone actuelle : '.$this->api->getEqLogicName().' ('.$this->api->getEqLogicId().')');
         foreach (eqLogic::byType('BoseSoundTouch') as $equipment) {
             // On utilise pas le SoundTouch actuel
             if ( $equipment->getId() == $this->api->getEqLogicId()) continue;
-            SoundTouchLog::debug('SAVE CMD', 'Zone trouvée : '.$equipment->getName().' ('.$equipment->getId().')');
+            SoundTouchLog::debug('SAVE CMD', $this->api->getEqLogic(), 'Zone trouvée : '.$equipment->getName().' ('.$equipment->getId().')');
             $zone = $equipment->getconfiguration('zone');
             $commands[] = array(
                 'name' => 'Ajout zone '.$equipment->getName(),

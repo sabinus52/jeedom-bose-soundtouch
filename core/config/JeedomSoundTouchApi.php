@@ -74,6 +74,12 @@ class JeedomSoundTouchApi extends SoundTouchApi
     }
 
 
+    public function getEqLogic()
+    {
+        return $this->eqLogic;
+    }
+
+
     public function getEqLogicId()
     {
         return $this->eqLogic->getId();

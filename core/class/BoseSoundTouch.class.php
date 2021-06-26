@@ -76,7 +76,7 @@ class BoseSoundTouch extends eqLogic {
     {
         SoundTouchLog::begin('PULL');
 		foreach (self::byType('BoseSoundTouch') as $eqLogic) {
-            SoundTouchLog::debug('PULL', 'eqLogic ID -> '.$eqLogic->getId().' , enabled = '.$eqLogic->getIsEnable());
+            SoundTouchLog::debug('PULL', $eqLogic, 'eqLogic ID -> '.$eqLogic->getId().' , enabled = '.$eqLogic->getIsEnable());
 			if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
 				continue;
             }
@@ -136,12 +136,12 @@ class BoseSoundTouch extends eqLogic {
     public static function upgradeEqLogics($version)
     {
         SoundTouchLog::begin('UPGRADE PLUGIN');
-        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version à upgrader '.$version);
+        SoundTouchLog::debug('UPGRADE PLUGIN', null, 'Version à upgrader '.$version);
 
         foreach (eqLogic::byType('BoseSoundTouch') as $eqLogic) {
 
             $versionEqLogic = $eqLogic->getConfiguration('version', 0);
-            SoundTouchLog::debug('UPGRADE PLUGIN', 'Version eqLogic = '.$versionEqLogic);
+            SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version eqLogic = '.$versionEqLogic);
 
             // Déjà à jour
             if ($versionEqLogic >= $version) continue;
@@ -152,7 +152,7 @@ class BoseSoundTouch extends eqLogic {
 
             // Mise à jour de la version
             $eqLogic->setConfiguration('version', $version);
-            SoundTouchLog::debug('UPGRADE PLUGIN', 'Version eqLogic = '.$version);
+            SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version eqLogic = '.$version);
             $eqLogic->save();
         }
 
@@ -167,7 +167,7 @@ class BoseSoundTouch extends eqLogic {
      */
     private static function _upgradeVersion01($eqLogic)
     {
-        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 0 -> 1'); return;
+        SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version 0 -> 1'); return;
         if ( !$eqLogic->getConfiguration('format') ) {
             $eqLogic->setConfiguration('format', 'player');
         }
@@ -181,7 +181,7 @@ class BoseSoundTouch extends eqLogic {
      */
     private static function _upgradeVersion02($eqLogic)
     {
-        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 1 -> 2'); return;
+        SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version 1 -> 2'); return;
         $convertLogicalId = array(
             'TRACK_NEXT' => 'NEXT_TRACK',
             'TRACK_PREV' => 'PREV_TRACK',
@@ -204,7 +204,7 @@ class BoseSoundTouch extends eqLogic {
      */
     private static function _upgradeVersion03($eqLogic)
     {
-        SoundTouchLog::debug('UPGRADE PLUGIN', 'Version 2 -> 3'); return;
+        SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version 2 -> 3'); return;
         
         // Logical ID
         // $eqLogic->setLogicalID(XXXXXXXXXXXX);
@@ -244,14 +244,14 @@ class BoseSoundTouch extends eqLogic {
         $api = new JeedomSoundTouchApi($this);
         $infos = $api->getInfo();
         if ( empty($infos) ) {
-            SoundTouchLog::warning('PRE UPDATE', 'Impossible de joindre l\'enceinte '.$api->getHostname());
+            SoundTouchLog::warning('PRE UPDATE', $this, 'Impossible de joindre l\'enceinte '.$api->getHostname());
             throw new Exception(__('Impossible de joindre l\'enceinte '.$api->getHostname(), __FILE__));
         }
 
         // Logical ID
         $logicalID = $infos->getDeviceID();
         if ( ! empty($logicalID) ) {
-            SoundTouchLog::debug('PRE UPDATE', 'setLogicalID = '.$logicalID);
+            SoundTouchLog::debug('PRE UPDATE', $this, 'setLogicalID = '.$logicalID);
             $this->setLogicalID($logicalID);
         }
 
@@ -261,9 +261,9 @@ class BoseSoundTouch extends eqLogic {
             'ip'   => $infos->getNetwork()->getIpAddress(),
             'mac'  => $infos->getNetwork()->getMacAddress(),
         ));
-        SoundTouchLog::debug('PRE UPDATE', 'name = '.$infos->getName());
-        SoundTouchLog::debug('PRE UPDATE', 'addressIP = '.$infos->getNetwork()->getIpAddress());
-        SoundTouchLog::debug('PRE UPDATE', 'addressMAC = '.$infos->getNetwork()->getMacAddress());
+        SoundTouchLog::debug('PRE UPDATE', $this, 'name = '.$infos->getName());
+        SoundTouchLog::debug('PRE UPDATE', $this, 'addressIP = '.$infos->getNetwork()->getIpAddress());
+        SoundTouchLog::debug('PRE UPDATE', $this, 'addressMAC = '.$infos->getNetwork()->getMacAddress());
 
     }
 
@@ -297,7 +297,7 @@ class BoseSoundTouch extends eqLogic {
         $hostname = $this->getConfiguration('hostname');
 
         SoundTouchLog::begin('TOHTML');
-        SoundTouchLog::debug('TOHTML', 'Affichage du widget au format "'.$typeWidget.'" de l\'enceinte "'.$hostname.'"');
+        SoundTouchLog::debug('TOHTML', $this, 'Affichage du widget au format "'.$typeWidget.'" de l\'enceinte "'.$hostname.'"');
 
         // Traitement des infos
         foreach ($this->getCmd('info') as $info) {
@@ -344,7 +344,7 @@ class BoseSoundTouch extends eqLogic {
                     }
                     break;
             }
-            SoundTouchLog::debug('TOHTML', '#'.$info->getLogicalId().'# [ID] = '.$replace['#'.$info->getLogicalId().'_ID#'].', [VALUE] = '.$replace['#'.$info->getLogicalId().'_VALUE#']);
+            SoundTouchLog::debug('TOHTML', $this, '#'.$info->getLogicalId().'# [ID] = '.$replace['#'.$info->getLogicalId().'_ID#'].', [VALUE] = '.$replace['#'.$info->getLogicalId().'_VALUE#']);
         }
 
 
@@ -366,7 +366,7 @@ class BoseSoundTouch extends eqLogic {
                     $replace['#'.$command->getLogicalId().'_NAME#'] = 'Preset '.$presetNumber;
                     $replace['#'.$command->getLogicalId().'_ICON#'] = 'plugins/BoseSoundTouch/core/template/images/keytouch/preset_'.$presetNumber.'.png';
                 }
-                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$replace['#'.$command->getLogicalId().'_NAME#'].', [ICON] => '.$replace['#'.$command->getLogicalId().'_ICON#']);
+                SoundTouchLog::debug('TOHTML', $this, '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$replace['#'.$command->getLogicalId().'_NAME#'].', [ICON] => '.$replace['#'.$command->getLogicalId().'_ICON#']);
 
             } elseif ( $contentItem = $command->getConfiguration('contentItem') ) {
 
@@ -381,7 +381,7 @@ class BoseSoundTouch extends eqLogic {
                 }
                 $cacheImg = realpath(__DIR__ . '/../../images').'/cache-preview-'.$this->getId().'.png';
                 $replace['#SOURCES_LIST#'] .= '<li><img data-cmd_id="'.$command->getId().'" src="'.$image.'" title="'.$contentItem['account'].'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"></li>';
-                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$contentItem['account'].', [ICON] => '.$image);
+                SoundTouchLog::debug('TOHTML', $this, '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$contentItem['account'].', [ICON] => '.$image);
 
             } elseif ( $zone = $command->getConfiguration('zone') ) {
             
@@ -394,7 +394,7 @@ class BoseSoundTouch extends eqLogic {
                     case 'master' :
                         if ( (in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'SUB') || (!in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'ADD') ) {
                             $replace['#ZONES_LIST#'] .= '<li><a data-cmd_id="'.$command->getId().'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"><i class="fa fa-'.$icons[$zone['action']].'"></i>&nbsp;&nbsp;'.$zone['name'].'</li>';
-                            SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
+                            SoundTouchLog::debug('TOHTML', $this, '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
                         }
                         break;
                     case 'slave' :
@@ -402,7 +402,7 @@ class BoseSoundTouch extends eqLogic {
                     default:
                         if ( (in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'SUB') || (!in_array($zone['mac'], $zoneMultiRoom['slaves']) && $zone['action'] == 'ADD') ) {
                             $replace['#ZONES_LIST#'] .= '<li><a data-cmd_id="'.$command->getId().'" onclick="jeedom.cmd.execute({id: \''.$command->getId().'\'});"><i class="fa fa-'.$icons[$zone['action']].'"></i>&nbsp;&nbsp;'.$zone['name'].'</li>';
-                            SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
+                            SoundTouchLog::debug('TOHTML', $this, '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#'].', [NAME] = '.$zone['name']);
                         }
                         break;
                 }
@@ -410,7 +410,7 @@ class BoseSoundTouch extends eqLogic {
             } else {
 
                 // Toutes les autres commandes
-                SoundTouchLog::debug('TOHTML', '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#']);
+                SoundTouchLog::debug('TOHTML', $this, '#'.$command->getLogicalId().'# [ID] = '.$replace['#'.$command->getLogicalId().'_ID#']);
 
             }
             
@@ -445,11 +445,11 @@ class BoseSoundTouch extends eqLogic {
 
         $api = new SoundTouchNowPlayingApi($this, true);
         SoundTouchLog::begin('REFRESH');
-        SoundTouchLog::info('REFRESH', 'Rafraichissement des données depuis "'.$api->getHostname().'"');
+        SoundTouchLog::info('REFRESH', $this, 'Rafraichissement des données depuis "'.$api->getHostname().'"');
 
         // Récupération des différentes valeur
         if ($err = $api->getMessageError()) {
-            SoundTouchLog::warning('REFRESH', 'Interrogation de l\'enceinte "'.$api->getHostname().'" : '.$err);
+            SoundTouchLog::warning('REFRESH', $this, 'Interrogation de l\'enceinte "'.$api->getHostname().'" : '.$err);
             return;
         }
         $update |= $this->checkAndUpdateCommand( SoundTouchConfig::POWERED,      $api->isPowered() );
@@ -482,13 +482,13 @@ class BoseSoundTouch extends eqLogic {
             $oldImage = ( isset($oldPreview['image']) ) ? $oldPreview['image'] : '';
             $preview = $api->getPreviewArray($oldImage);
             $sourceInfo->setConfiguration('preview', $preview);
-            SoundTouchLog::debug('REFRESH', 'Preview Image = '.print_r($preview, true));
+            SoundTouchLog::debug('REFRESH', $this, 'Preview Image = '.print_r($preview, true));
             $sourceInfo->save();
         }
 
         if ($update) {
             BoseSoundTouch::refreshWidget();
-            SoundTouchLog::info('REFRESH', 'WIDGET rafraîchit...');
+            SoundTouchLog::info('REFRESH', $this, 'WIDGET rafraîchit...');
         }
         SoundTouchLog::end('REFRESH');
     }
@@ -510,10 +510,10 @@ class BoseSoundTouch extends eqLogic {
 		$oldValue = $cmd->execCmd();
 		if ( $oldValue !== $cmd->formatValue($value) ) {
 			$cmd->event($value);
-            SoundTouchLog::infoUpdateCommand($cmdLogicalId, $value, true);
+            SoundTouchLog::infoUpdateCommand($this, $cmdLogicalId, $value, true);
 			return true;
 		}
-        SoundTouchLog::infoUpdateCommand($cmdLogicalId, $value, false);
+        SoundTouchLog::infoUpdateCommand($this, $cmdLogicalId, $value, false);
 		return false;
     }
 
@@ -528,7 +528,7 @@ class BoseSoundTouch extends eqLogic {
         $configs = new SoundTouchConfig($api);
 
         SoundTouchLog::begin('PRESETS');
-        SoundTouchLog::info('PRESETS', 'Rafraichissement des présélections depuis "'.$api->getHostname().'"');
+        SoundTouchLog::info('PRESETS', $this, 'Rafraichissement des présélections depuis "'.$api->getHostname().'"');
 
         foreach (cmd::searchConfigurationEqLogic($this->getId(), '"preset"', 'action') as $command) {
             $configs->updatePreset($command);
@@ -548,12 +548,12 @@ class BoseSoundTouch extends eqLogic {
         $api = new SoundTouchZoneApi($this);
 
         SoundTouchLog::begin('ZONES');
-        SoundTouchLog::info('ZONES', 'Rafraichissement des zones depuis "'.$api->getHostname().'"');
+        SoundTouchLog::info('ZONES', $this, 'Rafraichissement des zones depuis "'.$api->getHostname().'"');
 
         $cmd = $this->getCmd(null, SoundTouchConfig::ZONE);
         $config = $api->getConfigurationCommandInfo();
         $cmd->setConfiguration('zones', $config);
-        SoundTouchLog::info('ZONES', print_r($config, true));
+        SoundTouchLog::info('ZONES', $this, print_r($config, true));
         $cmd->save();
 
         SoundTouchLog::end('ZONES');
@@ -570,7 +570,7 @@ class BoseSoundTouch extends eqLogic {
         $configs = new SoundTouchConfig($api);
 
         SoundTouchLog::begin('SAVE CMD');
-        SoundTouchLog::info('SAVE CMD', 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
+        SoundTouchLog::info('SAVE CMD', $this, 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
 
         foreach ($configs->getListCommands() as $command) {
             $this->addCommand($command);
@@ -590,7 +590,7 @@ class BoseSoundTouch extends eqLogic {
         $configs = new SoundTouchConfig($api);
 
         SoundTouchLog::begin('RECREATE CMD');
-        SoundTouchLog::info('RECREATE CMD', 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
+        SoundTouchLog::info('RECREATE CMD', $this, 'Rafraichissement des commandes depuis "'.$api->getHostname().'"');
 
         foreach ($configs->getListCommands() as $command) {
             $this->addCommand($command, true);
@@ -625,12 +625,12 @@ class BoseSoundTouch extends eqLogic {
 
             // Assigne les paramètres du JSON à chaque fonction de l'eqLogic
             utils::a2o($cmdSoundTouch, $config);
-            SoundTouchLog::info('SAVE CMD', 'ADD '.$config['logicalId']);
+            SoundTouchLog::info('SAVE CMD', $this, 'ADD '.$config['logicalId']);
         }
 
         if ( $force ) {
             utils::a2o($cmdSoundTouch, $config);
-            SoundTouchLog::info('RECREATE CMD', 'ADD '.$config['logicalId']);
+            SoundTouchLog::info('RECREATE CMD', $this, 'ADD '.$config['logicalId']);
         }
 
         // Ne doit pas être changé
@@ -643,8 +643,8 @@ class BoseSoundTouch extends eqLogic {
 				}
 			}
         }
-        SoundTouchLog::debug('SAVE CMD', $config['logicalId'].' : '.print_r($config, true));
-        SoundTouchLog::debugCommand('SAVE CMD', $cmdSoundTouch);
+        SoundTouchLog::debug('SAVE CMD', $this, $config['logicalId'].' : '.print_r($config, true));
+        SoundTouchLog::debugCommand('SAVE CMD', $this, $cmdSoundTouch);
 
         // Sauvegarde
         $cmdSoundTouch->save();
@@ -675,7 +675,7 @@ class BoseSoundTouchCmd extends cmd {
         if ($idCommand == 'REFRESH') {
 
             // Rafraichissement des données
-            SoundTouchLog::debug('EXECUTE', 'updatePresets() | updateInfos()');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'updatePresets() | updateInfos()');
             $this->getEqLogic()->updatePresets();
             $this->getEqLogic()->updateZones();
             $this->getEqLogic()->updateInfos();
@@ -683,34 +683,34 @@ class BoseSoundTouchCmd extends cmd {
         } elseif ( $codeKey = $this->getConfiguration('codekey') ) {
 
             // Action sur sur touche
-            SoundTouchLog::debug('EXECUTE', 'sendCommandJeedom('.$codeKey.')');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'sendCommandJeedom('.$codeKey.')');
             $api = new SoundTouchCommandKeyApi($this->getEqLogic());
             $api->sendCommandJeedom($this);
 
         } elseif ( $idCommand == 'VOLUME_SET' ) {
 
             // Ajuste le volume
-            SoundTouchLog::debug('EXECUTE', 'setVolumeJeedom('.$_options['slider'].')');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'setVolumeJeedom('.$_options['slider'].')');
             $api = new SoundTouchCommandKeyApi($this->getEqLogic());
             $api->setVolumeJeedom($_options['slider']);
 
         } elseif ( $content = $this->getConfiguration('contentItem') ) {
 
             // Sélectionne une source
-            SoundTouchLog::debug('EXECUTE', 'selectSourceJeedom('.$content['source'].', '.$content['account'].')');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'selectSourceJeedom('.$content['source'].', '.$content['account'].')');
             $api = new SoundTouchSourceApi($this->getEqLogic());
             $api->selectSourceJeedom($content['source'], $content['account']);
         
         } elseif ( $zone = $this->getConfiguration('zone') ) {
 
             // Sélectionne une zone
-            SoundTouchLog::debug('EXECUTE', 'setZoneJeedom('.print_r($zone, true).')');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'setZoneJeedom('.print_r($zone, true).')');
             $api = new SoundTouchZoneApi($this->getEqLogic());
             $api->setZoneJeedom($zone['action'], $zone['ip'], $zone['mac']);
             $this->getEqLogic()->updateZones();
 
         } else {
-            SoundTouchLog::debug('EXECUTE', 'NULL : pas de commande à exécuter');
+            SoundTouchLog::debug('EXECUTE', $this->getEqLogic(), 'NULL : pas de commande à exécuter');
         }
 
     }

@@ -28,7 +28,7 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
     public function setZoneJeedom($action, $addressIP, $addressMAC)
     {
         $master = $this->isZoneMaster();
-        SoundTouchLog::debug('EXECUTE', 'setZoneJeedom -> isMaster '.( ($master !== false) ? 'OK' : 'NOK'));
+        SoundTouchLog::debug('EXECUTE', $this->eqLogic, 'setZoneJeedom -> isMaster '.( ($master !== false) ? 'OK' : 'NOK'));
         if ( $master === false ) {
             // On crée la zone maitre si aucune zone existe
             $this->createZoneMaster();
@@ -42,12 +42,12 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
         switch ($action) {
             case 'ADD':
                 $result = $this->addZoneSlave($slave);
-                SoundTouchLog::debug('EXECUTE', 'setZoneJeedom -> addZoneSlave '.print_r($slave, true).' -> '.( ($result !== false) ? 'OK' : 'NOK'));
+                SoundTouchLog::debug('EXECUTE', $this->eqLogic, 'setZoneJeedom -> addZoneSlave '.print_r($slave, true).' -> '.( ($result !== false) ? 'OK' : 'NOK'));
                 break;
             
             case 'SUB':
                 $result = $this->removeZoneSlave($slave);
-                SoundTouchLog::debug('EXECUTE', 'setZoneJeedom -> removeZoneSlave '.print_r($slave, true).' -> '.( ($result !== false) ? 'OK' : 'NOK'));
+                SoundTouchLog::debug('EXECUTE', $this->eqLogic, 'setZoneJeedom -> removeZoneSlave '.print_r($slave, true).' -> '.( ($result !== false) ? 'OK' : 'NOK'));
                 break;
         }
     }
@@ -79,7 +79,7 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
         $slave->setMacAddress($master['mac'])->setIpAddress($master['ip']);
         $this->zone->addSlave($slave);
 
-        SoundTouchLog::debug('EXECUTE', 'setZoneJeedom -> createZoneMaster '.print_r($this->zone, true));
+        SoundTouchLog::debug('EXECUTE', $this->eqLogic, 'setZoneJeedom -> createZoneMaster '.print_r($this->zone, true));
     }
 
 
