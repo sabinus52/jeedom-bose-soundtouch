@@ -304,24 +304,24 @@
         },
         {
             "name": "sabinus52/soundtouchapi",
-            "version": "1.5.0",
-            "version_normalized": "1.5.0.0",
+            "version": "1.5.1",
+            "version_normalized": "1.5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabinus52/SoundTouchApi.git",
-                "reference": "9613bdb7109a83320e6f450e052e9229f7b51f8c"
+                "reference": "c8c1b8777116c3c5bf93cab940a9becb33d67ecf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/9613bdb7109a83320e6f450e052e9229f7b51f8c",
-                "reference": "9613bdb7109a83320e6f450e052e9229f7b51f8c",
+                "url": "https://api.github.com/repos/sabinus52/SoundTouchApi/zipball/c8c1b8777116c3c5bf93cab940a9becb33d67ecf",
+                "reference": "c8c1b8777116c3c5bf93cab940a9becb33d67ecf",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "6.5.0",
                 "php": "^5.2||^7"
             },
-            "time": "2021-03-21T16:42:28+00:00",
+            "time": "2021-06-26T17:00:51+00:00",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -348,10 +348,11 @@
             ],
             "support": {
                 "issues": "https://github.com/sabinus52/SoundTouchApi/issues",
-                "source": "https://github.com/sabinus52/SoundTouchApi/tree/1.5.0"
+                "source": "https://github.com/sabinus52/SoundTouchApi/tree/1.5.1"
             },
             "install-path": "../sabinus52/soundtouchapi"
         }
     ],
-    "dev": true
+    "dev": true,
+    "dev-package-names": []
 }
