@@ -210,6 +210,7 @@ class BoseSoundTouch extends eqLogic {
         // $eqLogic->setLogicalID(XXXXXXXXXXXX);
         // Configuration MAC et IP adresse
         // $eqLogic->setConfiguration('zone', [ 'name', 'ip', 'mac' ]);
+        message::add('BoseSoundTouch', 'Profiter du MultiRoom, pensez à cliquer sur le bouton "Recréer les commandes manquantes" pour chaque objet.');
     }
 
 
