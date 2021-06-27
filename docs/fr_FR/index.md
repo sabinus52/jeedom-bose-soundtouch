@@ -16,6 +16,7 @@ Rendu visuel du widget *Télécommande* / *Player* :
 - Etat de lecture, pause
 - Preview, artiste, titre
 - Shuffle, repéter tous ou un seul
+- Zone MulitRoom (master|slave|none)
 
 **Actions possibles** :
 - Allumage, arrêt de l'enceinte
@@ -23,7 +24,8 @@ Rendu visuel du widget *Télécommande* / *Player* :
 - Choix des présélections
 - Play, pause, stop, piste suivante et précédente
 - Activation du shuffle et repeat
-- Selection des sources découvertes en fonction de l'enceinte
+- Selection des sources
+- Ajouter ou enlever une enceinte d'une zone MultiRoom
 
 ***Remarque*** : TV ne fonctionne seulement si une TV est connectée en sortie de l'enceinte en HDMI. AUX ne fonctionne que sur certaines enceintes et est maintenant déprécié par Bose.
 
@@ -48,6 +50,18 @@ Puis cliquer sur l'icône **Ajouter** et définir :
 - Format du widget
 
 Pour terminer, cliquer sur **Sauvegarder** et l'enceinte est prête à être contrôler
+
+
+# MultiRoom
+
+> Pour profiter du MultiRoom, Il sera nécessaire de cliquer sur le bouton `Recréer les commandes manquantes` pour prendre en compte la création des commandes de la gestion du MultiRoom.
+
+Des nouvelles commandes `Ajout zone xxxxx` et `Suppression zone xxxxx` permettent de les utiliser dans vos scénarios pour gérer votre MultiRoom
+
+La commande info `MultiRoom` indique l'état du MultiRoom pour chaque enceinte avec las valeur suivates :
+- `master` : c'est l'enceinte qui est maître de la zone MultiRoom.
+- `slave` : cette enceinte est en mode esclave dans une zone MultiRoom.
+- `none` : aucune zone MultiRoom active.
 
 
 # Liens utiles

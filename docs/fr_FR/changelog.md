@@ -1,3 +1,14 @@
+# Version 2.1.0 du 26 juin 2021
+
+- EqLogic mis à jour automatiquement lors de l'upgrade du plugin
+- Eqlogic identifié par l'adresse MAC de l'enceinte
+- Enregistrement des zones dans l'eqLogic
+- Gestion du MultiRoom (création des commandes)
+- Menu dans le widget *player* pour la gestion du MultiRoom
+- Mise à jour de l'API
+> Il sera nécessaire de cliquer sur le bouton `Recréer les commandes manquantes` pour prendre en compte la création des commandes de la gestion du MultiRoom.
+
+
 # Version 2.0.0 du 10 avril 2021
 
 - Réécriture complète du code

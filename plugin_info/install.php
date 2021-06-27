@@ -51,7 +51,7 @@ function BoseSoundTouch_update() {
     $cron->save();
     $cron->stop();
 
-    $version = 2;
+    $version = 3;
 
     try {
         log::add('BoseSoundTouch', 'debug', 'Mise à jour du plugin');
