@@ -26,6 +26,11 @@ try {
     
     ajax::init();
 
+    if (init('action') == 'checkUpgrade') {
+        $res = BoseSoundTouch::upgradeEqLogics(init('version'));
+        if ($res !== null)
+		    ajax::success();
+    }
 
     if (init('action') == 'reCreateCommand') {
         $eqLogic = BoseSoundTouch::byId(init('id'));

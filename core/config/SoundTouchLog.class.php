@@ -15,7 +15,7 @@ class SoundTouchLog
      */
     static public function begin($action)
     {
-        self::info($action, '=== BEGIN ===================================================');
+        self::info($action, null, '=== BEGIN ===================================================');
     }
 
 
@@ -26,7 +26,7 @@ class SoundTouchLog
      */
     static public function end($action)
     {
-        self::info($action, '=== END =====================================================');
+        self::info($action, null, '=== END =====================================================');
     }
 
 
@@ -37,9 +37,9 @@ class SoundTouchLog
      * @param Mixed   $value
      * @param Integer $result
      */
-    static public function infoUpdateCommand($command, $value, $result)
+    static public function infoUpdateCommand($eqLogic, $command, $value, $result)
     {
-        self::info('REFRESH', 'Update '.$command.' = '.$value.(($result) ? ' (UPD=true)' : ''));
+        self::info('REFRESH', $eqLogic, 'Update '.$command.' = '.$value.(($result) ? ' (UPD=true)' : ''));
     }
 
 
@@ -49,7 +49,7 @@ class SoundTouchLog
      * @param String $action
      * @param BoseSoundTouchCmd $command
      */
-    static public function debugCommand($action, $command)
+    static public function debugCommand($action, $eqLogic, $command)
     {
         $result = [
             'logicalId' => $command->getLogicalId(),
@@ -64,7 +64,7 @@ class SoundTouchLog
             'value' => $command->getValue(),
             'isVisible' => $command->getIsVisible(),
         ];
-        self::debug($action, 'CMD = '.print_r($result, true));
+        self::debug($action, $eqLogic, 'CMD = '.print_r($result, true));
     }
 
 
@@ -74,9 +74,9 @@ class SoundTouchLog
      * @param String $action
      * @param String $message
      */
-    static public function debug($action, $message)
+    static public function debug($action, $eqLogic, $message)
     {
-        self::write('debug', $action, $message);
+        self::write('debug', $action, $eqLogic, $message);
     }
 
 
@@ -86,9 +86,9 @@ class SoundTouchLog
      * @param String $action
      * @param String $message
      */
-    static public function info($action, $message)
+    static public function info($action, $eqLogic, $message)
     {
-        self::write('info', $action, $message);
+        self::write('info', $action, $eqLogic, $message);
     }
 
 
@@ -98,9 +98,9 @@ class SoundTouchLog
      * @param String $action
      * @param String $message
      */
-    static public function warning($action, $message)
+    static public function warning($action, $eqLogic, $message)
     {
-        self::write('warning', $action, $message);
+        self::write('warning', $action, $eqLogic, $message);
     }
 
 
@@ -110,9 +110,9 @@ class SoundTouchLog
      * @param String $action
      * @param String $message
      */
-    static public function error($action, $message)
+    static public function error($action, $eqLogic, $message)
     {
-        self::write('error', $action, $message);
+        self::write('error', $action, $eqLogic, $message);
     }
 
 
@@ -123,9 +123,11 @@ class SoundTouchLog
      * @param String $action
      * @param String $message
      */
-    static private function write($level, $action, $message)
+    static private function write($level, $action, $eqLogic, $message)
     {
-        log::add('BoseSoundTouch', $level, $action.' : '.$message);
+        log::add('BoseSoundTouch', $level, $action.
+        (($eqLogic) ? ' '.$eqLogic->getLogicalId() : '').
+        ' : '.$message);
     }
 
 }

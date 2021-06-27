@@ -74,6 +74,24 @@ class JeedomSoundTouchApi extends SoundTouchApi
     }
 
 
+    public function getEqLogic()
+    {
+        return $this->eqLogic;
+    }
+
+
+    public function getEqLogicId()
+    {
+        return $this->eqLogic->getId();
+    }
+
+
+    public function getEqLogicName()
+    {
+        return $this->eqLogic->getName();
+    }
+
+
     /**
      * Retourne l'URL de l'image à partir de l'objet ContentItem
      * 

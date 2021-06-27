@@ -51,27 +51,13 @@ function BoseSoundTouch_update() {
     $cron->save();
     $cron->stop();
 
-    $convertLogicalId = array(
-        'TRACK_NEXT' => 'NEXT_TRACK',
-        'TRACK_PREV' => 'PREV_TRACK',
-    );
-    foreach (eqLogic::byType('BoseSoundTouch') as $equipment) {
-		// Mets par défaut le widget 'remote'
-        if ( !$equipment->getConfiguration('format') ) {
-            $equipment->setConfiguration('format', 'remote');
-        }
-		// Remplace les logicalID de certaines commandes
-        foreach ($equipment->getCmd() as $cmd) {
-			try {
-            	$save = false;
-            	if ( isset($convertLogicalId[$cmd->getLogicalId()]) ) {
-                	$cmd->setLogicalId($convertLogicalId[$cmd->getLogicalId()]);
-                	$save = true;
-            	}
-            	if( $save ) $cmd->save();
-            } catch (\Exception $e) { }
-		}
-        $equipment->save();
+    $version = 3;
+
+    try {
+        log::add('BoseSoundTouch', 'debug', 'Mise à jour du plugin');
+        BoseSoundTouch::upgradeEqLogics($version);
+    } catch (\Exception $e) {
+        log::add('BoseSoundTouch', 'error', 'Mise à jour du plugin ERROR : ' . print_r($e, true));
     }
 
 }

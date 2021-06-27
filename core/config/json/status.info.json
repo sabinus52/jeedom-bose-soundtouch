@@ -82,6 +82,13 @@
             "type" : "info",
             "subType" : "string",
             "isVisible" : 1
+        },
+        {
+            "name" : "MultiRoom",
+            "logicalId" : "ZONE",
+            "type" : "info",
+            "subType" : "string",
+            "isVisible" : 0
         }
     ]
 }
