@@ -144,7 +144,7 @@ class BoseSoundTouch extends eqLogic {
             SoundTouchLog::debug('UPGRADE PLUGIN', $eqLogic, 'Version eqLogic = '.$versionEqLogic);
 
             // Déjà à jour
-            if ($versionEqLogic >= $version) continue;
+            //if ($versionEqLogic >= $version) continue;
 
             if ($versionEqLogic <= 1 && $version >= 1) self::_upgradeVersion01($eqLogic);
             if ($versionEqLogic <= 2 && $version >= 2) self::_upgradeVersion02($eqLogic);
