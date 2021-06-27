@@ -1,3 +1,8 @@
+# Version 2.1.1 du 27 juin 2021
+
+> Comme la mise à jour de la configration des objets se fait en mode croisé. Il sera nécessaire d'enregistrer chaque objet pour découvrir les autres enceines, puis de cliquer sur le bouton `Recréer les commandes manquantes` pour prendre en compte la création des commandes de la gestion du MultiRoom.
+
+
 # Version 2.1.0 du 26 juin 2021
 
 - EqLogic mis à jour automatiquement lors de l'upgrade du plugin

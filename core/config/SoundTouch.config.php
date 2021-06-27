@@ -226,6 +226,7 @@ class SoundTouchConfig
             if ( $equipment->getId() == $this->api->getEqLogicId()) continue;
             SoundTouchLog::debug('SAVE CMD', $this->api->getEqLogic(), 'Zone trouvée : '.$equipment->getName().' ('.$equipment->getId().')');
             $zone = $equipment->getconfiguration('zone');
+            if ( empty($zone) ) continue;
             $commands[] = array(
                 'name' => 'Ajout zone '.$equipment->getName(),
                 'logicalId' => '+'.$equipment->getLogicalID(),
