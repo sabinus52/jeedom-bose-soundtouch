@@ -612,7 +612,7 @@ class BoseSoundTouch extends eqLogic {
         $cmdSoundTouch = $this->getCmd(null, $config['logicalId']);
         if ( !is_object($cmdSoundTouch) ) {
 
-            $cmdSoundTouch = new SmartLifeCmd();
+            $cmdSoundTouch = new BoseSoundTouchCmd();
             $cmdSoundTouch->setName(__($config['name'], __FILE__));
             $cmdSoundTouch->setLogicalId( $config['logicalId'] );
             $cmdSoundTouch->setEqLogic_id( $this->getId() );
