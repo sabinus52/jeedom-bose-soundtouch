@@ -60,7 +60,7 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
      */
     private function isZoneMaster()
     {
-        if ( empty($zone) ) $this->zone = $this->getZone();
+        if ( empty($this->zone) ) $this->zone = $this->getZone();
         $master = $this->zone->getMaster();
         return ( empty($master) ) ? false : true;
     }
@@ -106,7 +106,8 @@ class SoundTouchZoneApi extends JeedomSoundTouchApi
     {
         $result = array('master' => null, 'slaves' => array());
 
-        if ( empty($zone) ) $this->zone = $this->getZone();
+        if ( empty($this->zone) ) $this->zone = $this->getZone();
+        if ( ! is_object($this->zone) ) return $result; // FIXME
         $master = $this->zone->getMaster();
         $result['master'] = ( empty($master) ) ? null : $master;
         foreach ($this->zone->getSlaves() as $slave) {
