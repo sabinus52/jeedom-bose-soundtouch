@@ -467,13 +467,15 @@ class BoseSoundTouch extends eqLogic {
 
         // Zone
         $zoneCmd = $this->getCmd(null, SoundTouchConfig::ZONE);
-        $zone = $zoneCmd->getConfiguration('zones');
-        if ( $zone['master'] == $this->getLogicalId() ) {
-            $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'master' ); // Master
-        } elseif ( ! empty($zone['master']) ) {
-            $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'slave' ); // Slave
-        } else  {
-            $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'none' );
+        if ( is_object($zoneCmd) ) {
+            $zone = $zoneCmd->getConfiguration('zones');
+            if ( $zone['master'] == $this->getLogicalId() ) {
+                $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'master' ); // Master
+            } elseif ( ! empty($zone['master']) ) {
+                $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'slave' ); // Slave
+            } else  {
+                $update |= $this->checkAndUpdateCommand( SoundTouchConfig::ZONE, 'none' );
+            }
         }
 
         // Image de Preview à stoker dans la commande infos SOURCE
@@ -552,10 +554,12 @@ class BoseSoundTouch extends eqLogic {
         SoundTouchLog::info('ZONES', $this, 'Rafraichissement des zones depuis "'.$api->getHostname().'"');
 
         $cmd = $this->getCmd(null, SoundTouchConfig::ZONE);
-        $config = $api->getConfigurationCommandInfo();
-        $cmd->setConfiguration('zones', $config);
-        SoundTouchLog::info('ZONES', $this, print_r($config, true));
-        $cmd->save();
+        if ( is_object($cmd) ) {
+            $config = $api->getConfigurationCommandInfo();
+            $cmd->setConfiguration('zones', $config);
+            SoundTouchLog::info('ZONES', $this, print_r($config, true));
+            $cmd->save();
+        }
 
         SoundTouchLog::end('ZONES');
     }
