@@ -7,11 +7,14 @@ sftp-config.json
 .DS_Store
 Thumbs.db
 *.php~
+composer.lock
 
 # Visual Studio Code
 .vs/
 .vscode/
 *.code-workspace
+env_vars
+DEVELOP*.md
 
 # Espace de travail
 workspace/
