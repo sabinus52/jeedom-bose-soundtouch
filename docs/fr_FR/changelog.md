@@ -1,3 +1,7 @@
+# Version 2.1.4 du 2 avril 2022
+
+- Patch de sécurité des dépendances
+
 # Version 2.1.3 du 14 juillet 2021
 
 - Fix
