@@ -1,3 +1,7 @@
+# Version 2.1.5 du 8 avril 2022
+
+- Corrections des images du template mobile
+
 # Version 2.1.4 du 2 avril 2022
 
 - Patch de sécurité des dépendances

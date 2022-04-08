@@ -8,7 +8,7 @@
 			<tr>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_default" data-cmd_id="#REFRESH_ID#" onclick="jeedom.cmd.execute({id: '#REFRESH_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/refresh.png" title="Refresh">
+						<img src="plugins/BoseSoundTouch/core/template/images/menu/refresh.png" title="Refresh">
 					</div>
 				</td>
 				<td rowspan="3">
@@ -18,26 +18,26 @@
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#VOLUME_UP_ID#" onclick="jeedom.cmd.execute({id: '#VOLUME_UP_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-up.png" title="Volume Up">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/volume-up.png" title="Volume Up">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td rowspan="2">
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_power" data-cmd_id="#POWER_ID#" onclick="jeedom.cmd.execute({id: '#POWER_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/power.png" title="Power">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/power.png" title="Power">
 					</div>
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#VOLUME_DOWN_ID#" onclick="jeedom.cmd.execute({id: '#VOLUME_DOWN_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume-down.png" title="Volume Down">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/volume-down.png" title="Volume Down">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_volume" data-cmd_id="#MUTE_ID#" onclick="jeedom.cmd.execute({id: '#MUTE_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/mute.png" title="Mute">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/mute.png" title="Mute">
 					</div>
 				</td>
 			</tr>
@@ -46,27 +46,27 @@
 			<tr style="height: 2.2em;">
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#TRACK_PREV_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-prev.png" title="Previous">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/track-prev.png" title="Previous">
 					</div>
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#PLAY_ID#" onclick="jeedom.cmd.execute({id: '#PLAY_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/play.png" title="Play">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/play.png" title="Play">
 					</div>
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#PAUSE_ID#" onclick="jeedom.cmd.execute({id: '#PAUSE_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/pause.png" title="Pause">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/pause.png" title="Pause">
 					</div>
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#STOP_ID#" onclick="jeedom.cmd.execute({id: '#STOP_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/stop.png" title="Stop">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/stop.png" title="Stop">
 					</div>
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_command" data-cmd_id="#TRACK_NEXT_ID#" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
-						<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-next.png" title="Next">
+						<img src="plugins/BoseSoundTouch/core/template/images/keytouch/track-next.png" title="Next">
 					</div>
 				</td>
 			</tr>
@@ -90,7 +90,7 @@
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_select" data-cmd_id="#TV_ID#" onclick="jeedom.cmd.execute({id: '#TV_ID#'});">
-						<span><img src="plugins/BoseSoundTouch/core/template/dashboard/images/tv.png" title="TV"></span>
+						<span><img src="plugins/BoseSoundTouch/core/template/images/source/tv.png" title="TV"></span>
 					</div>
 				</td>
 			</tr>
@@ -112,7 +112,7 @@
 				</td>
 				<td>
 					<div class="cmd bosesoundtouch soundtouch_touch soundtouch_touch_select" data-cmd_id="#BLUETOOTH_ID#" onclick="jeedom.cmd.execute({id: '#BLUETOOTH_ID#'});">
-						<span><img src="plugins/BoseSoundTouch/core/template/dashboard/images/bluetooth.png" title="BLUETOOTH"></span>
+						<span><img src="plugins/BoseSoundTouch/core/template/images/source/bluetooth.png" title="BLUETOOTH"></span>
 					</div>
 				</td>
 			</tr>
@@ -122,7 +122,7 @@
 			// Touche POWER
 			jeedom.cmd.update['#POWER_ID#'] = function (options) {
 				$('.cmd[data-cmd_id=#POWER_ID#]').empty()
-				.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAYING_VALUE#.png" title="Power">');
+				.append('<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#PLAYING_VALUE#.png" title="Power">');
 			}
 			jeedom.cmd.update['#POWER_ID#']({ value:'#PLAYING_VALUE#' });
 		</script>

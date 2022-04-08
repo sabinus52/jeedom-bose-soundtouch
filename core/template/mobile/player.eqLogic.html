@@ -7,19 +7,22 @@
 
 		<div class="bose_player_menu">
 			<div class="cmd" data-cmd_id="#POWER_ID#" onclick="jeedom.cmd.execute({id: '#POWER_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/power.png" title="Power">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#PLAYING_VALUE#.png" title="Power">
 			</div>
 			<div class="cmd volume">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/volume.png" title="Volume">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/volume.png" title="Volume">
 			</div>
-			<div class="cmd" data-cmd_id="#REFRESH_ID#" onclick="jeedom.cmd.execute({id: '#REFRESH_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/refresh.png" title="Refresh">
+			<div class="cmd" data-cmd_id="#MUTE_ID#" onclick="jeedom.cmd.execute({id: '#MUTE_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#MUTED_VALUE#.png" title="Mute">
 			</div>
 			<div class="cmd presets">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/presets.png" title="Presets">
+				<img src="plugins/BoseSoundTouch/core/template/images/menu/presets.png" title="Presets">
+			</div>
+			<div class="cmd zones">
+				<img src="plugins/BoseSoundTouch/core/template/images/menu/#ZONE_VALUE#.png" title="MultiRoom">
 			</div>
 			<div class="cmd select">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/menu.png" title="Menu">
+				<img src="plugins/BoseSoundTouch/core/template/images/menu/menu.png" title="Menu">
 			</div>
 		</div>
 
@@ -42,6 +45,12 @@
 			</div>
 		</div>
 
+		<div class="bose_player_zones">
+			<ul>
+				#ZONES_LIST#
+			</ul>
+		</div>
+
 		<div class="bose_player_select">
 			<ul>
 				#SOURCES_LIST#
@@ -57,20 +66,20 @@
 
 
 		<div class="bose_player_commands">	
-			<div class="cmd cursor mode" data-cmd_id="#REPEAT_ID#" style="padding-top: 8px;">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#REPEAT_VALUE#.png" title="Repeat">
+			<div class="cmd cursor mode" data-cmd_id="#REPEAT_ID#">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#REPEAT_VALUE#.png" title="Repeat">
 			</div>
-			<div class="cmd cursor step" data-cmd_id="#TRACK_PREV_ID#" style="padding-top: 4px;" onclick="jeedom.cmd.execute({id: '#TRACK_PREV_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-prev.png" title="Previous">
+			<div class="cmd cursor step" data-cmd_id="#PREV_TRACK_ID#" onclick="jeedom.cmd.execute({id: '#PREV_TRACK_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/track-prev.png" title="Previous">
 			</div>
 			<div class="cmd cursor play" data-cmd_id="#PLAY_PAUSE_ID#" onclick="jeedom.cmd.execute({id: '#PLAY_PAUSE_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/play.png" title="Play">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#PLAY_PAUSE_VALUE#.png" title="Play / Pause">
 			</div>
-			<div class="cmd cursor step" data-cmd_id="#TRACK_NEXT_ID#" style="padding-top: 4px;" onclick="jeedom.cmd.execute({id: '#TRACK_NEXT_ID#'});">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/track-next.png" title="Next">
+			<div class="cmd cursor step" data-cmd_id="#NEXT_TRACK_ID#" onclick="jeedom.cmd.execute({id: '#NEXT_TRACK_ID#'});">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/track-next.png" title="Next">
 			</div>
-			<div class="cmd cursor mode" data-cmd_id="#SHUFFLE_ID#" style="padding-top: 8px;">
-				<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#SHUFFLE_VALUE#.png" title="Shuffle">
+			<div class="cmd cursor mode" data-cmd_id="#SHUFFLE_ID#">
+				<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#SHUFFLE_VALUE#.png" title="Shuffle">
 			</div>
 		</div>
 		
@@ -80,7 +89,7 @@
 		// Touche POWER
 		jeedom.cmd.update['#POWER_ID#'] = function (options) {
 			$('.cmd[data-cmd_id=#POWER_ID#]').empty()
-			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAYING_VALUE#.png" title="Power">');
+			.append('<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#PLAYING_VALUE#.png" title="Power">');
 		}
 		jeedom.cmd.update['#POWER_ID#']({ value:'#PLAYING_VALUE#' });
 
@@ -104,6 +113,7 @@
 			if ( ! $('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets').is(':visible') ) {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").hide();
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").hide();
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").hide();
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").show();
 			} else {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").hide();
@@ -115,9 +125,22 @@
 			if ( ! $('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select').is(':visible') ) {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").hide();
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").hide();
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").hide();
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").show();
 			} else {
 				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").hide();
+			}
+		});
+
+		// Touche ZONES
+		$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').on('click', function (event, ui) {
+			if ( ! $('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones').is(':visible') ) {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").hide();
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").hide();
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").hide();
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").show();
+			} else {
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").hide();
 			}
 		});
 		
@@ -149,7 +172,7 @@
 		// Touche PLAY PAUSE
 		jeedom.cmd.update['#PLAY_PAUSE_ID#'] = function (options) {
 			$('.cmd[data-cmd_id=#PLAY_PAUSE_ID#]').empty()
-			.append('<img src="plugins/BoseSoundTouch/core/template/dashboard/images/#PLAY_PAUSE_VALUE#.png" title="Play / Pause">');
+			.append('<img src="plugins/BoseSoundTouch/core/template/images/keytouch/#PLAY_PAUSE_VALUE#.png" title="Play / Pause">');
 		}
 		jeedom.cmd.update['#PLAY_PAUSE_ID#']({ value:'#PLAYING_VALUE#' });
 
