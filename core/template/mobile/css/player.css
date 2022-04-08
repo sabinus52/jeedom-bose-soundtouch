@@ -89,6 +89,23 @@
     margin-right: 5px;
 }
 
+.bose_player_zones {
+    position: absolute;
+    display: none;
+    width: 100%;
+    background-color: rgba(47, 48, 50, 0.8);
+    vertical-align: middle;
+    padding: 5px 0px 5px 0px;
+}
+
+.bose_player_zones ul {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.bose_player_zones li {
+    padding: 3px 0px 3px 0px;
+}
 
 .bose_player_playing {
     vertical-align: middle;
