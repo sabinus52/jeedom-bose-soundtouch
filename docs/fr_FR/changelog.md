@@ -1,3 +1,7 @@
+# Version 2.1.6 du 10 avril 2022
+
+- Fix template mobile
+
 # Version 2.1.5 du 8 avril 2022
 
 - Corrections des images du template mobile
