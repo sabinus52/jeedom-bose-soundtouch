@@ -1,3 +1,7 @@
+# Version 2.1.8 du 21 avril 2023
+
+- Patch de sécurité des dépendances "*guzzlehttp*"
+
 # Version 2.1.7 du 11 juin 2022
 
 - Patch de sécurité des dépendances "*guzzlehttp*" (CVE-2022-29248, CVE-2022-31042, CVE-2022-31043)
