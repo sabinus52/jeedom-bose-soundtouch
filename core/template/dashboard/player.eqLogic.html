@@ -1,4 +1,4 @@
-<div class="eqLogic eqLogic-widget noResize allowReorderCmd bose_player_widget" data-eqType="#eqType#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" style="border:#border#;border-radius:#border-radius#;width:232px;height:312px;#style#" data-category="#category#" data-tags="#data-tags#">
+<div class="eqLogic eqLogic-widget noResize allowReorderCmd bose_player_widget" data-eqType="#eqType#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" style="border:#border#;border-radius:#border-radius#;text-align:center;width:232px;height:312px;#style#" data-category="#category#" data-tags="#data-tags#">
 	<link rel="stylesheet" href="plugins/BoseSoundTouch/core/template/dashboard/css/player.css" />
 	<span class="statusCmd" style="position: absolute; left: 5px; top: 5px; width: 20px; z-index: 1030;"></span>
 	<!-- <span class="cmd refresh cursor" style="position: absolute; right: 5px; top: 5px; width: 20px; z-index: 1030;"><i class="fa fa-refresh"></i></span> -->
@@ -29,13 +29,13 @@
 			</div>
 		</div>
 
-		<div class="bose_player_volume">
+		<div class="bose_player_volume bs_panel">
 			<img data-cmd_id="#VOLUME_DOWN_ID#" src="plugins/BoseSoundTouch/core/template/images/keytouch/volume-down.png" title="Volume Down" onclick="jeedom.cmd.execute({id: '#VOLUME_DOWN_ID#'});">
 			<div class="cmd slider noRefresh" data-cmd_id="#VOLUME_SET_ID#" style="width:160px;" value="#VOLUME_VALUE#"></div>
 			<img data-cmd_id="#VOLUME_UP_ID#" src="plugins/BoseSoundTouch/core/template/images/keytouch/volume-up.png" title="Volume Up" onclick="jeedom.cmd.execute({id: '#VOLUME_UP_ID#'});">
 		</div>
 
-		<div class="bose_player_presets">
+		<div class="bose_player_presets bs_panel">
 			<div>
 				<img data-cmd_id="#PRESET_1_ID#" src="#PRESET_1_ICON#" title="#PRESET_1_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_1_ID#'});">
 				<img data-cmd_id="#PRESET_2_ID#" src="#PRESET_2_ICON#" title="#PRESET_2_NAME#" onclick="jeedom.cmd.execute({id: '#PRESET_2_ID#'});">
@@ -48,13 +48,13 @@
 			</div>
 		</div>
 
-		<div class="bose_player_zones">
+		<div class="bose_player_zones bs_panel">
 			<ul>
 				#ZONES_LIST#
 			</ul>
 		</div>
 
-		<div class="bose_player_select">
+		<div class="bose_player_select bs_panel">
 			<ul>
 				#SOURCES_LIST#
 			</ul>
@@ -91,27 +91,19 @@
 	<script>
 		function closeAllpanels#uid#() {
 			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .volume').data('toggle')) {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({height:"0px"});
 				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .volume').data('toggle', 0);
 			}
 			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').data('toggle')) {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({height:"0px"});
 				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .presets').data('toggle', 0);
 			}
 			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').data('toggle')) {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({height:"0px"});
 				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .zones').data('toggle', 0);
 			}
 			if ($('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').data('toggle')) {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({height:"0px"});
 				$('.bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_menu .select').data('toggle', 0);
 			}
 		}
@@ -121,12 +113,10 @@
 			if ( $(this).data('toggle') == 0 ) {
 				closeAllpanels#uid#();
 				console.log($(this).data('toggle') + ' ouvre');
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"0px"});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({height:"32px"});
 				$(this).data('toggle', 1);
 			} else {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_volume").animate({height:"0px"});
 				$(this).data('toggle', 0);
 			}
 		});
@@ -146,12 +136,10 @@
 			if ( $(this).data('toggle') == 0 ) {
 				closeAllpanels#uid#();
 				console.log($(this).data('toggle') + ' ouvre');
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"0px"});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({height:"150px"});
 				$(this).data('toggle', 1);
 			} else {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_presets").animate({height:"0px"});
 				$(this).data('toggle', 0);
 			}
 		});
@@ -161,12 +149,10 @@
 			if ( $(this).data('toggle') == 0 ) {
 				closeAllpanels#uid#();
 				console.log($(this).data('toggle') + ' ouvre');
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"0px"});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({height:"150px"});
 				$(this).data('toggle', 1);
 			} else {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_zones").animate({height:"0px"});
 				$(this).data('toggle', 0);
 			}
 		});
@@ -176,12 +162,10 @@
 			if ( $(this).data('toggle') == 0 ) {
 				closeAllpanels#uid#();
 				console.log($(this).data('toggle') + ' ouvre');
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"0px"});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({height:"100px"});
 				$(this).data('toggle', 1);
 			} else {
-				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({left:"232px"}, function () {
-					$(this).css({left:"-232px"});
-				});
+				$(".bose_player_widget[data-eqLogic_uid=#uid#] .bose_player_select").animate({height:"0px"});
 				$(this).data('toggle', 0);
 			}
 		});
