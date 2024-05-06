@@ -1,3 +1,8 @@
+# Version 2.1.9 du 6 mai 2024
+
+- Patch de sécurité des dépendances "*guzzlehttp*"
+- Rendre le widget compatible avec le code de Jeedom en version 4.4
+
 # Version 2.1.8 du 21 avril 2023
 
 - Patch de sécurité des dépendances "*guzzlehttp*"
